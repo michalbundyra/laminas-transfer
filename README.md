@@ -23,7 +23,8 @@ ZendFramework with Laminas.
 
 ## TODO
 
-- [ ] update Travis CI configuration (change references to ZF)
+- [X] update Travis CI configuration (change references to ZF)
+- [ ] create new branch from `develop` (if exists)
 - [ ] create new repository
 - [ ] push all previous tags
 - [ ] create new release in the new namespace

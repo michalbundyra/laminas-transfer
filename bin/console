@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+
+chdir(__DIR__ . '/../');
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$application = new \Symfony\Component\Console\Application();
+
+$application->addCommands([
+    new \Laminas\Transfer\Command\DependenciesCommand(),
+    new \Laminas\Transfer\Command\TransferCommand(),
+]);
+
+exit($application->run());

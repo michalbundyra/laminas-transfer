@@ -1,0 +1,29 @@
+{
+    "name": "webimpress/laminas-transfer",
+    "description": "Transfer ZF repository to Laminas Project",
+    "require": {
+        "php": "^7.1",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "knplabs/github-api": "^2.11",
+        "localheinz/composer-json-normalizer": "^1.0.2",
+        "php-http/guzzle6-adapter": "^1.1.1",
+        "symfony/console": "^4.2.3"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "webimpress/coding-standard": "dev-master"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Transfer\\": "src/"
+        }
+    },
+    "scripts": {
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf"
+    }
+}

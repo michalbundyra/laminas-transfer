@@ -71,7 +71,6 @@ EOS;
             $content
         );
 
-        $content = $repository->replace($content);
         file_put_contents($file, $content);
     }
 }

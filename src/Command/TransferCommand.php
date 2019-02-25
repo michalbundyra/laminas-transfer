@@ -8,6 +8,7 @@ use Laminas\Transfer\Fixture\AbstractFixture;
 use Laminas\Transfer\Fixture\ComposerFixture;
 use Laminas\Transfer\Fixture\DocsFixture;
 use Laminas\Transfer\Fixture\LicenseFixture;
+use Laminas\Transfer\Fixture\SourceFixture;
 use Laminas\Transfer\Repository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,6 +22,7 @@ class TransferCommand extends Command
         ComposerFixture::class,
         DocsFixture::class,
         LicenseFixture::class,
+        SourceFixture::class,
     ];
 
     public function configure() : void

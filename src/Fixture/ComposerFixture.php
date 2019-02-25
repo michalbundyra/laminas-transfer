@@ -54,6 +54,6 @@ class ComposerFixture extends AbstractFixture
 
         $this->writeln($content);
 
-        // file_put_contents($composer, $content);
+        file_put_contents($composer, $content);
     }
 }

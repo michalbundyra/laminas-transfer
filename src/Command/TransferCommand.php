@@ -45,7 +45,7 @@ class TransferCommand extends Command
 
         $output->writeln('<info>Transfer repository: ' . $repository->getName() . '</info>');
 
-        // $repository->clone();
+        $repository->clone();
 
         foreach ($this->fixtures as $fixtureName) {
             /** @var AbstractFixture $fixture */

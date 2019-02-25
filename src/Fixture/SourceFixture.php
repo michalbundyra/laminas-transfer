@@ -6,6 +6,11 @@ namespace Laminas\Transfer\Fixture;
 
 use Laminas\Transfer\Repository;
 
+use function file_get_contents;
+use function file_put_contents;
+use function system;
+use function var_export;
+
 /**
  * Change namespace and all references to ZF in source/test files
  * Sort alphabetically imports in PHP files as the namespace has been changed

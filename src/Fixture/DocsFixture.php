@@ -39,14 +39,16 @@ class DocsFixture extends AbstractFixture
         }
 
         $mkdocs = current($repository->files('mkdocs.yml'));
-        $content = file_get_contents($mkdocs);
-        $content = $repository->replace($content);
-        $content = preg_replace(
-            '/Copyright \(c\) (\d{4}-)?\d{4} /',
-            'Copyright (c) ' . date('Y') . ' ',
-            $content
-        );
-        file_put_contents($mkdocs, $content);
+        if ($mkdocs) {
+            $content = file_get_contents($mkdocs);
+            $content = $repository->replace($content);
+            $content = preg_replace(
+                '/Copyright \(c\) (\d{4}-)?\d{4} /',
+                'Copyright (c) ' . date('Y') . ' ',
+                $content
+            );
+            file_put_contents($mkdocs, $content);
+        }
     }
 
     private function replace(Repository $repository, string $file) : void

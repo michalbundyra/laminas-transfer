@@ -20,11 +20,12 @@ class Repository
 {
     /** @var string[] */
     private $replacements = [
-        'www.zend.com' => 'getlaminas.org',
-        'zendframework.com' => 'getlaminas.org',
+        'Zend Technologies USA, Inc.' => 'Laminas',
+        'www.zend.com' => 'laminas.dev',
+        'zendframework.com' => 'laminas.dev',
         'zendframework' => 'laminas',
         'zend' => 'laminas',
-        'zf' => 'ls',
+        'zf' => 'laminas',
         'Zend Technologies USA Inc.' => 'Laminas',
         'Zend Framework' => 'Laminas',
         'ZendFramework' => 'Laminas',

@@ -36,11 +36,8 @@ EOS;
 
         if ($license) {
             $content = file_get_contents($license);
-            $content = preg_replace(
-                '/Copyright \(c\) (\d+-)?\d+, Zend Technologies USA, Inc./',
-                'Copyright (c) ' . date('Y') . ' Laminas',
-                $content
-            );
+            $content = preg_replace('/(\d{4}-)?\d{4}+/', date('Y'), $content);
+            $content = $repository->replace($content);
             file_put_contents($license, $content);
         }
 
@@ -52,7 +49,7 @@ EOS;
 
         file_put_contents(
             $repository->getPath() . '/COPYRIGHT.md',
-            'Copyright (c) ' . date('Y') . ', Laminas. All rights reserved. (https://www.laminas.org)'
+            'Copyright (c) ' . date('Y') . ', Laminas. All rights reserved. (https://laminas.dev/)'
         );
 
         $docheader = current($repository->files('.docheader'));

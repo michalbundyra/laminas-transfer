@@ -24,6 +24,8 @@ class SourceFixture extends AbstractFixture
         foreach ($phps as $php) {
             $this->replace($repository, $php);
         }
+
+        system('vendor/bin/phpcbf --sniffs=WebimpressCodingStandard.Namespaces.AlphabeticallySortedUses ' . implode(' ', $phps));
     }
 
     protected function replace(Repository $repository, string $file) : void
@@ -31,7 +33,5 @@ class SourceFixture extends AbstractFixture
         $content = file_get_contents($file);
         $content = $repository->replace($content);
         file_put_contents($file, $content);
-
-        system('vendor/bin/phpcbf --sniffs=WebimpressCodingStandard.Namespaces.AlphabeticallySortedUses ' . $file);
     }
 }

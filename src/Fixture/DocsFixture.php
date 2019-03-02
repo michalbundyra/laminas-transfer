@@ -6,6 +6,7 @@ namespace Laminas\Transfer\Fixture;
 
 use Laminas\Transfer\Repository;
 
+use function array_merge;
 use function basename;
 use function current;
 use function date;
@@ -25,7 +26,13 @@ class DocsFixture extends AbstractFixture
 {
     public function process(Repository $repository) : void
     {
-        $docs = $repository->files('docs/*.md');
+        $docs = array_merge(
+            $repository->files('doc/*.md'),
+            $repository->files('doc/*.html'),
+            $repository->files('docs/*.md'),
+            $repository->files('docs/*.html')
+        );
+
         foreach ($docs as $doc) {
             $this->replace($repository, $doc);
 

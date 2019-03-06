@@ -16,6 +16,7 @@ class QAConfigFixture extends AbstractFixture
     private $files = [
         '.gitattributes',
         '.gitignore',
+        '.travis.yml',
         'phpcs.xml',
         'phpunit.xml',
         'phpunit.xml.dist',

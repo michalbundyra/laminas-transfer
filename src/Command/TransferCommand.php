@@ -26,7 +26,6 @@ class TransferCommand extends Command
         LicenseFixture::class,
         QAConfigFixture::class,
         SourceFixture::class,
-        TravisFixture::class,
     ];
 
     public function configure() : void

@@ -13,7 +13,6 @@ use function file_put_contents;
 use function preg_replace;
 use function sprintf;
 use function system;
-use function var_export;
 
 /**
  * Updates LICENSE.md
@@ -43,7 +42,6 @@ EOS;
         }
 
         $phps = $repository->files('*.php');
-        $this->writeln(var_export($phps, true));
         foreach ($phps as $php) {
             $this->replace($repository, $php);
         }

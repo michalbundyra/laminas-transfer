@@ -13,7 +13,7 @@ use function file_get_contents;
 use function file_put_contents;
 use function json_decode;
 use function json_encode;
-use function var_export;
+use function unlink;
 
 use const JSON_PRETTY_PRINT;
 use const JSON_UNESCAPED_SLASHES;
@@ -23,22 +23,22 @@ use const PHP_EOL;
  * Replaces all references to ZF/ZendFramework/Zend in composer.json.
  * Normalizes the composer.json file (sorting packages alphabetically).
  * Adding "replace" section.
- *
- * @todo: run composer update to update composer.lock file.
+ * Deleting composer.lock file.
  */
 class ComposerFixture extends AbstractFixture
 {
     public function process(Repository $repository) : void
     {
-        $composer = $repository->files('composer.json');
-
-        $this->writeln(var_export($composer, true));
-
-        $composer = current($composer);
+        $composer = current($repository->files('composer.json'));
 
         if (! $composer) {
             $this->writeln('<error>SKIP</error> No composer.json found.');
             return;
+        }
+
+        $composerLock = current($repository->files('composer.lock'));
+        if ($composerLock) {
+            unlink($composerLock);
         }
 
         $content = file_get_contents($composer);

@@ -35,7 +35,6 @@ class ComposerFixture extends AbstractFixture
         }
 
         $composer = current($repository->files('composer.json'));
-
         if (! $composer) {
             $this->writeln('<error>SKIP</error> No composer.json found.');
             return;
@@ -52,8 +51,6 @@ class ComposerFixture extends AbstractFixture
         $normalized = $normalizer->normalize($json);
 
         $content = json_encode($normalized->decoded(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL;
-
-        $this->writeln($content);
 
         file_put_contents($composer, $content);
     }

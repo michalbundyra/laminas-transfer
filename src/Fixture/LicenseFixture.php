@@ -12,6 +12,7 @@ use function file_get_contents;
 use function file_put_contents;
 use function preg_replace;
 use function sprintf;
+use function system;
 use function var_export;
 
 /**
@@ -51,6 +52,7 @@ EOS;
             $repository->getPath() . '/COPYRIGHT.md',
             'Copyright (c) ' . date('Y') . ', Laminas. All rights reserved. (https://laminas.dev/)'
         );
+        system('git add ' . $repository->getPath() . '/COPYRIGHT.md');
 
         $docheader = current($repository->files('.docheader'));
         if ($docheader) {

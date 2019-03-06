@@ -45,6 +45,11 @@ class DocsFixture extends AbstractFixture
             }
         }
 
+        $readme = current($repository->files('README.md'));
+        if ($readme) {
+            $this->replace($repository, $readme);
+        }
+
         $mkdocs = current($repository->files('mkdocs.yml'));
         if ($mkdocs) {
             $content = file_get_contents($mkdocs);

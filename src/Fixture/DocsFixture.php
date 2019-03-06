@@ -14,13 +14,14 @@ use function dirname;
 use function file_get_contents;
 use function file_put_contents;
 use function preg_replace;
-use function str_replace;
+use function strtr;
 use function system;
 
 /**
- * Updates documentation files docs/
- * Updates mkdocs.yml
- * Renames files with "zend" names
+ * Updates documentation files in doc/ or docs/ directories (*.html, *.md)
+ * Renames files with "zend-"/"zf-" names
+ * Updates README.md if present
+ * Updates mkdocs.yml if present
  */
 class DocsFixture extends AbstractFixture
 {
@@ -38,7 +39,7 @@ class DocsFixture extends AbstractFixture
 
             $dirname = dirname($doc);
             $filename = basename($doc);
-            $newName = str_replace('zend-', 'laminas-', $filename);
+            $newName = strtr($filename, ['zend-' => 'laminas-', 'zf-' => 'laminas-']);
 
             if ($newName !== $filename) {
                 system('cd ' . $dirname . ' && git mv ' . $filename . ' ' . $newName);

@@ -6,8 +6,10 @@ namespace Laminas\Transfer\Fixture;
 
 use Laminas\Transfer\Repository;
 
+use function chdir;
 use function file_get_contents;
 use function file_put_contents;
+use function getcwd;
 use function implode;
 use function system;
 use function var_export;
@@ -26,7 +28,15 @@ class SourceFixture extends AbstractFixture
             $this->replace($repository, $php);
         }
 
-        system('vendor/bin/phpcbf --sniffs=WebimpressCodingStandard.Namespaces.AlphabeticallySortedUses ' . implode(' ', $phps));
+        $currentDir = getcwd();
+        chdir(__DIR__ . '/../../');
+
+        system(
+            'vendor/bin/phpcbf --sniffs=WebimpressCodingStandard.Namespaces.AlphabeticallySortedUses '
+                . implode(' ', $phps)
+        );
+
+        chdir($currentDir);
     }
 
     protected function replace(Repository $repository, string $file) : void

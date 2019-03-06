@@ -8,6 +8,7 @@ use Laminas\Transfer\Fixture\AbstractFixture;
 use Laminas\Transfer\Fixture\ComposerFixture;
 use Laminas\Transfer\Fixture\DocsFixture;
 use Laminas\Transfer\Fixture\LicenseFixture;
+use Laminas\Transfer\Fixture\QAConfigFixture;
 use Laminas\Transfer\Fixture\SourceFixture;
 use Laminas\Transfer\Fixture\TravisFixture;
 use Laminas\Transfer\Repository;
@@ -23,6 +24,7 @@ class TransferCommand extends Command
         ComposerFixture::class,
         DocsFixture::class,
         LicenseFixture::class,
+        QAConfigFixture::class,
         SourceFixture::class,
         TravisFixture::class,
     ];

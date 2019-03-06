@@ -22,23 +22,23 @@ use const PHP_EOL;
 /**
  * Replaces all references to ZF/ZendFramework/Zend in composer.json.
  * Normalizes the composer.json file (sorting packages alphabetically).
- * Adding "replace" section.
- * Deleting composer.lock file.
+ * Adds "replace" section into composer.json file.
+ * Deletes composer.lock file.
  */
 class ComposerFixture extends AbstractFixture
 {
     public function process(Repository $repository) : void
     {
+        $composerLock = current($repository->files('composer.lock'));
+        if ($composerLock) {
+            unlink($composerLock);
+        }
+
         $composer = current($repository->files('composer.json'));
 
         if (! $composer) {
             $this->writeln('<error>SKIP</error> No composer.json found.');
             return;
-        }
-
-        $composerLock = current($repository->files('composer.lock'));
-        if ($composerLock) {
-            unlink($composerLock);
         }
 
         $content = file_get_contents($composer);

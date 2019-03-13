@@ -4,29 +4,22 @@ declare(strict_types=1);
 
 namespace Laminas\Transfer\Command;
 
-use Laminas\Transfer\Fixture\AbstractFixture;
-use Laminas\Transfer\Fixture\ComposerFixture;
-use Laminas\Transfer\Fixture\DocsFixture;
-use Laminas\Transfer\Fixture\LicenseFixture;
-use Laminas\Transfer\Fixture\QAConfigFixture;
-use Laminas\Transfer\Fixture\SourceFixture;
-use Laminas\Transfer\Repository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function chdir;
+use function date;
+use function getcwd;
+use function microtime;
+use function preg_replace;
+use function realpath;
+use function sprintf;
+use function system;
+
 class TransferCommand extends Command
 {
-    /** @var string[] */
-    private $fixtures = [
-        ComposerFixture::class,
-        DocsFixture::class,
-        LicenseFixture::class,
-        QAConfigFixture::class,
-        SourceFixture::class,
-    ];
-
     public function configure() : void
     {
         $this->setName('transfer')
@@ -35,24 +28,43 @@ class TransferCommand extends Command
                  'repository',
                  InputArgument::REQUIRED,
                  'The repository name to transfer'
+             )
+             ->addArgument(
+                 'path',
+                 InputArgument::REQUIRED,
+                 'The path to use (for better performance is recommended to use ramdisk)'
              );
     }
 
     public function execute(InputInterface $input, OutputInterface $output) : void
     {
-        $repository = new Repository(
-            $input->getArgument('repository'),
-            'clone'
-        );
+        $repository = $input->getArgument('repository');
+        $path = $input->getArgument('path');
 
-        $output->writeln('<info>Transfer repository: ' . $repository->getName() . '</info>');
+        $start = microtime(true);
+        $output->writeln(sprintf('<info>Transfering repository %s</info>', $repository));
 
-        $repository->clone();
+        $dirname = realpath($path) . '/'
+            . preg_replace('/\W/', '-', $repository)
+            . date('_Y-m-d_H-i-s');
 
-        foreach ($this->fixtures as $fixtureName) {
-            /** @var AbstractFixture $fixture */
-            $fixture = new $fixtureName($output);
-            $fixture->process($repository);
-        }
+        system('rm -Rf ' . $dirname);
+        system('git clone https://github.com/' . $repository . ' ' . $dirname);
+
+        $currentDir = getcwd();
+        chdir($dirname);
+
+        system(sprintf(
+            'git filter-branch -f'
+                . ' --tree-filter "php %s rewrite %s"'
+                . ' --commit-filter \'git_commit_non_empty_tree "$@"\''
+                . ' --tag-name-filter cat -- --all',
+            __DIR__ . '/../../bin/console',
+            $repository
+        ));
+        chdir($currentDir);
+
+        $output->writeln(sprintf('<info>DONE in %0.4fs</info>', microtime(true) - $start));
+        $output->writeln('<comment>Directory:</comment> ' . $dirname);
     }
 }

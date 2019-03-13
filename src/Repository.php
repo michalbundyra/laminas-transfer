@@ -13,8 +13,6 @@ use function getcwd;
 use function preg_quote;
 use function str_replace;
 use function strtr;
-use function system;
-use function trim;
 
 class Repository
 {
@@ -39,10 +37,10 @@ class Repository
     /** @var string */
     private $path;
 
-    public function __construct(string $name, string $path)
+    public function __construct(string $name)
     {
         $this->name = $name;
-        $this->path = getcwd() . '/' . trim($path, '/');
+        $this->path = getcwd();
     }
 
     public function getName() : string
@@ -58,12 +56,6 @@ class Repository
     public function getPath() : string
     {
         return $this->path;
-    }
-
-    public function clone() : void
-    {
-        system('rm -Rf ' . $this->path);
-        system('git clone https://github.com/' . $this->name . ' ' . $this->path);
     }
 
     public function files(string $pattern = '*') : array

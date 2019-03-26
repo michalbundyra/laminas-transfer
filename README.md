@@ -33,3 +33,7 @@ by replacing all references to ZendFramework with Laminas.
 - [ ] create new repository using GitHub API
 - [ ] push all branches and tags
 - [ ] move all open issues/PRs
+- [ ] consistent release tags (just a version without `release-` prefix)
+- [ ] register on packagist
+- [ ] update repository description/website
+- [ ] enable coveralls/Travis CI

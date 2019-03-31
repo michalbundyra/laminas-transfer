@@ -9,6 +9,8 @@ use Laminas\Transfer\Repository;
 use Localheinz\Composer\Json\Normalizer\ComposerJsonNormalizer;
 use Localheinz\Json\Normalizer\Json;
 
+use function array_unique;
+use function array_unshift;
 use function current;
 use function file_get_contents;
 use function json_decode;
@@ -41,6 +43,13 @@ class ComposerFixture extends AbstractFixture
 
         $json = json_decode($content, true);
         $json['replace'] = [$repository->getName() => 'self.version'];
+        if (isset($json['keywords'])) {
+            // Prepend "laminas" keyword
+            array_unshift($json['keywords'], 'laminas');
+            // @todo: Prepend "apigility" / "expressive" keyword (depends on the project)
+            $json['keywords'] = array_unique($json['keywords']);
+        }
+        $json['license'] = 'BSD-3-Clause';
 
         $normalizer = new ComposerJsonNormalizer();
         $json = Json::fromEncoded(json_encode($json));

@@ -7,6 +7,7 @@ namespace Laminas\Transfer\Command;
 use Laminas\Transfer\Fixture\AbstractFixture;
 use Laminas\Transfer\Fixture\ComposerFixture;
 use Laminas\Transfer\Fixture\DocsFixture;
+use Laminas\Transfer\Fixture\FunctionAliasFixture;
 use Laminas\Transfer\Fixture\LicenseFixture;
 use Laminas\Transfer\Fixture\QAConfigFixture;
 use Laminas\Transfer\Fixture\SourceFixture;
@@ -20,6 +21,7 @@ class RewriteCommand extends Command
 {
     /** @var string[] */
     private $fixtures = [
+        FunctionAliasFixture::class,
         ComposerFixture::class,
         DocsFixture::class,
         LicenseFixture::class,

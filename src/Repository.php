@@ -8,6 +8,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
 
+use function array_diff;
 use function array_merge;
 use function getcwd;
 use function preg_quote;
@@ -36,6 +37,9 @@ class Repository
 
     /** @var string */
     private $path;
+
+    /** @var string[] */
+    private $skippedFiles = [];
 
     public function __construct(string $name)
     {
@@ -75,11 +79,16 @@ class Repository
             $fileList = array_merge($fileList, $file);
         }
 
-        return $fileList;
+        return array_diff($fileList, $this->skippedFiles);
     }
 
     public function replace(string $content) : string
     {
         return strtr($content, $this->replacements);
+    }
+
+    public function addSkippedFiles(array $files) : void
+    {
+        $this->skippedFiles = array_merge($this->skippedFiles, $files);
     }
 }

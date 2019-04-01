@@ -62,7 +62,7 @@ class Repository
         return $this->path;
     }
 
-    public function files(string $pattern = '*') : array
+    public function files(string $pattern = '*', bool $withSkipped = false) : array
     {
         $pattern = '/' . preg_quote($this->path . '/' . $pattern, '/') . '$/';
         $pattern = str_replace('\*', '.+', $pattern);
@@ -77,6 +77,10 @@ class Repository
 
         foreach ($files as $file) {
             $fileList = array_merge($fileList, $file);
+        }
+
+        if ($withSkipped) {
+            return $fileList;
         }
 
         return array_diff($fileList, $this->skippedFiles);

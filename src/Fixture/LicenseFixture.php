@@ -68,7 +68,7 @@ LICENSE;
             file_put_contents($license, sprintf(self::LICENSE, date('Y')));
         }
 
-        $phps = $repository->files('*.php');
+        $phps = $repository->files('*.php', true);
         foreach ($phps as $php) {
             $this->replace($repository, $php);
         }

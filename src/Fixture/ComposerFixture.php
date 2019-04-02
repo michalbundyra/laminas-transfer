@@ -11,7 +11,9 @@ use Localheinz\Json\Normalizer\Json;
 
 use function array_unique;
 use function array_unshift;
+use function array_values;
 use function current;
+use function explode;
 use function file_get_contents;
 use function json_decode;
 use function json_encode;
@@ -22,6 +24,9 @@ use function unlink;
  * Normalizes the composer.json file (sorting packages alphabetically).
  * Adds "replace" section into composer.json file.
  * Deletes composer.lock file.
+ * Adds "laminas/laminas-zendframework-bridge" dependency to require section.
+ * Updates license to BSD-3-Clause.
+ * Prepends "laminas" and "expressive"/"apigility" keywords.
  */
 class ComposerFixture extends AbstractFixture
 {
@@ -45,10 +50,10 @@ class ComposerFixture extends AbstractFixture
         $json['require']['laminas/laminas-zendframework-bridge'] = '^0.2 || ^1.0';
         $json['replace'] = [$repository->getName() => 'self.version'];
         if (isset($json['keywords'])) {
-            // Prepend "laminas" keyword
-            array_unshift($json['keywords'], 'laminas');
-            // @todo: Prepend "apigility" / "expressive" keyword (depends on the project)
-            $json['keywords'] = array_unique($json['keywords']);
+            $name = explode('/', $json['name']);
+            // Prepend "laminas" and project ("expressive" or "apigility") keywords
+            array_unshift($json['keywords'], 'laminas', $name[0]);
+            $json['keywords'] = array_values(array_unique($json['keywords']));
         }
         $json['license'] = 'BSD-3-Clause';
 

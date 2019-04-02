@@ -47,7 +47,7 @@ class Repository
         'zfcampus/zf-composer-autoloading' => 'laminas/laminas-composer-autoloading',
         'zf-composer-autoloading' => 'laminas-composer-autoloading',
         'zfcampus/zf-apigility' => 'apigility/apigility',
-        'zfcampis/zf-' => 'apigility/apigility',
+        'zfcampus/zf-' => 'apigility/apigility-',
         'zfcampus/' => 'apigility/',
         'zend-problem-details' => 'expressive-problem-details',
         'zendframework/zend-expressive' => 'expressive/expressive',

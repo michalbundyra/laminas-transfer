@@ -42,6 +42,7 @@ class ComposerFixture extends AbstractFixture
         $content = $repository->replace($content);
 
         $json = json_decode($content, true);
+        $json['require']['laminas/laminas-zendframework-bridge'] = '^0.2 || ^1.0';
         $json['replace'] = [$repository->getName() => 'self.version'];
         if (isset($json['keywords'])) {
             // Prepend "laminas" keyword

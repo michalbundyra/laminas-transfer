@@ -64,7 +64,7 @@ class TransferCommand extends Command
         ));
         chdir($currentDir);
 
-        $output->writeln(sprintf('<info>DONE in %0.4fs</info>', microtime(true) - $start));
+        $output->writeln(sprintf('<info>DONE in %0.4f minutes</info>', (microtime(true) - $start) / 60));
         $output->writeln('<comment>Directory:</comment> ' . $dirname);
     }
 }

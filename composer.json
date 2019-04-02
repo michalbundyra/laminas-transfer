@@ -6,13 +6,14 @@
         "ext-curl": "*",
         "ext-json": "*",
         "knplabs/github-api": "^2.11",
+        "laminas/laminas-zendframework-bridge": "^0.2",
         "localheinz/composer-json-normalizer": "^1.0.2",
         "php-http/guzzle6-adapter": "^1.1.1",
-        "symfony/console": "^4.2.3"
+        "symfony/console": "^4.2.5"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "webimpress/coding-standard": "dev-master"
+        "webimpress/coding-standard": "^1.0"
     },
     "config": {
         "sort-packages": true

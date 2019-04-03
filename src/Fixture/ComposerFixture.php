@@ -6,8 +6,13 @@ namespace Laminas\Transfer\Fixture;
 
 use Laminas\Transfer\Helper\JsonWriter;
 use Laminas\Transfer\Repository;
-use Localheinz\Composer\Json\Normalizer\ComposerJsonNormalizer;
+use Localheinz\Composer\Json\Normalizer\BinNormalizer;
+use Localheinz\Composer\Json\Normalizer\ConfigHashNormalizer;
+use Localheinz\Composer\Json\Normalizer\PackageHashNormalizer;
+use Localheinz\Composer\Json\Normalizer\VersionConstraintNormalizer;
+use Localheinz\Json\Normalizer\ChainNormalizer;
 use Localheinz\Json\Normalizer\Json;
+use Localheinz\Json\Normalizer\NormalizerInterface;
 
 use function array_unique;
 use function array_unshift;
@@ -57,10 +62,19 @@ class ComposerFixture extends AbstractFixture
         }
         $json['license'] = 'BSD-3-Clause';
 
-        $normalizer = new ComposerJsonNormalizer();
         $json = Json::fromEncoded(json_encode($json));
-        $normalized = $normalizer->normalize($json);
+        $normalized = $this->getNormalizer()->normalize($json);
 
         JsonWriter::write($composer, $normalized->decoded());
+    }
+
+    private function getNormalizer() : NormalizerInterface
+    {
+        return new ChainNormalizer(
+            new BinNormalizer(),
+            new ConfigHashNormalizer(),
+            new PackageHashNormalizer(),
+            new VersionConstraintNormalizer()
+        );
     }
 }

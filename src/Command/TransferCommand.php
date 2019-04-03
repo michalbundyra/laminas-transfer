@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use function chdir;
 use function date;
+use function exec;
 use function getcwd;
 use function microtime;
 use function preg_replace;
@@ -62,9 +63,27 @@ class TransferCommand extends Command
             __DIR__ . '/../../bin/console',
             $repository
         ));
+
+        exec('git tag -l', $versions);
+        foreach ($versions as $version) {
+            $this->clearTag($version);
+        }
+
         chdir($currentDir);
 
         $output->writeln(sprintf('<info>DONE in %0.4f minutes</info>', (microtime(true) - $start) / 60));
         $output->writeln('<comment>Directory:</comment> ' . $dirname);
+    }
+
+    private function clearTag(string $tag) : string
+    {
+        $newTag = preg_replace('/^.*?(\d+\.\d+\.\d+).*?(?:(alpha|beta|rc).*?(\d+))?$/', '$1$2$3', $tag);
+
+        if ($newTag !== $tag) {
+            system('git tag ' . $newTag . ' ' . $tag);
+            system('git tag -d ' . $tag);
+        }
+
+        return $newTag;
     }
 }

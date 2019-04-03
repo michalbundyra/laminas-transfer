@@ -35,6 +35,6 @@ by replacing all references to ZendFramework with Laminas.
 - [ ] push all branches and tags
 - [ ] decide what to do with open issues (if we are going to move them or not)
 - [ ] we are not going to move currently open PRs, so we need decide what to do with them before transfer
-- [ ] consistent release tags (without `release-`/`v` prefix, `rc`/`alpha`/`beta` - without dash and dot before number)
+- [x] consistent release tags (without `release-`/`v` prefix, `rc`/`alpha`/`beta` - without dash and dot before number)
 - [ ] register on packagist
 - [ ] enable coveralls/Travis CI

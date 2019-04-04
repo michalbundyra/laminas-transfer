@@ -77,7 +77,8 @@ class TransferCommand extends Command
 
     private function clearTag(string $tag) : string
     {
-        $newTag = preg_replace('/^.*?(\d+\.\d+\.\d+).*?(?:(alpha|beta|rc).*?(\d+))?$/', '$1$2$3', $tag);
+        $newTag = preg_replace('/^.*?(\d+\.\d+\.\d+).*?(?:(alpha|beta|rc).*?(\d+))?$/i', '$1$2$3', $tag);
+        $newTag = strtolower($newTag);
 
         if ($newTag !== $tag) {
             system('git tag ' . $newTag . ' ' . $tag);

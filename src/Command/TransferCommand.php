@@ -17,6 +17,7 @@ use function microtime;
 use function preg_replace;
 use function realpath;
 use function sprintf;
+use function strtolower;
 use function system;
 
 class TransferCommand extends Command

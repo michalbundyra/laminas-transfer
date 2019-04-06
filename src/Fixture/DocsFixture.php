@@ -15,6 +15,7 @@ use function file_get_contents;
 use function file_put_contents;
 use function preg_replace;
 use function str_replace;
+use function strpos;
 use function strtr;
 use function system;
 
@@ -40,10 +41,14 @@ class DocsFixture extends AbstractFixture
 
             $dirname = dirname($doc);
             $filename = basename($doc);
-            $newName = strtr($filename, ['zend-' => 'laminas-', 'zf-' => 'laminas-']);
+            $newName = $dirname . '/' . strtr($filename, ['zend-' => 'laminas-', 'zf-' => 'laminas-']);
 
-            if ($newName !== $filename) {
-                system('cd ' . $dirname . ' && git mv ' . $filename . ' ' . $newName);
+            if (strpos($doc, 'router/zf2.md') !== false) {
+                $newName = str_replace('zf2.md', 'laminas-router.md', $doc);
+            }
+
+            if ($newName !== $doc) {
+                system('git mv ' . $doc . ' ' . $newName);
             }
         }
 

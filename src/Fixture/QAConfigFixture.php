@@ -29,8 +29,6 @@ class QAConfigFixture extends AbstractFixture
             $file = current($repository->files($fileName));
             if ($file) {
                 $this->replace($repository, $file);
-            } else {
-                $this->writeln('<error>SKIP</error> Missing <info>' . $fileName . '</info> file.');
             }
         }
     }

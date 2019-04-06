@@ -6,9 +6,15 @@ namespace Laminas\Transfer\Fixture;
 
 use Laminas\Transfer\Repository;
 
+use function basename;
 use function current;
+use function explode;
 use function file_get_contents;
 use function file_put_contents;
+use function implode;
+use function in_array;
+use function sort;
+use function trim;
 
 class QAConfigFixture extends AbstractFixture
 {
@@ -37,6 +43,14 @@ class QAConfigFixture extends AbstractFixture
     {
         $content = file_get_contents($file);
         $content = $repository->replace($content);
+
+        $filename = basename($file);
+        if (in_array($filename, ['.gitattributes', '.gitignore'], true)) {
+            $rows = explode("\n", $content);
+            sort($rows);
+            $content = trim(implode("\n", $rows)) . "\n";
+        }
+
         file_put_contents($file, $content);
     }
 }

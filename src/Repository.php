@@ -41,6 +41,8 @@ class Repository
         'ZendService_Apple_Apns' => 'laminas-apple-apns',
         'ZendService_Google_Gcm' => 'laminas-google-gcm',
         'ZendService_Twitter' => 'laminas-twitter',
+        'ZendTest\\Expressive' => 'ExpressiveTest',
+        'Zend\\Expressive' => 'Expressive',
         'zendservice-' => 'laminas-',
         'zfcampus/zf-development-mode' => 'laminas/laminas-development-mode',
         'zf-development-mode' => 'laminas-development-mode',

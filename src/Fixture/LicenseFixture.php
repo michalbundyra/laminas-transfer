@@ -6,6 +6,7 @@ namespace Laminas\Transfer\Fixture;
 
 use Laminas\Transfer\Repository;
 
+use function array_merge;
 use function current;
 use function date;
 use function file_get_contents;
@@ -68,7 +69,10 @@ LICENSE;
             file_put_contents($license, sprintf(self::LICENSE, date('Y')));
         }
 
-        $phps = $repository->files('*.php', true);
+        $phps = array_merge(
+            $repository->files('*.php', true),
+            $repository->files('bin/*', true)
+        );
         foreach ($phps as $php) {
             $this->replace($repository, $php);
         }

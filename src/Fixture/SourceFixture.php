@@ -6,6 +6,7 @@ namespace Laminas\Transfer\Fixture;
 
 use Laminas\Transfer\Repository;
 
+use function array_merge;
 use function chdir;
 use function file_get_contents;
 use function file_put_contents;
@@ -21,7 +22,10 @@ class SourceFixture extends AbstractFixture
 {
     public function process(Repository $repository) : void
     {
-        $phps = $repository->files('*.php');
+        $phps = array_merge(
+            $repository->files('*.php'),
+            $repository->files('bin/*')
+        );
         foreach ($phps as $php) {
             $this->replace($repository, $php);
         }

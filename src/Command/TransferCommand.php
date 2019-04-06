@@ -56,6 +56,12 @@ class TransferCommand extends Command
         $currentDir = getcwd();
         chdir($dirname);
 
+        system(
+            'for branch in `git branch -a | grep remotes | grep -v HEAD | grep -v master | grep -v gh-pages`; do
+                git branch --track ${branch#remotes/origin/} $branch;
+            done'
+        );
+
         system(sprintf(
             'git filter-branch -f'
                 . ' --tree-filter "php %s rewrite %s"'

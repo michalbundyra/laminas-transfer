@@ -14,6 +14,7 @@ use function dirname;
 use function file_get_contents;
 use function file_put_contents;
 use function preg_replace;
+use function str_replace;
 use function strtr;
 use function system;
 
@@ -61,6 +62,12 @@ class DocsFixture extends AbstractFixture
                 $content
             );
             file_put_contents($mkdocs, $content);
+        }
+
+        $mkdocsTheme = current($repository->files('.zf-mkdoc-theme-landing'));
+        if ($mkdocsTheme) {
+            $newName = str_replace('zf-', 'laminas-', $mkdocsTheme);
+            system('git mv ' . $mkdocsTheme . ' ' . $newName);
         }
     }
 

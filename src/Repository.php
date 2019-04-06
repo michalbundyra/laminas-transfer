@@ -21,14 +21,19 @@ class Repository
     /** @var string[] */
     private $replacements = [
         'ZendXml;' => 'Laminas\\Xml;',
+        'ZendXml\\\\' => 'Laminas\\\\Xml\\\\',
+        'ZendXmlTest\\\\' => 'LaminasTest\\\\Xml\\\\',
         'ZendXmlTest' => 'LaminasTest\\Xml',
         'ZendXml' => 'laminas-xml',
         'zendxml' => 'laminas-xml',
+        '"ZendOAuth":' => '"Laminas\\\\OAuth":',
         'ZendOAuth;' => 'Laminas\\OAuth;',
         'ZendOAuthTest' => 'LaminasTest\\OAuth',
         'ZendOAuth' => 'laminas-oauth',
         'zendoauth' => 'laminas-oauth',
         'ZendDiagnostics;' => 'Laminas\\Diagnostics;',
+        'ZendDiagnostics\\\\' => 'Laminas\\\\Diagnostics\\\\',
+        'ZendDiagnosticsTest\\\\' => 'LaminasTest\\\\Diagnostics\\\\',
         'ZendDiagnosticsTest' => 'LaminasTest\\Diagnostics',
         'ZendDiagnostics' => 'zend-diagnostics',
         'zenddiagnostics' => 'zend-diagnostics',
@@ -52,19 +57,39 @@ class Repository
         'zend-problem-details' => 'expressive-problem-details',
         'zendframework/zend-expressive' => 'expressive/expressive',
         'zend-expressive' => 'expressive',
+        // 'ZFTest\\\\Console' => 'LaminasTest\\\\ConsoleApplication',
         // 'ZFTest\\Console' => 'LaminasTest\\ConsoleApplication',
+        'ZendTest\\\\ProblemDetails' => 'ExpressiveTest\\\\ProblemDetails',
         'ZendTest\\ProblemDetails' => 'ExpressiveTest\\ProblemDetails',
+        'ZendTest\\\\Expressive' => 'ExpressiveTest',
         'ZendTest\\Expressive' => 'ExpressiveTest',
+        'ZFTest\\\\ComposerAutoloading' => 'LaminasTest\\\\ComposerAutoloading',
         'ZFTest\\ComposerAutoloading' => 'LaminasTest\\ComposerAutoloading',
+        'ZFTest\\\\Deploy' => 'LaminasTest\\\\Deploy',
         'ZFTest\\Deploy' => 'LaminasTest\\Deploy',
+        'ZFTest\\\\DevelopmentMode' => 'LaminasTest\\\\DevelopmentMode',
         'ZFTest\\DevelopmentMode' => 'LaminasTest\\DevelopmentMode',
+        'ZFTest\\\\Apigility' => 'ApigilityTest',
         'ZFTest\\Apigility' => 'ApigilityTest',
-        'ZFTest\\' => 'ApigilityTest',
+        'ZFTest\\' => 'ApigilityTest\\',
         'ZendServiceTest' => 'LaminasTest',
+        // expressive documentation
+        'router/zf2.md' => 'router/laminas-router.md',
+        ' as Zf2Bridge;' => ';',
+        'Zf2Bridge' => 'LaminasRouter',
+        'https://packages.zendframework.com/' => 'https://getlaminas.org/',
+        'https://packages.zendframework.com' => 'https://getlaminas.org/',
+        'http://packages.zendframework.com/' => 'https://getlaminas.org/',
+        'http://packages.zendframework.com' => 'https://getlaminas.org/',
         'zendframework.github.io' => 'docs.laminas.dev',
+        'zendframework/zf2/wiki/Coding-Standards' => 'laminas/laminas-coding-standard',
+        'framework.zend.com/manual/current/en/index.html#' => 'docs.laminas.dev/',
+        'framework.zend.com/manual/current/en/index.html' => 'docs.laminas.dev',
+        'ZEND_' => 'LAMINAS_',
         'Zend Technologies USA, Inc.' => 'Laminas',
         'Zend Technologies USA Inc.' => 'Laminas',
         'www.zend.com' => 'laminas.dev',
+        'zend.com' => 'getlaminas.org',
         'zendframework.com' => 'laminas.dev',
         'zendframework' => 'laminas',
         'zend' => 'laminas',
@@ -73,7 +98,9 @@ class Repository
         'Zend Framework' => 'Laminas',
         'ZendFramework' => 'Laminas',
         'Zend' => 'Laminas',
-        'ZF' => 'Apigility',
+        'ZF2' => 'Laminas',
+        'Zf2' => 'Laminas',
+        'ZF' => 'Laminas',
     ];
 
     /** @var string */
@@ -90,8 +117,13 @@ class Repository
         $this->name = $name;
         $this->path = getcwd();
 
-        $namespaceRwwrite = RewriteRules::namespaceRewrite();
-        $this->replacements = $namespaceRwwrite + $this->replacements;
+        $namespaceRewrite = RewriteRules::namespaceRewrite();
+        // In some places we have namespaces with double slashes - like composer.json
+        $doubleSlashes = [];
+        foreach ($namespaceRewrite as $legacy => $new) {
+            $doubleSlashes[str_replace('\\', '\\\\', $legacy)] = str_replace('\\', '\\\\', $new);
+        }
+        $this->replacements = $doubleSlashes + $namespaceRewrite + $this->replacements;
     }
 
     public function getName() : string

@@ -18,6 +18,7 @@ class QAConfigFixture extends AbstractFixture
         '.gitignore',
         '.travis.yml',
         'phpcs.xml',
+        'phpstan.neon',
         'phpunit.xml',
         'phpunit.xml.dist',
     ];

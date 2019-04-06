@@ -56,8 +56,8 @@ class DocsFixture extends AbstractFixture
             $content = file_get_contents($mkdocs);
             $content = $repository->replace($content);
             $content = preg_replace(
-                '/Copyright \(c\) (\d{4}-)?\d{4} /',
-                'Copyright (c) ' . date('Y') . ' ',
+                '/^copyright: .*?$/m',
+                'copyright: Copyright (c) ' . date('Y') . ' <a href="https://getlaminas.org">Laminas Foundation</a>',
                 $content
             );
             file_put_contents($mkdocs, $content);

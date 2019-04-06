@@ -30,10 +30,8 @@ class DocsFixture extends AbstractFixture
     public function process(Repository $repository) : void
     {
         $docs = array_merge(
-            $repository->files('doc/*.md'),
-            $repository->files('doc/*.html'),
-            $repository->files('docs/*.md'),
-            $repository->files('docs/*.html')
+            $repository->files('doc/*'),
+            $repository->files('docs/*')
         );
 
         foreach ($docs as $doc) {
@@ -41,7 +39,11 @@ class DocsFixture extends AbstractFixture
 
             $dirname = dirname($doc);
             $filename = basename($doc);
-            $newName = $dirname . '/' . strtr($filename, ['zend-' => 'laminas-', 'zf-' => 'laminas-']);
+            $newName = $dirname . '/' . strtr($filename, [
+                'zend-expressive' => 'expressive',
+                'zend-' => 'laminas-',
+                'zf-' => 'laminas-',
+            ]);
 
             if (strpos($doc, 'router/zf2.md') !== false) {
                 $newName = str_replace('zf2.md', 'laminas-router.md', $doc);

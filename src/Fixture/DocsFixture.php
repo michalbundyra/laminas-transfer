@@ -24,56 +24,37 @@ use function system;
  * Renames files with "zend-"/"zf-" names
  * Updates README.md if present
  * Updates mkdocs.yml if present
- * Updates CODE_OF_CONDUCT.md/CONDUCT.md
+ * Renames .zf-mkdoc-theme-landing
+ * Updates contents of CONTRIBUTING/CODE_OF_CONDUCT/SUPPORT files
  */
 class DocsFixture extends AbstractFixture
 {
-    private const CODE_OF_CONDUCT = <<<'CONDUCT'
-# Contributor Code of Conduct
+    private const CONDUCT_FILES = [
+        'docs/CODE_OF_CONDUCT.md',
+        'doc/CODE_OF_CONDUCT.md',
+        'CODE_OF_CONDUCT.md',
+        'docs/CONDUCT.md',
+        'doc/CONDUCT.md',
+        'CONDUCT.md',
+    ];
 
-This project adheres to [The Code Manifesto](http://codemanifesto.com)
-as its guidelines for contributor interactions.
+    private const CONTRIBUTING_FILES = [
+        'docs/CONTRIBUTING.md',
+        'doc/CONTRIBUTING.md',
+        'CONTRIBUTING.md',
+    ];
 
-## The Code Manifesto
+    private const SUPPORT_FILES = [
+        'docs/SUPPORT.md',
+        'doc/SUPPORT.md',
+        'SUPPORT.md',
+    ];
 
-We want to work in an ecosystem that empowers developers to reach their
-potential — one that encourages growth and effective collaboration. A space
-that is safe for all.
-
-A space such as this benefits everyone that participates in it. It encourages
-new developers to enter our field. It is through discussion and collaboration
-that we grow, and through growth that we improve.
-
-In the effort to create such a place, we hold to these values:
-
-1. **Discrimination limits us.** This includes discrimination on the basis of
-   race, gender, sexual orientation, gender identity, age, nationality,
-   technology and any other arbitrary exclusion of a group of people.
-2. **Boundaries honor us.** Your comfort levels are not everyone’s comfort
-   levels. Remember that, and if brought to your attention, heed it.
-3. **We are our biggest assets.** None of us were born masters of our trade.
-   Each of us has been helped along the way. Return that favor, when and where
-   you can.
-4. **We are resources for the future.** As an extension of #3, share what you
-   know. Make yourself a resource to help those that come after you.
-5. **Respect defines us.** Treat others as you wish to be treated. Make your
-   discussions, criticisms and debates from a position of respectfulness. Ask
-   yourself, is it true? Is it necessary? Is it constructive? Anything less is
-   unacceptable.
-6. **Reactions require grace.** Angry responses are valid, but abusive language
-   and vindictive actions are toxic. When something happens that offends you,
-   handle it assertively, but be respectful. Escalate reasonably, and try to
-   allow the offender an opportunity to explain themselves, and possibly
-   correct the issue.
-7. **Opinions are just that: opinions.** Each and every one of us, due to our
-   background and upbringing, have varying opinions. That is perfectly
-   acceptable. Remember this: if you respect your own opinions, you should
-   respect the opinions of others.
-8. **To err is human.** You might not intend it, but mistakes do happen and
-   contribute to build experience. Tolerate honest mistakes, and don't
-   hesitate to apologize if you make one yourself.
-
-CONDUCT;
+    private const FILES = [
+        Repository::T_CONDUCT => self::CONDUCT_FILES,
+        Repository::T_CONTRIBUTING => self::CONTRIBUTING_FILES,
+        Repository::T_SUPPORT => self::SUPPORT_FILES,
+    ];
 
     public function process(Repository $repository) : void
     {
@@ -125,17 +106,13 @@ CONDUCT;
             system('git mv ' . $mkdocsTheme . ' ' . $newName);
         }
 
-        $conducts = array_merge(
-            $repository->files('docs/CODE_OF_CONDUCT.md'),
-            $repository->files('doc/CODE_OF_CONDUCT.md'),
-            $repository->files('CODE_OF_CONDUCT.md'),
-            $repository->files('docs/CONDUCT.md'),
-            $repository->files('doc/CONDUCT.md'),
-            $repository->files('CONDUCT.md')
-        );
-
-        foreach ($conducts as $conduct) {
-            file_put_contents($conduct, self::CODE_OF_CONDUCT);
+        foreach (self::FILES as $template => $files) {
+            foreach ($files as $fileName) {
+                $file = current($repository->files($fileName));
+                if ($file) {
+                    file_put_contents($file, $repository->getTemplateText($template));
+                }
+            }
         }
     }
 

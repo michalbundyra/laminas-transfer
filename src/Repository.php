@@ -11,6 +11,9 @@ use RegexIterator;
 
 use function array_diff;
 use function array_merge;
+use function date;
+use function explode;
+use function file_get_contents;
 use function getcwd;
 use function preg_quote;
 use function str_replace;
@@ -18,6 +21,12 @@ use function strtr;
 
 class Repository
 {
+    public const T_CONDUCT = 'CODE_OF_CONDUCT.md';
+    public const T_CONTRIBUTING = 'CONTRIBUTING.md';
+    public const T_COPYRIGHT = 'COPYRIGHT.md';
+    public const T_LICENSE = 'LICENSE.md';
+    public const T_SUPPORT = 'SUPPORT.md';
+
     /** @var string[] */
     private $replacements = [
         'ZendXml;' => 'Laminas\\Xml;',
@@ -60,6 +69,7 @@ class Repository
         'zfcampus/zf-' => 'apigility/apigility-',
         'zfcampus/' => 'apigility/',
         'ZF Apigility' => 'Apigility',
+        'Zf-Apigility' => 'Apigility',
         'zf-apigility' => 'apigility',
         'zfapigility' => 'apigility',
         'zf-' => 'apigility-',
@@ -99,6 +109,7 @@ class Repository
         'zend.com' => 'getlaminas.org',
         'zendframework.com' => 'laminas.dev',
         'zendframework' => 'laminas',
+        'Zend Framework 2' => 'Laminas',
         'Zend Framework' => 'Laminas',
         'ZendFramework' => 'Laminas',
         'Zend' => 'Laminas',
@@ -181,5 +192,16 @@ class Repository
     public function addSkippedFiles(array $files) : void
     {
         $this->skippedFiles = array_merge($this->skippedFiles, $files);
+    }
+
+    public function getTemplateText(string $file) : string
+    {
+        $exp = explode('/', $this->getNewName(), 2);
+
+        return strtr(file_get_contents(__DIR__ . '/../template/' . $file), [
+            '{year}' => date('Y'),
+            '{org}' => $exp[0],
+            '{repo}' => $exp[1],
+        ]);
     }
 }

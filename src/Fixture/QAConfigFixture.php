@@ -27,6 +27,7 @@ class QAConfigFixture extends AbstractFixture
         'phpstan.neon',
         'phpunit.xml',
         'phpunit.xml.dist',
+        'phpunit.xml.travis',
     ];
 
     public function process(Repository $repository) : void

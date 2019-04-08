@@ -57,7 +57,7 @@ class TransferCommand extends Command
         chdir($dirname);
 
         system(
-            'for branch in `git branch -a | grep remotes | grep -v HEAD | grep -v master | grep -v gh-pages`; do
+            'for branch in `git branch -a | grep remotes | grep -v HEAD | grep -v master | grep -v legacy | grep -v gh-pages`; do
                 git branch --track ${branch#remotes/origin/} $branch;
             done'
         );

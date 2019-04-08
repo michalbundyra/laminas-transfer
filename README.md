@@ -38,3 +38,7 @@ by replacing all references to ZendFramework with Laminas.
 - [x] consistent release tags (without `release-`/`v` prefix, `rc`/`alpha`/`beta` - without dash and dot before number)
 - [ ] register on packagist
 - [ ] enable coveralls/Travis CI
+- [ ] create labels on github
+- [ ] rewrite assets in apigility
+- [ ] issues with configuration in apigility - zf-apiglity-... keys
+- [ ] component-installer must (?) support "zf" and "laminas" (need to think about it)

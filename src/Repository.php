@@ -50,6 +50,8 @@ class Repository
         'ZendService_Apple_Apns' => 'laminas-apple-apns',
         'ZendService_Google_Gcm' => 'laminas-google-gcm',
         'ZendService_Twitter' => 'laminas-twitter',
+        'ZendService_' => 'Laminas_',
+        'ZendService ' => 'Laminas ',
         'ZendTest\\\\Expressive' => 'ExpressiveTest',
         'ZendTest\\Expressive' => 'ExpressiveTest',
         'Zend\\\\Expressive' => 'Expressive',

@@ -96,6 +96,15 @@ class Repository
         'router/zf2.md' => 'router/laminas-router.md',
         ' as Zf2Bridge;' => ';',
         'Zf2Bridge' => 'LaminasRouter',
+        // laminas-component-installer - support for "zf" and "laminas":
+        'the zf-specific metadata' => 'the metadata',
+        'return isset($extra[\'zf\']) && is_array($extra[\'zf\'])' . "\n" . '            ? $extra[\'zf\']'
+            => 'if (isset($extra[\'laminas\']) && is_array($extra[\'laminas\'])) {'
+            . "\n" . '            return $extra[\'laminas\'];'
+            . "\n" . '        }'
+            . "\n\n" . '        // supports legacy "extra.zf" configuration'
+            . "\n" . '        return isset($extra[\'zf\']) && is_array($extra[\'zf\'])'
+            . "\n" . '            ? $extra[\'zf\']',
         'https://packages.zendframework.com/' => 'https://getlaminas.org/',
         'https://packages.zendframework.com' => 'https://getlaminas.org/',
         'http://packages.zendframework.com/' => 'https://getlaminas.org/',

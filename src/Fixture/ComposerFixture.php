@@ -51,13 +51,42 @@ class ComposerFixture extends AbstractFixture
         $content = file_get_contents($composer);
         $content = $repository->replace($content);
 
+        [$org, $name] = explode('/', $repository->getNewName(), 2);
+
         $json = json_decode($content, true);
-        $json['require']['laminas/laminas-zendframework-bridge'] = '^0.2 || ^1.0';
+
+        // Remove the type if library, as it is default type
+        if (isset($json['type']) && $json['type'] === 'library') {
+            unset($json['type']);
+        }
+
+        // Remove the authors, version, readme, time
+        unset($json['authors'], $json['version'], $json['readme'], $json['time']);
+
+        $json['homepage'] = 'https://' . $org . '.dev';
+
+        // Sort packages
+        $json['config']['sort-packages'] = true;
+
+        // Update all support links
+        $json['support'] = [
+            'docs' => 'https://docs.' . $org . '.dev/' . $name . '/',
+            'issues' => 'https://github.com/' . $repository->getNewName() . '/issues',
+            'source' => 'https://github.com/' . $repository->getNewName(),
+            'rss' => 'https://github.com/' . $repository->getNewName() . '/releases.atom',
+            'chat' => 'https://laminas.dev/slack',
+            'forum' => 'https://discourse.lamians.dev/c/questions/' . $org,
+        ];
+
+        if ($org === 'apigility') {
+            unset($json['support']['docs']);
+        }
+
+        $json['require']['laminas/laminas-zendframework-bridge'] = '^0.2.2 || ^1.0';
+        $json['require-dev']['roave/security-advisories'] = 'dev-master';
         $json['replace'] = [$repository->getName() => 'self.version'];
         if (isset($json['keywords'])) {
-            $name = explode('/', $json['name']);
-            // Prepend "laminas" and project ("expressive" or "apigility") keywords
-            array_unshift($json['keywords'], 'laminas', $name[0]);
+            array_unshift($json['keywords'], 'laminas', $org);
             $json['keywords'] = array_values(array_unique($json['keywords']));
         }
         $json['license'] = 'BSD-3-Clause';

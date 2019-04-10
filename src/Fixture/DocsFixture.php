@@ -94,6 +94,10 @@ class DocsFixture extends AbstractFixture
 
             // remove copyright as it is no longer required there
             $content = preg_replace('/^copyright: .*?$\n/m', '', $content);
+
+            // replace deprecated 'pages' with 'nav'
+            $content = preg_replace('/^pages:$/m', 'nav:', $content);
+
             file_put_contents($mkdocs, $content);
         }
 

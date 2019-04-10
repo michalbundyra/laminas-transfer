@@ -6,7 +6,7 @@
         "ext-curl": "*",
         "ext-json": "*",
         "knplabs/github-api": "^2.11",
-        "laminas/laminas-zendframework-bridge": "^0.2",
+        "laminas/laminas-zendframework-bridge": "^0.2.2",
         "localheinz/composer-json-normalizer": "^1.0.2",
         "php-http/guzzle6-adapter": "^1.1.1",
         "symfony/console": "^4.2.5"

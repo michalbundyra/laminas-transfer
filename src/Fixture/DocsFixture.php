@@ -112,6 +112,12 @@ class DocsFixture extends AbstractFixture
                 $file = current($repository->files($fileName));
                 if ($file) {
                     file_put_contents($file, $repository->getTemplateText($template));
+                    $newName = str_replace('/CONDUCT.md', '/CODE_OF_CONDUCT.md', $file);
+
+                    // rename CONDUCT.md to CODE_OF_CONDUCT.md
+                    if ($file !== $newName) {
+                        system('git mv ' . $file . ' ' . $newName);
+                    }
                 }
             }
         }

@@ -9,7 +9,6 @@ use Laminas\Transfer\Repository;
 use function array_merge;
 use function basename;
 use function current;
-use function date;
 use function dirname;
 use function file_get_contents;
 use function file_put_contents;
@@ -92,11 +91,9 @@ class DocsFixture extends AbstractFixture
         if ($mkdocs) {
             $content = file_get_contents($mkdocs);
             $content = $repository->replace($content);
-            $content = preg_replace(
-                '/^copyright: .*?$/m',
-                'copyright: Copyright (c) ' . date('Y') . ' <a href="https://getlaminas.org">Laminas Foundation</a>',
-                $content
-            );
+
+            // remove copyright as it is no longer required there
+            $content = preg_replace('/^copyright: .*?$\n/m', '', $content);
             file_put_contents($mkdocs, $content);
         }
 

@@ -41,4 +41,5 @@ by replacing all references to ZendFramework with Laminas.
 - [ ] create labels on github
 - [ ] rewrite assets in apigility
 - [ ] issues with configuration in apigility - zf-apiglity-... keys
-- [ ] component-installer must (?) support "zf" and "laminas" (need to think about it)
+- [x] component-installer must support "zf" and "laminas"
+- [ ] new PR/issues templates (remove old one and add new one into `.github` directory)

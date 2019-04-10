@@ -82,7 +82,7 @@ class ComposerFixture extends AbstractFixture
             unset($json['support']['docs']);
         }
 
-        $json['require']['laminas/laminas-zendframework-bridge'] = '^0.2.2 || ^1.0';
+        $json['require']['laminas/laminas-zendframework-bridge'] = '^0.2.3 || ^1.0';
         $json['require-dev']['roave/security-advisories'] = 'dev-master';
         $json['replace'] = [$repository->getName() => 'self.version'];
         if (isset($json['keywords'])) {

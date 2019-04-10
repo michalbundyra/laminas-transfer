@@ -5,7 +5,7 @@ Laminas offers three support channels:
 - For real-time questions, use our
   [chat](https://laminas.dev/slack)
 - For detailed questions (e.g., those requiring examples) use our
-  [forums](https://discourse.laminas.dev/c/questions/{org})
+  [forums](https://discourse.laminas.dev)
 - To report issues, use this repository's
   [issue tracker](https://github.com/{org}/{repo}/issues/new)
 

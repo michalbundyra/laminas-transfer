@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e1c8b61f644dc44dabd2dc2fdfbe654b",
+    "content-hash": "8e51b1210780e62d5447ab88d3d3161f",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -376,20 +376,23 @@
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
-            "version": "0.2.3",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
-                "reference": "de5e823dbcf574aa8b091e2b07ee8dba466f1272"
+                "reference": "0d159d8d7580e78b8a20b317e6c669cf11a14e04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/de5e823dbcf574aa8b091e2b07ee8dba466f1272",
-                "reference": "de5e823dbcf574aa8b091e2b07ee8dba466f1272",
+                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/0d159d8d7580e78b8a20b317e6c669cf11a14e04",
+                "reference": "0d159d8d7580e78b8a20b317e6c669cf11a14e04",
                 "shasum": ""
             },
             "require": {
                 "php": "^5.3 || ^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5 || ^7.5 || ^8.1"
             },
             "type": "library",
             "extra": {
@@ -416,7 +419,7 @@
                 "laminas",
                 "zf"
             ],
-            "time": "2019-04-10T21:37:09+00:00"
+            "time": "2019-04-12T16:08:13+00:00"
         },
         {
             "name": "localheinz/composer-json-normalizer",
@@ -1438,12 +1441,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "a0112223428a14391f094c5fa7301677d49bccf2"
+                "reference": "ff41a9a96718245c7160588928e6d217cfb0393c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/a0112223428a14391f094c5fa7301677d49bccf2",
-                "reference": "a0112223428a14391f094c5fa7301677d49bccf2",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/ff41a9a96718245c7160588928e6d217cfb0393c",
+                "reference": "ff41a9a96718245c7160588928e6d217cfb0393c",
                 "shasum": ""
             },
             "conflict": {
@@ -1478,7 +1481,7 @@
                 "doctrine/mongodb-odm-bundle": ">=2,<3.0.1",
                 "doctrine/orm": ">=2,<2.4.8|>=2.5,<2.5.1",
                 "dompdf/dompdf": ">=0.6,<0.6.2",
-                "drupal/core": ">=7,<7.64|>=8,<8.5.13|>=8.6,<8.6.12",
+                "drupal/core": ">=7,<7.65|>=8,<8.5.14|>=8.6,<8.6.13",
                 "drupal/drupal": ">=7,<7.64|>=8,<8.5.13|>=8.6,<8.6.12",
                 "erusev/parsedown": "<1.7.2",
                 "ezsystems/ezpublish-kernel": ">=5.3,<5.3.12.1|>=5.4,<5.4.13.1|>=6,<6.7.9.1|>=6.8,<6.13.5.1|>=7,<7.2.4.1|>=7.3,<7.3.2.1",
@@ -1635,20 +1638,20 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2019-04-09T13:39:27+00:00"
+            "time": "2019-04-12T16:05:24+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.4.1",
+            "version": "3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "5b4333b4010625d29580eb4a41f1e53251be6baa"
+                "reference": "b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/5b4333b4010625d29580eb4a41f1e53251be6baa",
-                "reference": "5b4333b4010625d29580eb4a41f1e53251be6baa",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8",
+                "reference": "b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8",
                 "shasum": ""
             },
             "require": {
@@ -1686,7 +1689,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2019-03-19T03:22:27+00:00"
+            "time": "2019-04-10T23:49:02+00:00"
         },
         {
             "name": "webimpress/coding-standard",

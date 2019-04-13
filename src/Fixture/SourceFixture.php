@@ -61,7 +61,7 @@ class SourceFixture extends AbstractFixture
         chdir($currentDir);
     }
 
-    protected function replace(Repository $repository, string $file) : void
+    private function replace(Repository $repository, string $file) : void
     {
         $content = file_get_contents($file);
         $content = $repository->replace($content);

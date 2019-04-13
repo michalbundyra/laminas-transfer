@@ -8,10 +8,15 @@ use Laminas\Transfer\Repository;
 
 use function array_merge;
 use function chdir;
+use function dirname;
 use function file_get_contents;
 use function file_put_contents;
 use function getcwd;
 use function implode;
+use function is_dir;
+use function mkdir;
+use function str_replace;
+use function strpos;
 use function system;
 
 /**
@@ -31,8 +36,18 @@ class SourceFixture extends AbstractFixture
             $repository->files('*.php'),
             $repository->files('bin/*')
         );
-        foreach ($phps as $php) {
+        foreach ($phps as $k => $php) {
             $this->replace($repository, $php);
+
+            if (strpos($php, 'Zend') !== false) {
+                $newName = str_replace('Zend', 'Laminas', $php);
+                $dirname = dirname($newName);
+                if (! is_dir($dirname)) {
+                    mkdir($dirname, 0777, true);
+                }
+                system('git mv ' . $php . ' ' . $newName);
+                $phps[$k] = $newName;
+            }
         }
 
         $currentDir = getcwd();

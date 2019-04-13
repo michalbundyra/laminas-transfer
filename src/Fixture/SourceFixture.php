@@ -20,6 +20,11 @@ use function system;
  */
 class SourceFixture extends AbstractFixture
 {
+    private const SNIFFS = [
+        'PSR2.Namespaces.UseDeclaration',
+        'WebimpressCodingStandard.Namespaces.AlphabeticallySortedUses',
+    ];
+
     public function process(Repository $repository) : void
     {
         $phps = array_merge(
@@ -34,7 +39,7 @@ class SourceFixture extends AbstractFixture
         chdir(__DIR__ . '/../../');
 
         system(
-            'vendor/bin/phpcbf --sniffs=WebimpressCodingStandard.Namespaces.AlphabeticallySortedUses '
+            'vendor/bin/phpcbf --sniffs=' . implode(',', self::SNIFFS) . ' '
                 . implode(' ', $phps)
         );
 

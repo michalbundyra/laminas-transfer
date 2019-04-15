@@ -7,7 +7,7 @@ read/subscribe to the following resources:
 
  - [Coding Standards](https://github.com/laminas/laminas-coding-standard)
  - [Forums](https://discourse.laminas.dev/c/contributors)
- - [Chat](https://laminas.dev/slack)
+ - [Chat](https://laminas.dev/chat)
  - [Code of Conduct](CODE_OF_CONDUCT.md)
 
 If you are working on new features or refactoring

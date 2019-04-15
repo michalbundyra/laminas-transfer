@@ -74,7 +74,7 @@ class ComposerFixture extends AbstractFixture
             'issues' => 'https://github.com/' . $repository->getNewName() . '/issues',
             'source' => 'https://github.com/' . $repository->getNewName(),
             'rss' => 'https://github.com/' . $repository->getNewName() . '/releases.atom',
-            'chat' => 'https://laminas.dev/slack',
+            'chat' => 'https://laminas.dev/chat',
             'forum' => 'https://discourse.laminas.dev',
         ];
 

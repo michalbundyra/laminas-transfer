@@ -121,7 +121,7 @@ class Repository
         'http://packages.zendframework.com/' => 'https://getlaminas.org/',
         'http://packages.zendframework.com' => 'https://getlaminas.org/',
         'http://www.mkdocs.org' => 'https://www.mkdocs.org',
-        'zendframework-slack.herokuapp.com' => 'laminas.dev/slack',
+        'zendframework-slack.herokuapp.com' => 'laminas.dev/chat',
         'discourse.zendframework.com' => 'discourse.laminas.dev',
         'https://secure.travis-ci.org' => 'https://travis-ci.org',
         'http://secure.travis-ci.org' => 'https://travis-ci.org',

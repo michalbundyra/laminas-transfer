@@ -13,6 +13,7 @@ use function chdir;
 use function date;
 use function exec;
 use function getcwd;
+use function implode;
 use function microtime;
 use function preg_replace;
 use function realpath;
@@ -22,6 +23,13 @@ use function system;
 
 class TransferCommand extends Command
 {
+    private const SKIP_BRANCHES = [
+        'HEAD',
+        'master',
+        'legacy',
+        'gh-pages',
+    ];
+
     public function configure() : void
     {
         $this->setName('transfer')
@@ -56,8 +64,9 @@ class TransferCommand extends Command
         $currentDir = getcwd();
         chdir($dirname);
 
+        $skipBranches = implode(' | grep -v ', ['' => ''] + self::SKIP_BRANCHES);
         system(
-            'for branch in `git branch -a | grep remotes | grep -v HEAD | grep -v master | grep -v legacy | grep -v gh-pages`; do
+            'for branch in `git branch -a | grep remotes ' . $skipBranches . '`; do
                 git branch --track ${branch#remotes/origin/} $branch;
             done'
         );

@@ -25,7 +25,7 @@ by replacing all references to ZendFramework with Laminas.
 
 ## TODO
 
-- [ ] remove gh-branch, it will be recreated later (by travis)
+- [x] remove gh-branch, it will be recreated later (by travis)
 - [ ] generate composer.lock at the very end, when all packages are rewritten and pushed
 - [ ] keep original links to issues/PRs (also in CHANGELOG.md)
 - [ ] keep references to original issues/PRs (starting with # and number)

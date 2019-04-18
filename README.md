@@ -43,3 +43,13 @@ by replacing all references to ZendFramework with Laminas.
 - [ ] issues with configuration in apigility - zf-apiglity-... keys
 - [x] component-installer must support "zf" and "laminas"
 - [ ] new PR/issues templates (remove old one and add new one into `.github` directory)
+
+### Additional tool/command to rewrite vendor packages
+
+For testing purposes we would need to write another command
+which will rewrite the whole vendor of the given project,
+run composer dump-autoload. We need to rewrite all zend/zf
+packages in vendor, but only the current version, so it should
+be fairly quick.
+We need to install bridge library and after this operation
+the service should work as before.

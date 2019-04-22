@@ -71,7 +71,8 @@ EOS;
         $content = preg_replace(
             '/\/\*\*.+?@license.+? \*\//s',
             sprintf(self::HEADER, $repository->getNewName()),
-            $content
+            $content,
+            1
         );
 
         file_put_contents($file, $content);

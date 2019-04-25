@@ -44,7 +44,8 @@ by replacing all references to ZendFramework with Laminas.
 - [x] component-installer must support "zf" and "laminas"
 - [ ] new PR/issues templates (remove old one and add new one into `.github` directory)
 - [ ] update all labels on github to have consistent across all packages
-- [ ] namespaced constants (like src/constant.php in expressive)
+- [x] namespaced constants (like src/constant.php in expressive)
+  (NOTICE: legacy constant values are changed - these are now aliases to new constants)
 - [ ] DI keys - we need to alias legacy keys to new one
 - [ ] Service Manager Plugin Managers - for example
   https://github.com/zendframework/zend-inputfilter/blob/master/src/InputFilterPluginManager.php#L46-L54

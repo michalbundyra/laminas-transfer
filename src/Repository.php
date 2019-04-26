@@ -91,8 +91,6 @@ class Repository
         'zend-expressive' => 'expressive',
         // 'ZFTest\\\\Console' => 'LaminasTest\\\\ConsoleApplication',
         // 'ZFTest\\Console' => 'LaminasTest\\ConsoleApplication',
-        'ZendTest\\\\ProblemDetails' => 'ExpressiveTest\\\\ProblemDetails',
-        'ZendTest\\ProblemDetails' => 'ExpressiveTest\\ProblemDetails',
         'ZFTest\\\\ComposerAutoloading' => 'LaminasTest\\\\ComposerAutoloading',
         'ZFTest\\ComposerAutoloading' => 'LaminasTest\\ComposerAutoloading',
         'ZFTest\\\\Deploy' => 'LaminasTest\\\\Deploy',

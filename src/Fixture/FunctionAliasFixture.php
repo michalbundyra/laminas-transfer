@@ -15,7 +15,6 @@ use function json_decode;
 use function preg_match;
 use function preg_match_all;
 use function realpath;
-use function sort;
 use function sprintf;
 use function str_replace;
 
@@ -44,7 +43,6 @@ class FunctionAliasFixture extends AbstractFixture
         }
 
         if ($hasAdditionalFiles) {
-            sort($composerContent['autoload']['files']);
             JsonWriter::write($composer, $composerContent);
         }
     }
@@ -68,7 +66,7 @@ class FunctionAliasFixture extends AbstractFixture
         }
 
         $newNamespace = $repository->replace($namespace[1]);
-        $newFile = str_replace('.php', '.legacy-alias.php', $file);
+        $newFile = str_replace('.php', '.legacy.php', $file);
         $newContent = $namespace[0] . PHP_EOL;
 
         if ($uses) {

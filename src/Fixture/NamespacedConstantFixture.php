@@ -14,7 +14,6 @@ use function json_decode;
 use function preg_match;
 use function preg_match_all;
 use function realpath;
-use function sort;
 use function str_replace;
 
 use const PHP_EOL;
@@ -42,7 +41,6 @@ class NamespacedConstantFixture extends AbstractFixture
         }
 
         if ($hasAdditionalFiles) {
-            sort($composerContent['autoload']['files']);
             JsonWriter::write($composer, $composerContent);
         }
     }

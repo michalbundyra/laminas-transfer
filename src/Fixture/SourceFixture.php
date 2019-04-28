@@ -65,12 +65,16 @@ class SourceFixture extends AbstractFixture
         );
 
         chdir($currentDir);
+
+        $repository->addReplacedContentFiles($phps);
     }
 
     private function replace(Repository $repository, string $file) : void
     {
         $content = file_get_contents($file);
-        $content = $repository->replace($content);
+        if (! $repository->hasReplacedContent($file)) {
+            $content = $repository->replace($content);
+        }
         if (strpos($file, '/src/') !== false) {
             $content = $this->deprecatedMethods($content);
         }

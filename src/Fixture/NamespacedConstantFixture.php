@@ -29,19 +29,19 @@ class NamespacedConstantFixture extends AbstractFixture
 
         $composerContent = json_decode(file_get_contents($composer), true);
 
-        $hasAdditionalFiles = false;
+        $files = [];
         foreach ($composerContent['autoload']['files'] ?? [] as $file) {
             $additionalFile = $this->rewriteConstants($repository, $file);
 
             if ($additionalFile) {
                 $composerContent['autoload']['files'][] = $additionalFile;
-                $hasAdditionalFiles = true;
-                $repository->addSkippedFiles([realpath($additionalFile)]);
+                $files[] = realpath($additionalFile);
             }
         }
 
-        if ($hasAdditionalFiles) {
+        if ($files) {
             JsonWriter::write($composer, $composerContent);
+            $repository->addReplacedContentFiles($files);
         }
     }
 

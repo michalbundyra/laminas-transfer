@@ -45,8 +45,8 @@ EOS;
         }
 
         $phps = array_merge(
-            $repository->files('*.php', true),
-            $repository->files('bin/*', true)
+            $repository->files('*.php'),
+            $repository->files('bin/*')
         );
         foreach ($phps as $php) {
             $this->replace($repository, $php);

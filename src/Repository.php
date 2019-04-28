@@ -9,12 +9,12 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
 
-use function array_diff;
 use function array_merge;
 use function date;
 use function explode;
 use function file_get_contents;
 use function getcwd;
+use function in_array;
 use function preg_quote;
 use function str_replace;
 use function strtr;
@@ -164,7 +164,7 @@ class Repository
     private $path;
 
     /** @var string[] */
-    private $skippedFiles = [];
+    private $replacedContentFiles = [];
 
     public function __construct(string $name)
     {
@@ -195,7 +195,7 @@ class Repository
         return $this->path;
     }
 
-    public function files(string $pattern = '*', bool $withSkipped = false) : array
+    public function files(string $pattern = '*') : array
     {
         $pattern = '/' . preg_quote($this->path . '/' . $pattern, '/') . '$/';
         $pattern = str_replace('\*', '.+', $pattern);
@@ -212,11 +212,7 @@ class Repository
             $fileList = array_merge($fileList, $file);
         }
 
-        if ($withSkipped) {
-            return $fileList;
-        }
-
-        return array_diff($fileList, $this->skippedFiles);
+        return $fileList;
     }
 
     public function replace(string $content) : string
@@ -224,9 +220,14 @@ class Repository
         return strtr($content, $this->replacements);
     }
 
-    public function addSkippedFiles(array $files) : void
+    public function addReplacedContentFiles(array $files) : void
     {
-        $this->skippedFiles = array_merge($this->skippedFiles, $files);
+        $this->replacedContentFiles = array_merge($this->replacedContentFiles, $files);
+    }
+
+    public function hasReplacedContent(string $file) : bool
+    {
+        return in_array($file, $this->replacedContentFiles, true);
     }
 
     public function getTemplateText(string $file) : string

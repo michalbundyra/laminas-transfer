@@ -15,9 +15,12 @@ use function explode;
 use function file_get_contents;
 use function getcwd;
 use function in_array;
+use function is_dir;
 use function preg_quote;
 use function str_replace;
 use function strtr;
+
+use const DIRECTORY_SEPARATOR;
 
 class Repository
 {
@@ -162,10 +165,15 @@ class Repository
     /** @var string[] */
     private $replacedContentFiles = [];
 
+    /** @var bool */
+    private $underGit;
+
     public function __construct(string $name, ?string $path = null)
     {
         $this->name = $name;
         $this->path = $path ?: getcwd();
+
+        $this->underGit = is_dir($this->path . DIRECTORY_SEPARATOR . '.git');
 
         $namespaceRewrite = RewriteRules::namespaceRewrite();
         // In some places we have namespaces with double slashes - like composer.json
@@ -240,5 +248,10 @@ class Repository
             '{org}' => $org,
             '{repo}' => $repo,
         ]);
+    }
+
+    public function isUnderGit() : bool
+    {
+        return $this->underGit;
     }
 }

@@ -9,6 +9,7 @@ $application->addCommands([
     new \Laminas\Transfer\Command\DependenciesCommand(),
     new \Laminas\Transfer\Command\TransferCommand(),
     new \Laminas\Transfer\Command\RewriteCommand(),
+    new \Laminas\Transfer\Command\VendorCommand(),
 ]);
 
 exit($application->run());

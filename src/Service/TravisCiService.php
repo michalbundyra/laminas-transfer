@@ -9,6 +9,9 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 
+use function sprintf;
+use function urlencode;
+
 class TravisCiService
 {
     private const API_VERSION = 3;
@@ -39,8 +42,8 @@ class TravisCiService
         ClientInterface $httpClient,
         RequestFactoryInterface $requestFactory
     ) {
-        $this->apiToken       = $apiToken;
-        $this->httpClient     = $httpClient;
+        $this->apiToken = $apiToken;
+        $this->httpClient = $httpClient;
         $this->requestFactory = $requestFactory;
     }
 
@@ -57,9 +60,9 @@ class TravisCiService
     private function createRequest(string $method, string $path) : RequestInterface
     {
         return $this->requestFactory->createRequest($method, sprintf('%s%s', self::URI_BASE, $path))
-            ->withHeader('Accept', 'application/json')
-            ->withHeader('Travis-API-Version', self::API_VERSION)
-            ->withHeader('User-Agent', self::USER_AGENT)
-            ->withHeader('Authorization', sprintf('token %s', $this->apiToken));
+                                    ->withHeader('Accept', 'application/json')
+                                    ->withHeader('Travis-API-Version', self::API_VERSION)
+                                    ->withHeader('User-Agent', self::USER_AGENT)
+                                    ->withHeader('Authorization', sprintf('token %s', $this->apiToken));
     }
 }

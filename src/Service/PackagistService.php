@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Laminas\Transfer\Service;
 
-use DOMDocument;
-use DOMElement;
 use Dflydev\FigCookies\Cookie;
 use Dflydev\FigCookies\FigResponseCookies;
+use DOMDocument;
+use DOMElement;
 use Fig\Http\Message\RequestMethodInterface as Method;
 use Laminas\Transfer\Exception;
 use Psr\Http\Client\ClientInterface;
@@ -26,7 +26,9 @@ use function sprintf;
  */
 class PackagistService
 {
+    /* @phpcs:disable */
     private const ACCEPT_BROWSER = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8';
+    /* @phpcs:enable */
 
     private const COOKIE_NAME = 'packagist';
 
@@ -84,9 +86,9 @@ class PackagistService
         string $packagistPassword,
         string $packagistApiToken
     ) {
-        $this->client            = $client;
-        $this->requestFactory    = $requestFactory;
-        $this->streamFactory     = $streamFactory;
+        $this->client = $client;
+        $this->requestFactory = $requestFactory;
+        $this->streamFactory = $streamFactory;
         $this->packagistUsername = $packagistUsername;
         $this->packagistPassword = $packagistPassword;
         $this->packagistApiToken = $packagistApiToken;
@@ -113,9 +115,9 @@ class PackagistService
     public function createPackage(string $packageUrl) : void
     {
         $request = $this->requestFactory
-            ->createRequest(Method::METHOD_POST, self::URI_PACKAGE_CREATE)
-            ->withHeader('Content-Type', self::MIME_TYPE_JSON)
-            ->withHeader('Accept', self::MIME_TYPE_JSON);
+                        ->createRequest(Method::METHOD_POST, self::URI_PACKAGE_CREATE)
+                        ->withHeader('Content-Type', self::MIME_TYPE_JSON)
+                        ->withHeader('Accept', self::MIME_TYPE_JSON);
 
         $uri = $request->getUri();
         $uri = $uri->withQuery(http_build_query([
@@ -164,27 +166,27 @@ class PackagistService
      */
     public function abandonPackage(string $originalPackage, string $newPackage) : void
     {
-        $url    = sprintf(self::URI_PACKAGE_ABANDON, $originalPackage);
+        $url = sprintf(self::URI_PACKAGE_ABANDON, $originalPackage);
         $cookie = $this->getLoginCookie();
-        $token  = $this->getPackageToken($url, $cookie);
+        $token = $this->getPackageToken($url, $cookie);
 
         $body = $this->streamFactory->createStream(http_build_query([
             'package' => [
                 'replacement' => $newPackage,
-                '_token'      => $token,
+                '_token' => $token,
             ],
         ]));
 
         $request = $this->requestFactory
-            ->createRequest(Method::METHOD_POST, $url)
-            ->withHeader('Cookie', (string) $cookie)
-            ->withHeader('Content-Type', self::MIME_TYPE_FORM)
-            ->withHeader('Accept', self::ACCEPT_BROWSER)
-            ->withBody($body);
+                        ->createRequest(Method::METHOD_POST, $url)
+                        ->withHeader('Cookie', (string) $cookie)
+                        ->withHeader('Content-Type', self::MIME_TYPE_FORM)
+                        ->withHeader('Accept', self::ACCEPT_BROWSER)
+                        ->withBody($body);
 
         $response = $this->client->sendRequest($request);
 
-        if ($response->getStatusCode() != 302) {
+        if ($response->getStatusCode() !== 302) {
             throw Exception\CouldNotAbandonPackage::forResponse($response, $originalPackage);
         }
 
@@ -207,15 +209,15 @@ class PackagistService
         ]));
 
         $request = $this->requestFactory
-            ->createRequest(Method::METHOD_POST, self::URI_LOGIN)
-            ->withHeader('Referer', self::URI_REFERER)
-            ->withHeader('Content-Type', self::MIME_TYPE_FORM)
-            ->withHeader('Accept', self::ACCEPT_BROWSER)
-            ->withBody($body);
+                        ->createRequest(Method::METHOD_POST, self::URI_LOGIN)
+                        ->withHeader('Referer', self::URI_REFERER)
+                        ->withHeader('Content-Type', self::MIME_TYPE_FORM)
+                        ->withHeader('Accept', self::ACCEPT_BROWSER)
+                        ->withBody($body);
 
         $response = $this->client->sendRequest($request);
 
-        if ($response->getStatusCode() != 302) {
+        if ($response->getStatusCode() !== 302) {
             throw Exception\ErrorLoggingIn::forResponse($response);
         }
 
@@ -234,13 +236,13 @@ class PackagistService
     private function getPackageToken(string $url, Cookie $cookie) : string
     {
         $request = $this->requestFactory
-            ->createRequest(Method::METHOD_GET, $url)
-            ->withHeader('Cookie', (string) $cookie)
-            ->withHeader('Accept', self::ACCEPT_BROWSER);
+                        ->createRequest(Method::METHOD_GET, $url)
+                        ->withHeader('Cookie', (string) $cookie)
+                        ->withHeader('Accept', self::ACCEPT_BROWSER);
 
         $response = $this->client->sendRequest($request);
 
-        if ($response->getStatusCode() != 200) {
+        if ($response->getStatusCode() !== 200) {
             throw Exception\CannotRetrieveAbandonPackageToken::forResponse($response, $url);
         }
 

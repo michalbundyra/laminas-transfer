@@ -7,6 +7,8 @@ namespace Laminas\Transfer\Exception;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 
+use function sprintf;
+
 class CannotLocateAbandonPackageToken extends RuntimeException implements ExceptionInterface
 {
     public static function forResponse(ResponseInterface $response, string $url) : self

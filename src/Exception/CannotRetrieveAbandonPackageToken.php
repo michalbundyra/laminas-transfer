@@ -9,8 +9,6 @@ use RuntimeException;
 
 class CannotRetrieveAbandonPackageToken extends RuntimeException implements ExceptionInterface
 {
-    use FormatResponseTrait;
-
     public static function forResponse(ResponseInterface $response, string $url) : self
     {
         return new self(sprintf(
@@ -18,7 +16,7 @@ class CannotRetrieveAbandonPackageToken extends RuntimeException implements Exce
             . " abandon package page for url %s; expected 200, received %d:\n%s",
             $url,
             $response->getStatusCode(),
-            $this->serializeResponse($response)
+            FormatResponse::serializeResponse($response)
         ), $response->getStatusCode());
     }
 }

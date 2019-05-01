@@ -9,14 +9,12 @@ use RuntimeException;
 
 class ErrorActivatingCoveralls extends RuntimeException implements ExceptionInterface
 {
-    use FormatResponseTrait;
-
     public static function forResponse(ResponseInterface $response, string $repository) : self
     {
         return new self(sprintf(
             "An error was returned when activating coveralls for %s:\n%s",
             $repository,
-            $this->serializeResponse($response)
+            FormatResponse::serializeResponse($response)
         ), $response->getStatusCode());
     }
 }

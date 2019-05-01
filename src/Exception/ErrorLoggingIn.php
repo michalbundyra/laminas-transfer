@@ -9,15 +9,13 @@ use RuntimeException;
 
 class ErrorLoggingIn extends RuntimeException implements ExceptionInterface
 {
-    use FormatResponseTrait;
-
     public static function forResponse(ResponseInterface $response) : self
     {
         return new self(sprintf(
             'An unexpected response status was returned when attempting to login to Packagist;'
             . " expected 302, received %d:\n%s",
             $response->getStatusCode(),
-            $this->serializeResponse($response)
+            FormatResponse::serializeResponse($response)
         ), $response->getStatusCode());
     }
 }

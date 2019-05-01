@@ -9,14 +9,12 @@ use RuntimeException;
 
 class CannotLocateAbandonPackageToken extends RuntimeException implements ExceptionInterface
 {
-    use FormatResponseTrait;
-
     public static function forResponse(ResponseInterface $response, string $url) : self
     {
         return new self(sprintf(
             "Could not find the abandon package token for the package at url %s:\n%s",
             $url,
-            $this->serializeResponse($response)
+            FormatResponse::serializeResponse($response)
         ), $response->getStatusCode());
     }
 }

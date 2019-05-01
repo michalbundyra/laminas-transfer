@@ -9,14 +9,12 @@ use RuntimeException;
 
 class ErrorAbandoningPackage extends RuntimeException implements ExceptionInterface
 {
-    use FormatResponseTrait;
-
     public static function forResponse(ResponseInterface $response, string $package) : self
     {
         return new self(sprintf(
             "The response from abandoning the package %s did not include the expected Location header:\n%s",
             $package,
-            $this->serializeResponse($response)
+            FormatResponse::serializeResponse($response)
         ), $response->getStatusCode());
     }
 }

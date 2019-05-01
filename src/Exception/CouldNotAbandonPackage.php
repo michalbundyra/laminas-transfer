@@ -9,8 +9,6 @@ use RuntimeException;
 
 class CouldNotAbandonPackage extends RuntimeException implements ExceptionInterface
 {
-    use FormatResponseTrait;
-
     public static function forResponse(ResponseInterface $response, string $package) : self
     {
         return new self(sprintf(
@@ -18,7 +16,7 @@ class CouldNotAbandonPackage extends RuntimeException implements ExceptionInterf
             . " expected 302, received %d:\n%s",
             $package,
             $response->getStatusCode(),
-            $this->serializeResponse($response)
+            FormatResponse::serializeResponse($response)
         ), $response->getStatusCode());
     }
 }

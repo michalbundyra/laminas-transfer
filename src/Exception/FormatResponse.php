@@ -7,9 +7,16 @@ namespace Laminas\Transfer\Exception;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\Serializer as ResponseSerializer;
 
-trait FormatResponseTrait
+final class FormatResponse
 {
-    private function serializeResponse(ResponseInterface $response) : string
+    /**
+     * Do not allow instantiation
+     */
+    private function __construct()
+    {
+    }
+
+    public static function serializeResponse(ResponseInterface $response) : string
     {
         return ResponseSerializer::toString($response);
     }

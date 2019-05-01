@@ -9,13 +9,11 @@ use RuntimeException;
 
 class NoCookieReturnedDuringLogin extends RuntimeException implements ExceptionInterface
 {
-    use FormatResponseTrait;
-
     public static function forResponse(ResponseInterface $response) : self
     {
         return new self(sprintf(
             "Did not receive a cookie in response to logging in to Packagist:\n%s",
-            $this->serializeResponse($response)
+            FormatResponse::serializeResponse($response)
         ), $response->getStatusCode());
     }
 }

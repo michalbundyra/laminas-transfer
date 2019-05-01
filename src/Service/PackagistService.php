@@ -10,7 +10,6 @@ use DOMDocument;
 use DOMElement;
 use Fig\Http\Message\RequestMethodInterface as Method;
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
-use Laminas\Transfer\Exception;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -160,10 +159,11 @@ class PackagistService
      * @param string $originalPackage The package name; e.g. zendframework/zend-stdlib
      * @param string $newPackage The replacement package, if any. Use an empty
      *     string to indicate no replacement.
-     * @throws CouldNotAbandonPackage if the response does not indicate success
-     *     in abandoning the package.
-     * @throws ErrorAbandoningPackage if the response does not include a
-     *     Location header leading back to the original package URL.
+     * @throws PackagistService\CouldNotAbandonPackageException if the response
+     *     does not indicate success in abandoning the package.
+     * @throws PackagistService\ErrorAbandoningPackageException if the response
+     *     does not include a Location header leading back to the original
+     *     package URL.
      */
     public function abandonPackage(string $originalPackage, string $newPackage) : void
     {
@@ -188,19 +188,20 @@ class PackagistService
         $response = $this->client->sendRequest($request);
 
         if ($response->getStatusCode() !== StatusCode::STATUS_FOUND) {
-            throw Exception\CouldNotAbandonPackage::forResponse($response, $originalPackage);
+            throw PackagistService\CouldNotAbandonPackageException::forResponse($response, $originalPackage);
         }
 
         $location = $response->getHeaderLine('Location');
         if ($location !== sprintf(self::URI_PACKAGE, $originalPackage)) {
-            throw Exception\ErrorAbandoningPackage::forResponse($response, $originalPackage);
+            throw PackagistService\ErrorAbandoningPackageException::forResponse($response, $originalPackage);
         }
     }
 
     /**
-     * @throws ErrorLoggingIn if an unexpected response code occurs
-     * @throws NoCookieReturnedDuringLogin if the response does not include the
-     *     expected cookie
+     * @throws PackagistService\ErrorLoggingInException if an unexpected
+     *     response code occurs
+     * @throws PackagistService\NoCookieReturnedDuringLoginException if the
+     *     response does not include the expected cookie
      */
     private function getLoginCookie() : Cookie
     {
@@ -219,20 +220,20 @@ class PackagistService
         $response = $this->client->sendRequest($request);
 
         if ($response->getStatusCode() !== StatusCode::STATUS_FOUND) {
-            throw Exception\ErrorLoggingIn::forResponse($response);
+            throw PackagistService\ErrorLoggingInException::forResponse($response);
         }
 
         $cookie = FigResponseCookies::get($response, self::COOKIE_NAME);
         if (! $cookie) {
-            throw Exception\NoCookieReturnedDuringLogin::forResponse($response);
+            throw PackagistService\NoCookieReturnedDuringLoginException::forResponse($response);
         }
 
         return Cookie::create(self::COOKIE_NAME, $cookie->getValue());
     }
 
     /**
-     * @throws CannotRetrieveAbandonPackageToken
-     * @throws CannotLocateAbandonPackageToken
+     * @throws PackagistService\CannotRetrieveAbandonPackageTokenException
+     * @throws PackagistService\CannotLocateAbandonPackageTokenException
      */
     private function getPackageToken(string $url, Cookie $cookie) : string
     {
@@ -244,7 +245,7 @@ class PackagistService
         $response = $this->client->sendRequest($request);
 
         if ($response->getStatusCode() !== StatusCode::STATUS_OK) {
-            throw Exception\CannotRetrieveAbandonPackageToken::forResponse($response, $url);
+            throw PackagistService\CannotRetrieveAbandonPackageTokenException::forResponse($response, $url);
         }
 
         $content = (string) $response->getBody();
@@ -253,7 +254,7 @@ class PackagistService
         $dom->loadHTML($content);
         $tokenElement = $dom->getElementById(self::PACKAGE_TOKEN_ELEMENT_ID);
         if (! $tokenElement instanceof DOMElement) {
-            throw Exception\CannotLocateAbandonPackageToken::forResponse($response, $url);
+            throw PackagistService\CannotLocateAbandonPackageTokenException::forResponse($response, $url);
         }
 
         return $tokenElement->getAttribute('value');

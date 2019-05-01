@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Laminas\Transfer\Exception;
+namespace Laminas\Transfer\Service\CoverallsService;
 
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 
 use function sprintf;
 
-class ErrorActivatingCoveralls extends RuntimeException implements ExceptionInterface
+class ErrorActivatingCoverallsException extends RuntimeException implements CoverallsServiceExceptionInterface
 {
     public static function forResponse(ResponseInterface $response, string $repository) : self
     {
         return new self(sprintf(
             "An error was returned when activating coveralls for %s:\n%s",
             $repository,
-            FormatResponse::serializeResponse($response)
+            Exception\FormatResponse::serializeResponse($response)
         ), $response->getStatusCode());
     }
 }

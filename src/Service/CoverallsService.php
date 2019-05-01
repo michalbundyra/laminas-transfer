@@ -6,7 +6,6 @@ namespace Laminas\Transfer\Service;
 
 use Fig\Http\Message\RequestMethodInterface as Method;
 use Fig\Http\Message\StatusCodeInterface as StatusCode;
-use Laminas\Transfer\Exception;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
@@ -54,7 +53,7 @@ class CoverallsService
     }
 
     /**
-     * @throws Exception\ErrorActivatingCoveralls if the API returns an error
+     * @throws CoverallsService\ErrorActivatingCoverallsException if the API returns an error
      */
     public function activate(string $repository) : void
     {
@@ -73,7 +72,7 @@ class CoverallsService
         $response = $client->sendRequest($request);
 
         if (StatusCode::STATUS_ACCEPTED !== $response->getStatusCode()) {
-            throw Exception\ErrorActivatingCoveralls::forResponse($response, $repository);
+            throw CoverallsService\ErrorActivatingCoverallsException::forResponse($response, $repository);
         }
     }
 

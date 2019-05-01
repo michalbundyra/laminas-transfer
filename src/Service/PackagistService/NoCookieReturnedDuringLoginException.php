@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Laminas\Transfer\Exception;
+namespace Laminas\Transfer\Service\PackagistService;
 
+use Laminas\Transfer\Exception\FormatResponse;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 
 use function sprintf;
 
-class NoCookieReturnedDuringLogin extends RuntimeException implements ExceptionInterface
+class NoCookieReturnedDuringLoginException extends RuntimeException implements PackagistServiceExceptionInterface
 {
     public static function forResponse(ResponseInterface $response) : self
     {

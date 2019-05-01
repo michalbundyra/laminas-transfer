@@ -9,6 +9,7 @@ use Dflydev\FigCookies\FigResponseCookies;
 use DOMDocument;
 use DOMElement;
 use Fig\Http\Message\RequestMethodInterface as Method;
+use Fig\Http\Message\StatusCodeInterface as StatusCode;
 use Laminas\Transfer\Exception;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -186,7 +187,7 @@ class PackagistService
 
         $response = $this->client->sendRequest($request);
 
-        if ($response->getStatusCode() !== 302) {
+        if ($response->getStatusCode() !== StatusCode::STATUS_FOUND) {
             throw Exception\CouldNotAbandonPackage::forResponse($response, $originalPackage);
         }
 
@@ -217,7 +218,7 @@ class PackagistService
 
         $response = $this->client->sendRequest($request);
 
-        if ($response->getStatusCode() !== 302) {
+        if ($response->getStatusCode() !== StatusCode::STATUS_FOUND) {
             throw Exception\ErrorLoggingIn::forResponse($response);
         }
 
@@ -242,7 +243,7 @@ class PackagistService
 
         $response = $this->client->sendRequest($request);
 
-        if ($response->getStatusCode() !== 200) {
+        if ($response->getStatusCode() !== StatusCode::STATUS_OK) {
             throw Exception\CannotRetrieveAbandonPackageToken::forResponse($response, $url);
         }
 

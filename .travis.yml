@@ -11,6 +11,7 @@ env:
 matrix:
   include:
     - php: 7.2
+      env:
         - CS_CHECK=true
 
 before_install:

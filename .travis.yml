@@ -1,0 +1,27 @@
+language: php
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+env:
+  global:
+    - COMPOSER_ARGS="--no-interaction"
+
+matrix:
+  include:
+    - php: 7.2
+        - CS_CHECK=true
+
+before_install:
+  - phpenv config-rm xdebug.ini || return 0
+
+install:
+  - travis_retry composer install $COMPOSER_ARGS
+  - stty cols 120 && composer show
+
+script:
+  - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
+
+notifications:
+  email: false

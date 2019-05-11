@@ -91,7 +91,11 @@ class SourceFixture extends AbstractFixture
             return $content;
         }
 
-        if (! preg_match_all('/^\s*public\s+(?<static>static\s+)?function\s+(?<name>[^(]*Laminas[^(]*)(?<params>\([^)]*\))/miU', $content, $matches)) {
+        if (! preg_match_all(
+            '/^\s*public\s+(?<static>static\s+)?function\s+(?<name>[^(]*Laminas[^(]*)(?<params>\([^)]*\))/miU',
+            $content,
+            $matches
+        )) {
             return $content;
         }
 
@@ -100,6 +104,7 @@ class SourceFixture extends AbstractFixture
             $name = trim($name);
             $legacy = str_ireplace('Laminas', 'Zend', $name);
 
+            // @phpcs:disable
             $deprecated .= PHP_EOL . '    /**' . PHP_EOL
                 . '     * @deprecated Use self::' . $matches['name'][$i] . ' instead' . PHP_EOL
                 . '     */' . PHP_EOL
@@ -107,6 +112,7 @@ class SourceFixture extends AbstractFixture
                 . '    {' . PHP_EOL
                 . '        return ' . ($matches['static'][$i] ? 'self::' : '$this->') . $name . '(...func_get_args());' . PHP_EOL
                 . '    }' . PHP_EOL;
+            // @phpcs:enable
         }
 
         return substr(trim($content), 0, -1)

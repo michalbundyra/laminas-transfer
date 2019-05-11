@@ -26,9 +26,9 @@ use function sprintf;
  */
 class PackagistService
 {
-    /* @phpcs:disable */
+    // @phpcs:disable Generic.Files.LineLength.TooLong
     private const ACCEPT_BROWSER = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8';
-    /* @phpcs:enable */
+    // @phpcs:enable
 
     private const COOKIE_NAME = 'packagist';
 

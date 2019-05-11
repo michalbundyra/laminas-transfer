@@ -25,6 +25,8 @@ class ZendComponentInstaller extends AbstractFixture
             $content = file_get_contents($file);
             $content = str_replace('the zf-specific metadata', 'the metadata', $content);
             $content = $repository->replace($content);
+
+            // @phpcs:disable Generic.Files.LineLength.TooLong
             $content = preg_replace(
                 '/return isset\(\$extra\[\'laminas\'\]\) && is_array\(\$extra\[\'laminas\'\]\)\s*\?\s*\$extra\[\'laminas\'\]/m',
                 'if (isset($extra[\'laminas\']) && is_array($extra[\'laminas\'])) {'
@@ -35,6 +37,7 @@ class ZendComponentInstaller extends AbstractFixture
                     . "\n" . '            ? $extra[\'zf\']',
                 $content
             );
+            // @phpcs:enable
 
             file_put_contents($file, $content);
         }

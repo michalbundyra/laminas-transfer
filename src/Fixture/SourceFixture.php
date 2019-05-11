@@ -104,7 +104,7 @@ class SourceFixture extends AbstractFixture
             $name = trim($name);
             $legacy = str_ireplace('Laminas', 'Zend', $name);
 
-            // @phpcs:disable
+            // @phpcs:disable Generic.Files.LineLength.TooLong
             $deprecated .= PHP_EOL . '    /**' . PHP_EOL
                 . '     * @deprecated Use self::' . $matches['name'][$i] . ' instead' . PHP_EOL
                 . '     */' . PHP_EOL

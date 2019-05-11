@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3fdb1857e06426a726e93e09f936f287",
+    "content-hash": "bfe8f310089296cf4067f4fe2e985586",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -1983,16 +1983,16 @@
         },
         {
             "name": "webimpress/coding-standard",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webimpress/coding-standard.git",
-                "reference": "a0fa4e5c82ad8633bd34cc6fb49a2a812d14983d"
+                "reference": "48041a660dbc7d6f730d48d45f6849ea1e133232"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webimpress/coding-standard/zipball/a0fa4e5c82ad8633bd34cc6fb49a2a812d14983d",
-                "reference": "a0fa4e5c82ad8633bd34cc6fb49a2a812d14983d",
+                "url": "https://api.github.com/repos/webimpress/coding-standard/zipball/48041a660dbc7d6f730d48d45f6849ea1e133232",
+                "reference": "48041a660dbc7d6f730d48d45f6849ea1e133232",
                 "shasum": ""
             },
             "require": {
@@ -2024,7 +2024,7 @@
                 "psr-12",
                 "webimpress"
             ],
-            "time": "2019-03-07T20:52:06+00:00"
+            "time": "2019-05-11T11:57:58+00:00"
         }
     ],
     "aliases": [

@@ -23,7 +23,7 @@
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "webimpress/coding-standard": "^1.0.1"
+        "webimpress/coding-standard": "^1.0.2"
     },
     "config": {
         "sort-packages": true

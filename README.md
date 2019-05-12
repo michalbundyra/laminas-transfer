@@ -1,5 +1,7 @@
 # Laminas Transfer
 
+[![Build Status](https://travis-ci.com/webimpress/laminas-transfer.svg?token=Zs3oDsZuNYyxCSQLbbkU&branch=master)](https://travis-ci.com/webimpress/laminas-transfer)
+
 Library to transfer ZF repositories to Laminas Project.
 
 ## Usage

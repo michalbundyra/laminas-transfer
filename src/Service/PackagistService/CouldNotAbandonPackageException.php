@@ -16,7 +16,7 @@ class CouldNotAbandonPackageException extends RuntimeException implements Packag
     {
         return new self(sprintf(
             'An unexpected response status was returned when attempting to abandon the package %s;'
-                . " expected 302, received %d:\n%s",
+            . " expected 302, received %d:\n%s",
             $package,
             $response->getStatusCode(),
             FormatResponse::serializeResponse($response)

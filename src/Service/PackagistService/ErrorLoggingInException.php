@@ -16,7 +16,7 @@ class ErrorLoggingInException extends RuntimeException implements PackagistServi
     {
         return new self(sprintf(
             'An unexpected response status was returned when attempting to login to Packagist;'
-                . " expected 302, received %d:\n%s",
+            . " expected 302, received %d:\n%s",
             $response->getStatusCode(),
             FormatResponse::serializeResponse($response)
         ), $response->getStatusCode());

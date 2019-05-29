@@ -30,11 +30,11 @@ class ZendComponentInstaller extends AbstractFixture
             $content = preg_replace(
                 '/return isset\(\$extra\[\'laminas\'\]\) && is_array\(\$extra\[\'laminas\'\]\)\s*\?\s*\$extra\[\'laminas\'\]/m',
                 'if (isset($extra[\'laminas\']) && is_array($extra[\'laminas\'])) {'
-                    . "\n" . '            return $extra[\'laminas\'];'
-                    . "\n" . '        }'
-                    . "\n\n" . '        // supports legacy "extra.zf" configuration'
-                    . "\n" . '        return isset($extra[\'zf\']) && is_array($extra[\'zf\'])'
-                    . "\n" . '            ? $extra[\'zf\']',
+                . "\n" . '            return $extra[\'laminas\'];'
+                . "\n" . '        }'
+                . "\n\n" . '        // supports legacy "extra.zf" configuration'
+                . "\n" . '        return isset($extra[\'zf\']) && is_array($extra[\'zf\'])'
+                . "\n" . '            ? $extra[\'zf\']',
                 $content
             );
             // @phpcs:enable

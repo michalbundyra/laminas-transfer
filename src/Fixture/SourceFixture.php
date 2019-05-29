@@ -61,7 +61,7 @@ class SourceFixture extends AbstractFixture
 
         system(
             'vendor/bin/phpcbf --sniffs=' . implode(',', self::SNIFFS) . ' '
-                . implode(' ', $phps)
+            . implode(' ', $phps)
         );
 
         chdir($currentDir);

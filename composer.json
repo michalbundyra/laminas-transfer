@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "ext-curl": "*",
         "ext-json": "*",
         "dflydev/fig-cookies": "^2.0",
@@ -18,12 +18,12 @@
         "localheinz/composer-json-normalizer": "^1.0.2",
         "php-http/guzzle6-adapter": "^2.0",
         "php-http/httplug": "^2.0",
-        "symfony/console": "^4.2.7",
+        "symfony/console": "^4.2.9",
         "zendframework/zend-diactoros": "^2.1"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "webimpress/coding-standard": "^1.0.2"
+        "webimpress/coding-standard": "^1.0.3"
     },
     "config": {
         "sort-packages": true

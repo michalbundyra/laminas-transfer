@@ -21,8 +21,8 @@ class ZendDiactoros extends AbstractFixture
             $content = file_get_contents($file);
             $content = preg_replace(
                 '/\* From ZF2\'s Zend\\\\Http\\\\PhpEnvironment\\\\Request class\s+'
-                    . '\* @copyright.*?$\s+'
-                    . '\* @license.*?$/m',
+                . '\* @copyright.*?$\s+'
+                . '\* @license.*?$/m',
                 '* From Laminas\\Http\\PhpEnvironment\\Request class',
                 $content
             );

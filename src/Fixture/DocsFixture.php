@@ -4,19 +4,25 @@ declare(strict_types=1);
 
 namespace Laminas\Transfer\Fixture;
 
+use Laminas\Transfer\Helper\IO;
 use Laminas\Transfer\Repository;
 
 use function array_merge;
 use function basename;
+use function copy;
 use function current;
 use function dirname;
+use function explode;
 use function file_get_contents;
 use function file_put_contents;
+use function is_dir;
 use function preg_replace;
 use function str_replace;
 use function strpos;
 use function strtr;
 use function system;
+
+use const PHP_EOL;
 
 /**
  * Updates documentation files in doc/ or docs/ directories (*.html, *.md)
@@ -119,6 +125,38 @@ class DocsFixture extends AbstractFixture
                         system('git mv ' . $file . ' ' . $newName);
                     }
                 }
+            }
+        }
+
+        [$org, $name] = explode('/', $repository->getNewName());
+
+        if (is_dir(__DIR__ . '/../../data/docs/' . $name)) {
+            IO::copy(
+                __DIR__ . '/../../data/docs/' . $name . '/docs',
+                $repository->getPath() . '/docs'
+            );
+            copy(
+                __DIR__ . '/../../data/docs/' . $name . '/mkdocs.yml',
+                $repository->getPath() . '/mkdocs.yml'
+            );
+            system('git add ' . $repository->getPath() . '/docs');
+            system('git add ' . $repository->getPath() . '/mkdocs.yml');
+
+            $file = current($repository->files('.gitattributes'));
+            if ($file) {
+                $content = file_get_contents($file);
+                $content .= '/docs/ export-ignore' . PHP_EOL
+                    . '/mkdocs.yml export-ignore' . PHP_EOL;
+                file_put_contents($file, $content);
+            }
+
+            $file = current($repository->files('.gitignore'));
+            if ($file) {
+                $content = file_get_contents($file);
+                $content .= '/docs/html/' . PHP_EOL
+                    . '/laminas-mkdoc-theme.tgz' . PHP_EOL
+                    . '/laminas-mkdoc-theme/' . PHP_EOL;
+                file_put_contents($file, $content);
             }
         }
     }

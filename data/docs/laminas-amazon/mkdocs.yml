@@ -1,0 +1,22 @@
+docs_dir: docs/book
+site_dir: docs/html
+pages:
+  - Home: index.md
+  - Introduction: intro.md
+    - EC2:
+      - Introduction: ec2/intro.md
+      - 'Cloud Watch': ec2/cloud-watch.md
+      - EBS: ec2/ebs.md
+      - ElasticIP: ec2/elastic-ip.md
+      - Image: ec2/image.md
+      - Instance: ec2/instance.md
+      - Keypairs: ec2/keypairs.md
+      - 'Regions and avalibility zones': ec2/regions-and-avalibility-zones.md
+      - 'Reserved instance': ec2/reserved-instance.md
+      - 'Security groups': ec2/security-groups.md
+      - 'Windows instance': ec2/windows-instance.md
+    - S3: s3.md
+    - SQS: sqs.md
+site_name: laminas-amazon
+site_description: 'PHP OOP wrapper for the Amazon web service'
+repo_url: 'https://github.com/laminas/laminas-amazon'

@@ -1,0 +1,8 @@
+docs_dir: docs/book
+site_dir: docs/html
+pages:
+  - Home: index.md
+  - Introduction: intro.md
+site_name: laminas-google-gcm
+site_description: 'PHP OOP wrapper for Google Cloud Messaging'
+repo_url: 'https://github.com/laminas/laminas-google-gcm'

@@ -18,7 +18,7 @@ class CustomFixture extends AbstractFixture
         [$org, $name] = explode('/', $repository->getName());
 
         $class = __NAMESPACE__ . '\\Custom\\'
-            . str_replace(' ', '', ucwords(str_replace('-', ' ', $name)));
+            . str_replace(' ', '', ucwords(strtr($name, ['-' => ' ', '_' => ' '])));
 
         if (class_exists($class)) {
             /** @var AbstractFixture $obj */

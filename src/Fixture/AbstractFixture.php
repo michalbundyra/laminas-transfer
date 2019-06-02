@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\Output;
 abstract class AbstractFixture
 {
     /** @var Output */
-    private $output;
+    protected $output;
 
     public function __construct(Output $output)
     {

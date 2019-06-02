@@ -49,6 +49,11 @@ class QAConfigFixture extends AbstractFixture
         $content = $repository->replace($content);
 
         $filename = basename($file);
+
+        if ($filename === '.travis.yml') {
+            $content = preg_replace('/\n^\s*irc:.*$/m', '', $content);
+        }
+
         if (in_array($filename, ['.gitattributes', '.gitignore'], true)) {
             $rows = explode("\n", $content);
 

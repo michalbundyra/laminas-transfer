@@ -124,6 +124,8 @@ class Repository
         'http://framework.zend.com/manual/current/en/index.html' => 'https://docs.laminas.dev',
         'framework.zend.com/manual/current/en/index.html#' => 'docs.laminas.dev/',
         'framework.zend.com/manual/current/en/index.html' => 'docs.laminas.dev',
+        'http://framework.zend.com' => 'https://getlaminas.org',
+        'framework.zend.com' => 'getlaminas.org',
         'ZEND_' => 'LAMINAS_',
         'Zend Technologies USA, Inc.' => 'Laminas',
         'Zend Technologies USA Inc.' => 'Laminas',

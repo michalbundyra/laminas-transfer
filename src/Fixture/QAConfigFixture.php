@@ -15,6 +15,7 @@ use function file_put_contents;
 use function implode;
 use function in_array;
 use function is_dir;
+use function preg_replace;
 use function sort;
 use function strstr;
 use function trim;

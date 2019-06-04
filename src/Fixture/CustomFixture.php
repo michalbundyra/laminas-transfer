@@ -9,6 +9,7 @@ use Laminas\Transfer\Repository;
 use function class_exists;
 use function explode;
 use function str_replace;
+use function strtr;
 use function ucwords;
 
 class CustomFixture extends AbstractFixture

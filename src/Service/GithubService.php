@@ -214,6 +214,8 @@ class GithubService
                     'tag_name' => $version,
                     'name' => $version,
                     'body' => $changelog,
+                    'draft' => false,
+                    'prerelease' => $this->isVersionPrerelease($version),
                 ]);
         } catch (GithubException $e) {
             throw GithubService\FailureCreatingReleaseException::forPackageVersion($org, $repo, $version, $e);
@@ -245,5 +247,13 @@ class GithubService
 
         $this->client = new GithubClient();
         $this->client->authenticate($this->token, GithubClient::AUTH_HTTP_TOKEN);
+    }
+
+    private function isVersionPrelease(string $version) : bool
+    {
+        if (preg_match('/(alpha|a|beta|b|rc|dev)\d+$/i', $version)) {
+            return true;
+        }
+        return false;
     }
 }

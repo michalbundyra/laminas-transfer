@@ -17,8 +17,8 @@ use function is_dir;
 use function mkdir;
 use function preg_match_all;
 use function str_ireplace;
-use function str_replace;
 use function strpos;
+use function strtr;
 use function substr;
 use function system;
 use function trim;
@@ -45,8 +45,14 @@ class SourceFixture extends AbstractFixture
         foreach ($phps as $k => $php) {
             $this->replace($repository, $php);
 
-            if (strpos($php, 'Zend') !== false) {
-                $newName = str_replace('Zend', 'Laminas', $php);
+            $newName = strtr($php, [
+                'Zend' => 'Laminas',
+                'zend-expressive' => 'expressive',
+                'zf-apigility' => 'apigility',
+                'zf-' => 'laminas-',
+            ]);
+
+            if ($newName !== $php) {
                 $dirname = dirname($newName);
                 if (! is_dir($dirname)) {
                     mkdir($dirname, 0777, true);

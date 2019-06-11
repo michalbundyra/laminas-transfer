@@ -29,4 +29,26 @@ class IO
         }
         closedir($dir);
     }
+
+    public static function traverseDirectory(string $source) : iterable
+    {
+        $dir = opendir($source);
+
+        while ($file = readdir($dir)) {
+            if ($file === '.' || $file === '..') {
+                continue;
+            }
+
+            $path = sprintf('%s/%s', $source, $file);
+
+            if (! is_dir($path)) {
+                yield $path;
+                continue;
+            }
+
+            yield from self::traverseDirectory($path);
+        }
+
+        closedir($dir);
+    }
 }

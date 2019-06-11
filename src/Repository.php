@@ -24,7 +24,10 @@ class Repository
     public const T_CONDUCT = 'CODE_OF_CONDUCT.md';
     public const T_CONTRIBUTING = 'CONTRIBUTING.md';
     public const T_COPYRIGHT = 'COPYRIGHT.md';
+    public const T_ISSUE_TEMPLATE = 'ISSUE_TEMPLATE.md';
     public const T_LICENSE = 'LICENSE.md';
+    public const T_PULL_REQUEST_TEMPLATE = 'PULL_REQUEST_TEMPLATE.md';
+    public const T_SECURITY = 'SECURITY.md';
     public const T_SUPPORT = 'SUPPORT.md';
 
     /** @var string[] */
@@ -224,12 +227,17 @@ class Repository
 
     public function getTemplateText(string $file) : string
     {
-        $exp = explode('/', $this->getNewName(), 2);
+        return $this->replaceTemplatedText(__DIR__ . '/../data/templates/' . $file);
+    }
 
-        return strtr(file_get_contents(__DIR__ . '/../template/' . $file), [
+    public function replaceTemplatedText(string $filename) : string
+    {
+        [$org, $repo] = explode('/', $this->getNewName(), 2);
+
+        return strtr(file_get_contents($filename), [
             '{year}' => date('Y'),
-            '{org}' => $exp[0],
-            '{repo}' => $exp[1],
+            '{org}' => $org,
+            '{repo}' => $repo,
         ]);
     }
 }

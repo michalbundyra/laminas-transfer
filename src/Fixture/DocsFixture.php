@@ -61,6 +61,15 @@ class DocsFixture extends AbstractFixture
         Repository::T_SUPPORT => self::SUPPORT_FILES,
     ];
 
+    private const OBSOLETE_TEMPLATE_FILES = [
+        'docs/ISSUE_TEMPLATE.md',
+        'docs/PULL_REQUEST_TEMPLATE.md',
+        'doc/ISSUE_TEMPLATE.md',
+        'doc/PULL_REQUEST_TEMPLATE.md',
+        'ISSUE_TEMPLATE.md',
+        'PULL_REQUEST_TEMPLATE.md',
+    ];
+
     public function process(Repository $repository) : void
     {
         $docs = array_merge(
@@ -128,8 +137,38 @@ class DocsFixture extends AbstractFixture
             }
         }
 
+        // Create SECURITY.md file
+        copy(
+            __DIR__ . '/../../data/templates/' . Repository::T_SECURITY,
+            $repository->getPath() . '/docs/' . Repository::T_SECURITY
+        );
+
+        // Remove old issue and pull request templates
+        foreach (self::OBSOLETE_TEMPLATE_FILES as $fileName) {
+            $file = current($repository->files($fileName));
+            if (! $file) {
+                continue;
+            }
+            unlink($file);
+        }
+
+        // Copy over issue and pull request templates
+        $githubDir = sprintf('%s/.github', $repository->getPath());
+        IO::copy(__DIR__ . '/../../data/github', $githubDir);
+        foreach (IO::traverseDirectory($githubDir) as $file) {
+            $replacement = $repository->replaceTemplatedText($file);
+            file_put_contents($file, $replacement);
+        }
+        $file = current($repository->files('.gitattributes'));
+        if ($file) {
+            $content = file_get_contents($file);
+            $content .= '/.github/ export-ignore' . PHP_EOL;
+            file_put_contents($file, $content);
+        }
+
         [$org, $name] = explode('/', $repository->getNewName());
 
+        // Copy any additional
         if (is_dir(__DIR__ . '/../../data/docs/' . $name)) {
             IO::copy(
                 __DIR__ . '/../../data/docs/' . $name . '/docs',

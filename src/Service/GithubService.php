@@ -7,6 +7,7 @@ namespace Laminas\Transfer\Service;
 use Github\Client as GithubClient;
 use Github\Exception\ExceptionInterface as GithubException;
 
+use function preg_match;
 use function sprintf;
 
 class GithubService

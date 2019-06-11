@@ -7,6 +7,7 @@ namespace Laminas\Transfer\Fixture;
 use Laminas\Transfer\Repository;
 
 use function array_merge;
+use function array_unique;
 use function chdir;
 use function dirname;
 use function file_get_contents;
@@ -38,10 +39,10 @@ class SourceFixture extends AbstractFixture
 
     public function process(Repository $repository) : void
     {
-        $phps = array_merge(
+        $phps = array_unique(array_merge(
             $repository->files('*.php'),
             $repository->files('bin/*')
-        );
+        ));
         foreach ($phps as $k => $php) {
             $this->replace($repository, $php);
 
@@ -50,6 +51,7 @@ class SourceFixture extends AbstractFixture
                 'zend-expressive' => 'expressive',
                 'zf-apigility' => 'apigility',
                 'zf-' => 'laminas-',
+                'zfdeploy.php' => 'laminas-deploy',
             ]);
 
             if ($newName !== $php) {

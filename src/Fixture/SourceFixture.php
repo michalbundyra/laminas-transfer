@@ -7,6 +7,7 @@ namespace Laminas\Transfer\Fixture;
 use Laminas\Transfer\Repository;
 
 use function array_merge;
+use function array_unique;
 use function chdir;
 use function dirname;
 use function file_get_contents;
@@ -17,8 +18,8 @@ use function is_dir;
 use function mkdir;
 use function preg_match_all;
 use function str_ireplace;
-use function str_replace;
 use function strpos;
+use function strtr;
 use function substr;
 use function system;
 use function trim;
@@ -38,15 +39,22 @@ class SourceFixture extends AbstractFixture
 
     public function process(Repository $repository) : void
     {
-        $phps = array_merge(
+        $phps = array_unique(array_merge(
             $repository->files('*.php'),
             $repository->files('bin/*')
-        );
+        ));
         foreach ($phps as $k => $php) {
             $this->replace($repository, $php);
 
-            if (strpos($php, 'Zend') !== false) {
-                $newName = str_replace('Zend', 'Laminas', $php);
+            $newName = strtr($php, [
+                'Zend' => 'Laminas',
+                'zend-expressive' => 'expressive',
+                'zf-apigility' => 'apigility',
+                'zf-' => 'laminas-',
+                'zfdeploy.php' => 'laminas-deploy',
+            ]);
+
+            if ($newName !== $php) {
                 $dirname = dirname($newName);
                 if (! is_dir($dirname)) {
                     mkdir($dirname, 0777, true);

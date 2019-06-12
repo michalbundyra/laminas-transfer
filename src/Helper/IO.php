@@ -10,6 +10,7 @@ use function is_dir;
 use function mkdir;
 use function opendir;
 use function readdir;
+use function sprintf;
 
 class IO
 {

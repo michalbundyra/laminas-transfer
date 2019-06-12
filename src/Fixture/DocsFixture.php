@@ -17,10 +17,12 @@ use function file_get_contents;
 use function file_put_contents;
 use function is_dir;
 use function preg_replace;
+use function sprintf;
 use function str_replace;
 use function strpos;
 use function strtr;
 use function system;
+use function unlink;
 
 use const PHP_EOL;
 

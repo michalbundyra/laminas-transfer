@@ -10,7 +10,8 @@ about: Have a problem that you can't figure out? 🤔
 | Version     | x.y.z
 
 <!--
-Before asking question here, please try asking in our chat: https://laminas.dev/chat)
+Before asking question here, please try asking in our chat (https://laminas.dev/chat)
+or forums (https://discourse.laminas.dev).
 
 Keep in mind that GitHub is primarily an issue tracker.
 -->

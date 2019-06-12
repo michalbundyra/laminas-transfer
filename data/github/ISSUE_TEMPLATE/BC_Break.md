@@ -13,7 +13,6 @@ Before reporting a BC break, please consult the CHANGELOG to make sure it's not 
 
 |    Q        |   A
 |------------ | ------
-| BC Break    | yes
 | Version     | x.y.z
 
 #### Summary

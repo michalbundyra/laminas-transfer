@@ -9,8 +9,7 @@ about: Something is broken? 🔨
 
 |    Q        |   A
 |------------ | ------
-| BC Break    | yes/no
-| Version     | x.y.z
+| Version(s)  | x.y.z
 
 #### Summary
 
@@ -30,4 +29,3 @@ Adding a failing unit test would help us a lot - you can submit one in a Pull Re
 #### Expected behavior
 
 <!-- What was the expected (correct) behavior? -->
-

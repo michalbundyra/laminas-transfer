@@ -69,6 +69,7 @@ class Repository
         'zfcampus/zf-deploy' => 'laminas/laminas-deploy',
         'zf-deploy' => 'laminas-deploy',
         'zfdeploy.php' => 'laminas-deploy',
+        'zfdeploy.phar' => 'laminas-deploy.phar',
         // @todo: need to determine the final name for zf-console
         // 'zfcampus/zf-console' => 'laminas/laminas-console-application',
         // 'zf-console' => 'laminas-console-application',

@@ -250,7 +250,7 @@ class GithubService
         $this->client->authenticate($this->token, GithubClient::AUTH_HTTP_TOKEN);
     }
 
-    private function isVersionPrelease(string $version) : bool
+    private function isVersionPrerelease(string $version) : bool
     {
         if (preg_match('/(alpha|a|beta|b|rc|dev)\d+$/i', $version)) {
             return true;

@@ -69,7 +69,7 @@ class CoverallsService
                             ],
                         ])));
 
-        $response = $client->sendRequest($request);
+        $response = $this->httpClient->sendRequest($request);
 
         if (StatusCode::STATUS_ACCEPTED !== $response->getStatusCode()) {
             throw CoverallsService\ErrorActivatingCoverallsException::forResponse($response, $repository);

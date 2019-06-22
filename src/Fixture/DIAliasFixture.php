@@ -11,12 +11,16 @@ use function current;
 use function explode;
 use function file_get_contents;
 use function file_put_contents;
+use function implode;
+use function key;
+use function preg_match;
 use function preg_match_all;
 use function str_repeat;
 use function str_replace;
 use function strlen;
 use function strpos;
 use function strstr;
+use function strtr;
 use function substr;
 use function trim;
 
@@ -24,6 +28,19 @@ use const PHP_EOL;
 
 class DIAliasFixture extends AbstractFixture
 {
+    private const DI_KEYS = [
+        'abstract_factories',
+        'aliases',
+        'delegators',
+        'factories',
+        'initializers',
+        'invokables',
+        'lazy_services',
+        'services',
+        'shared',
+        'shared_by_default',
+    ];
+
     public function process(Repository $repository) : void
     {
         $this->configProvider($repository);
@@ -43,27 +60,54 @@ class DIAliasFixture extends AbstractFixture
             return;
         }
 
-        // @todo: update all other keys: aliases, invokables, factories, ....
-        if (! preg_match_all('/^(\s*)\'(aliases|invokables|factories)\'\s*=>\s*\[\s*(.*?)\s*\]/ms', $content, $matches)) {
-            return;
-        }
-
         $uses = NamespaceResolver::getUses($content);
 
-        $aliases = [];
-        foreach ($matches[2] as $i => $type) {
-            $matches[$type][] = [
-                'spaces' => strlen($matches[1][$i]),
-                'content' => $matches[3][$i],
-            ];
-            $this->aliases($type, $matches[3][$i], $aliases);
-        }
-
-        if (! $aliases) {
-            return;
+        $offset = 0;
+        $replacements = [];
+        while (($result = $this->match($repository, $content, $offset, $uses, $namespace)) !== []) {
+            $key = $repository->replace(key($result));
+            $replacements[$key] = current($result);
+            ++$offset;
         }
 
         $content = $repository->replace($content);
+        $content = strtr($content, $replacements);
+        file_put_contents($file, $content);
+        $repository->addReplacedContentFiles([$file]);
+    }
+
+    private function match(Repository $repository, string $content, int $offset, array $uses, string $namespace) : array
+    {
+        // @phpcs:disable Generic.Files.LineLength.TooLong
+        $comment = '(?:^\s*(?:\/\/|\*|\/\*).*?$\n)*';
+        $section = '^(?<indent>\s*)\'(?<key>' . implode('|', self::DI_KEYS) . ')\'\s*=>\s*\[\s*(?<content>.*?)\s*\],?\n';
+        $regexp = '/\[\s*(' . $comment . $section . ')+\s*\]/ms';
+        // @phpcs:enable
+
+        if (! preg_match($regexp, $content, $matches, 0, $offset)) {
+            return [];
+        }
+
+        $content = $matches[0];
+
+        if (! preg_match_all('/' . $section . '/ms', $content, $matches)) {
+            return [];
+        }
+
+        $aliases = [];
+        foreach ($matches['key'] as $i => $type) {
+            $matches[$type][] = [
+                'spaces' => strlen($matches['indent'][$i]),
+                'content' => $matches['content'][$i],
+            ];
+            $this->aliases($matches['content'][$i], $aliases);
+        }
+
+        if (! $aliases) {
+            return [];
+        }
+
+        $newContent = $repository->replace($content);
         foreach ($matches['aliases'] ?? [] as $data) {
             $search = $repository->replace($data['content']);
             $newData = $search;
@@ -89,21 +133,24 @@ class DIAliasFixture extends AbstractFixture
                         continue;
                     }
 
-                    $t = str_replace('::class', '', $alias);
-                    if (strpos($t, '\\') !== false) {
-                        $t = strstr($t, '\\', true);
+                    $name = str_replace('::class', '', $alias);
+                    if (strpos($name, '\\') !== false) {
+                        $name = strstr($name, '\\', true);
                     }
 
-                    $x = isset($uses[$t]) ? $uses[$t] . '::class' : $namespace . '\\' . $alias;
-                    $newAlias = $repository->replace($x);
+                    $newKey = isset($uses[$name]) ? $uses[$name] . '::class' : $namespace . '\\' . $alias;
+                    $newAlias = $repository->replace($newKey);
 
-                    if ($newAlias !== $x) {
-                        $newData .= PHP_EOL . str_repeat(' ', $spaces) . '\\' . $x . ' => ' . $repository->replace($alias) . ',';
+                    if ($newAlias !== $newKey) {
+                        $newData .= PHP_EOL
+                            . str_repeat(' ', $spaces)
+                            . '\\' . $newKey
+                            . ' => ' . $repository->replace($alias) . ',';
                     }
                 }
             }
 
-            $content = str_replace($search, $newData, $content);
+            $newContent = str_replace($search, $newData, $newContent);
         }
 
         if (empty($matches['aliases'])) {
@@ -127,29 +174,31 @@ class DIAliasFixture extends AbstractFixture
                         continue;
                     }
 
-                    $t = str_replace('::class', '', $alias);
-                    if (strpos($t, '\\') !== false) {
-                        $t = strstr($t, '\\', true);
+                    $name = str_replace('::class', '', $alias);
+                    if (strpos($name, '\\') !== false) {
+                        $name = strstr($name, '\\', true);
                     }
 
-                    $x = isset($uses[$t]) ? $uses[$t] . '::class' : $namespace . '\\' . $alias;
-                    $newAlias = $repository->replace($x);
+                    $newKey = isset($uses[$name]) ? $uses[$name] . '::class' : $namespace . '\\' . $alias;
+                    $newAlias = $repository->replace($newKey);
 
-                    if ($newAlias !== $x) {
-                        $newData .= PHP_EOL . str_repeat(' ', $spaces) . '\\' . $x . ' => ' . $repository->replace($alias) . ',';
+                    if ($newAlias !== $newKey) {
+                        $newData .= PHP_EOL
+                            . str_repeat(' ', $spaces)
+                            . '\\' . $newKey
+                            . ' => ' . $repository->replace($alias) . ',';
                     }
                 }
             }
             $newData .= PHP_EOL . '],' . PHP_EOL;
 
-            $content = str_replace($search, $newData . $search, $content);
+            $newContent = str_replace($search, $newData . $search, $newContent);
         }
 
-        file_put_contents($file, $content);
-        $repository->addReplacedContentFiles([$file]);
+        return [$content => $newContent];
     }
 
-    private function aliases(string $type, string $content, array &$aliases) : array
+    private function aliases(string $content, array &$aliases) : array
     {
         $lines = explode("\n", trim($content));
         foreach ($lines as $line) {

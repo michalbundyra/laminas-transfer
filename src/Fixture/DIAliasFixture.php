@@ -49,10 +49,18 @@ class DIAliasFixture extends AbstractFixture
     private function configProvider(Repository $repository) : void
     {
         $file = current($repository->files('*/ConfigProvider.php'));
-        if (! $file) {
-            return;
+        if ($file) {
+            $this->processFile($repository, $file);
         }
 
+        $files = $repository->files('config/*.php');
+        foreach ($files as $file) {
+            $this->processFile($repository, $file);
+        }
+    }
+
+    private function processFile(Repository $repository, string $file) : void
+    {
         $content = file_get_contents($file);
 
         // No namespace detected
@@ -95,8 +103,9 @@ class DIAliasFixture extends AbstractFixture
         }
 
         $aliases = [];
+        $data = [];
         foreach ($matches['key'] as $i => $type) {
-            $matches[$type][] = [
+            $data[$type] = [
                 'spaces' => strlen($matches['indent'][$i]),
                 'content' => $matches['content'][$i],
             ];
@@ -108,10 +117,10 @@ class DIAliasFixture extends AbstractFixture
         }
 
         $newContent = $repository->replace($content);
-        foreach ($matches['aliases'] ?? [] as $data) {
-            $search = $repository->replace($data['content']);
+        if ($data['aliases'] ?? []) {
+            $search = $repository->replace($data['aliases']['content']);
             $newData = $search;
-            $spaces = $data['spaces'] + 4;
+            $spaces = $data['aliases']['spaces'] + 4;
 
             if (substr($newData, -1) !== ',') {
                 $newData .= ',';
@@ -151,13 +160,14 @@ class DIAliasFixture extends AbstractFixture
             }
 
             $newContent = str_replace($search, $newData, $newContent);
-        }
+        } else {
+            $spaces = current($data)['spaces'] ?? 0;
 
-        if (empty($matches['aliases'])) {
             $search = $repository->replace($matches[0][0]);
-            $newData = '\'aliases\' => [';
+            $newData = str_repeat(' ', $spaces) . '// Legacy ZendFramework aliases' . PHP_EOL
+                . str_repeat(' ', $spaces) . '\'aliases\' => [';
 
-            $spaces = 4;
+            $spaces += 4;
 
             foreach ($aliases as $alias) {
                 if (strpos($alias, '\'') === 0
@@ -190,7 +200,7 @@ class DIAliasFixture extends AbstractFixture
                     }
                 }
             }
-            $newData .= PHP_EOL . '],' . PHP_EOL;
+            $newData .= PHP_EOL . str_repeat(' ', $spaces - 4) . '],' . PHP_EOL;
 
             $newContent = str_replace($search, $newData . $search, $newContent);
         }

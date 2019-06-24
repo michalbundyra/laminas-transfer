@@ -73,9 +73,12 @@ class DIAliasFixture extends AbstractFixture
         $offset = 0;
         $replacements = [];
         while (($result = $this->match($repository, $content, $offset, $uses, $namespace)) !== []) {
-            $key = $repository->replace(key($result));
+            $key = key($result);
+
+            $offset = strpos($content, $key, $offset) + strlen($key);
+
+            $key = $repository->replace($key);
             $replacements[$key] = current($result);
-            ++$offset;
         }
 
         $content = $repository->replace($content);

@@ -64,7 +64,12 @@ class QAConfigFixture extends AbstractFixture
                         continue;
                     }
 
-                    $name = trim(strstr($row, ' ', true), '/');
+                    $name = strstr($row, ' ', true);
+                    if ($name === false) {
+                        $name = $row;
+                    }
+
+                    $name = trim($name, '/');
                     if (! file_exists($repository->getPath() . '/' . $name)) {
                         unset($rows[$i]);
                         continue;

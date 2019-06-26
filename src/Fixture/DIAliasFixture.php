@@ -13,6 +13,7 @@ use function file_get_contents;
 use function file_put_contents;
 use function implode;
 use function key;
+use function next;
 use function preg_match;
 use function preg_match_all;
 use function str_repeat;
@@ -214,24 +215,33 @@ class DIAliasFixture extends AbstractFixture
     private function aliases(string $content, array &$aliases) : array
     {
         $lines = explode("\n", trim($content));
-        foreach ($lines as $line) {
+        while (($line = current($lines)) !== false) {
             [$key, $value] = explode('=>', trim($line), 2);
             if (! $value) {
-                continue;
+                $next = next($lines);
+
+                if ($next === false || strpos(trim($next), '=>') !== 0) {
+                    continue;
+                }
+
+                $value = substr(strstr($next, '=>'), 2);
             }
 
             $key = trim($key);
             $value = trim($value);
 
             if ($value === '[') {
+                next($lines);
                 continue;
             }
 
             if (strpos($key, '//') === 0) {
+                next($lines);
                 continue;
             }
 
             $aliases[] = $key;
+            next($lines);
         }
 
         return $aliases;

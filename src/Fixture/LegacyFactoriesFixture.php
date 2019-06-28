@@ -57,6 +57,24 @@ class LegacyFactoriesFixture extends AbstractFixture
             }
 
             if (preg_match_all(
+                '/if\s*\(\$container->has\((?<name>[^$)\'"]+)\)\)\s*{\s*return\s*\$container->get\(/',
+                $content,
+                $matches
+            )) {
+                foreach ($matches['name'] as $i => $class) {
+                    $legacyName = $this->getLegacyName($class, $namespace, $uses);
+
+                    $replace = $matches[0][$i] . $class . ');' . PHP_EOL
+                        . str_repeat(' ', 8) . '}' . PHP_EOL . PHP_EOL
+                        . str_repeat(' ', 8) . 'if ($container->get(\\' . $legacyName . ')) {' . PHP_EOL
+                        . str_repeat(' ', 12) . 'return $container->get(\\'
+                        . str_replace($class, '', $legacyName);
+
+                    $content = str_replace($matches[0][$i], $replace, $content);
+                }
+            }
+
+            if (preg_match_all(
                 '/if\s*\(!\s*\$container->has\(([^$)\'"]+)\)\)\s*{\s*throw/',
                 $content,
                 $matches

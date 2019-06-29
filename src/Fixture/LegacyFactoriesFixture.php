@@ -88,7 +88,7 @@ class LegacyFactoriesFixture extends AbstractFixture
                         . str_repeat(' ', 12) . ': ($container->has(\\' . $legacyName . ')' . PHP_EOL
                         . str_repeat(' ', 16) . '? $container->get(\\' . $legacyName . ')' . PHP_EOL
                         . str_repeat(' ', 16) . ': null);' . PHP_EOL . PHP_EOL
-                        . str_repeat(' ', 8) . 'if (null === ' . $var . ') {' . PHP_EOL
+                        . str_repeat(' ', 8) . 'if (' . $var . ' === null) {' . PHP_EOL
                         . str_repeat(' ', 12) . 'throw';
 
                     $placeholder = uniqid('___PLACEHOLDER___' . microtime(true), true);

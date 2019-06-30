@@ -75,11 +75,11 @@ class LegacyFactoriesFixture extends AbstractFixture
             }
 
             if (preg_match_all(
-                '/if\s*\(!\s*\$container->has\(([^$)\'"]+)\)\)\s*{\s*throw/',
+                '/if\s*\(!\s*\$container->has\((?<name>[^$)\'"]+)\)\)\s*{\s*throw/',
                 $content,
                 $matches
             )) {
-                foreach ($matches[1] as $i => $class) {
+                foreach ($matches['name'] as $i => $class) {
                     $var = $this->getVariableName($class);
                     $legacyName = $this->getLegacyName($class, $namespace, $uses);
 

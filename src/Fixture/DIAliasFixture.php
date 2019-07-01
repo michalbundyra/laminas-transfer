@@ -146,12 +146,7 @@ class DIAliasFixture extends AbstractFixture
                         continue;
                     }
 
-                    $name = str_replace('::class', '', $alias);
-                    if (strpos($name, '\\') !== false) {
-                        $name = strstr($name, '\\', true);
-                    }
-
-                    $newKey = isset($uses[$name]) ? $uses[$name] . '::class' : $namespace . '\\' . $alias;
+                    $newKey = $this->getLegacyName($alias, $namespace, $uses);
                     $newAlias = $repository->replace($newKey);
 
                     if ($newAlias !== $newKey) {
@@ -188,12 +183,7 @@ class DIAliasFixture extends AbstractFixture
                         continue;
                     }
 
-                    $name = str_replace('::class', '', $alias);
-                    if (strpos($name, '\\') !== false) {
-                        $name = strstr($name, '\\', true);
-                    }
-
-                    $newKey = isset($uses[$name]) ? $uses[$name] . '::class' : $namespace . '\\' . $alias;
+                    $newKey = $this->getLegacyName($alias, $namespace, $uses);
                     $newAlias = $repository->replace($newKey);
 
                     if ($newAlias !== $newKey) {
@@ -245,5 +235,15 @@ class DIAliasFixture extends AbstractFixture
         }
 
         return $aliases;
+    }
+
+    private function getLegacyName(string $class, string $namespace, array $uses) : string
+    {
+        $className = str_replace('::class', '', $class);
+        if (strpos($className, '\\') !== false) {
+            $className = strstr($className, '\\', true);
+        }
+
+        return isset($uses[$className]) ? $uses[$className] . '::class' : $namespace . '\\' . $class;
     }
 }

@@ -141,11 +141,7 @@ class DIAliasFixture extends AbstractFixture
                     if ($newAlias !== $alias) {
                         $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias . ' => ' . $newAlias . ',';
                     }
-                } else {
-                    if (strpos($alias, '::class') === false) {
-                        continue;
-                    }
-
+                } elseif (strpos($alias, '::class') !== false) {
                     $newKey = $this->getLegacyName($alias, $namespace, $uses);
                     $newAlias = $repository->replace($newKey);
 
@@ -177,12 +173,7 @@ class DIAliasFixture extends AbstractFixture
                     if ($newAlias !== $alias) {
                         $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias . ' => ' . $newAlias . ',';
                     }
-                } else {
-                    // skip constants, as these have replaced values
-                    if (strpos($alias, '::class') === false) {
-                        continue;
-                    }
-
+                } elseif (strpos($alias, '::class') !== false) {
                     $newKey = $this->getLegacyName($alias, $namespace, $uses);
                     $newAlias = $repository->replace($newKey);
 

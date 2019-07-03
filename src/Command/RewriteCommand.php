@@ -13,6 +13,7 @@ use Laminas\Transfer\Fixture\FunctionAliasFixture;
 use Laminas\Transfer\Fixture\LegacyFactoriesFixture;
 use Laminas\Transfer\Fixture\LicenseFixture;
 use Laminas\Transfer\Fixture\NamespacedConstantFixture;
+use Laminas\Transfer\Fixture\PluginManagerFixture;
 use Laminas\Transfer\Fixture\QAConfigFixture;
 use Laminas\Transfer\Fixture\SourceFixture;
 use Laminas\Transfer\Repository;
@@ -33,6 +34,7 @@ class RewriteCommand extends Command
         QAConfigFixture::class,
         DIAliasFixture::class,
         LegacyFactoriesFixture::class,
+        PluginManagerFixture::class,
         CustomFixture::class,
         SourceFixture::class,
     ];

@@ -7,6 +7,7 @@ namespace Laminas\Transfer\Fixture;
 use Laminas\Transfer\Helper\NamespaceResolver;
 use Laminas\Transfer\Repository;
 
+use function array_merge;
 use function current;
 use function explode;
 use function file_get_contents;
@@ -26,7 +27,15 @@ class PluginManagerFixture extends AbstractFixture
 {
     public function process(Repository $repository) : void
     {
-        $files = $repository->files('*/*PluginManager.php');
+        $files = array_merge(
+            $repository->files('*/*PluginManager.php'),
+            $repository->files('*/*ManagerV2Polyfill.php'),
+            $repository->files('*/*ManagerV3Polyfill.php'),
+            $repository->files('*/DecoratorManager.php'), // zend-text
+            $repository->files('*/HelperConfig.php') // zend-i18n
+            // $repository->files('*/AssertionManager.php') // zend-permission-acl // nothing to rewrite
+            // $repository->files('*/ControllerManager.php') // zend-mvc // nothing to rewrite
+        );
 
         foreach ($files as $file) {
             $content = file_get_contents($file);

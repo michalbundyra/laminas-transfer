@@ -44,17 +44,12 @@ class DIAliasFixture extends AbstractFixture
 
     public function process(Repository $repository) : void
     {
-        $this->configProvider($repository);
-    }
+        $files = array_merge(
+            $repository->files('*/ConfigProvider.php'),
+            $repository->files('*/Module.php'),
+            $repository->files('config/*.php')
+        );
 
-    private function configProvider(Repository $repository) : void
-    {
-        $file = current($repository->files('*/ConfigProvider.php'));
-        if ($file) {
-            $this->processFile($repository, $file);
-        }
-
-        $files = $repository->files('config/*.php');
         foreach ($files as $file) {
             $this->processFile($repository, $file);
         }

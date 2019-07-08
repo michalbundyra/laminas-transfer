@@ -18,7 +18,7 @@
         "localheinz/composer-json-normalizer": "^1.0.2",
         "php-http/guzzle6-adapter": "^2.0",
         "php-http/httplug": "^2.0",
-        "symfony/console": "^4.2.9",
+        "symfony/console": "^4.3.2",
         "zendframework/zend-diactoros": "^2.1"
     },
     "require-dev": {

@@ -7,6 +7,7 @@ namespace Laminas\Transfer\Fixture;
 use Laminas\Transfer\Helper\NamespaceResolver;
 use Laminas\Transfer\Repository;
 
+use function array_merge;
 use function current;
 use function explode;
 use function file_get_contents;

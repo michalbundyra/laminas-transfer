@@ -12,6 +12,7 @@ env:
     - COVERAGE_DEPS="php-coveralls/php-coveralls"
 
 install:
+  - travis_retry composer config github-oauth.github.com ${GH_TOKEN}
   - travis_retry composer install $COMPOSER_ARGS
   - travis_retry composer require --dev $COMPOSER_ARGS $COVERAGE_DEPS
   - stty cols 120 && composer show

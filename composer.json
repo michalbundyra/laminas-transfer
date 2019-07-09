@@ -22,6 +22,7 @@
         "zendframework/zend-diactoros": "^2.1"
     },
     "require-dev": {
+        "phpunit/phpunit": "^8.2.4",
         "roave/security-advisories": "dev-master",
         "webimpress/coding-standard": "^1.0.3"
     },
@@ -33,8 +34,19 @@
             "Laminas\\Transfer\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "LaminasTest\\Transfer\\": "test/"
+        }
+    },
     "scripts": {
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
         "cs-check": "phpcs",
-        "cs-fix": "phpcbf"
+        "cs-fix": "phpcbf",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     }
 }

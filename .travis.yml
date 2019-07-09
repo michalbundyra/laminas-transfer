@@ -1,4 +1,6 @@
 language: php
+php:
+  - '7.2'
 
 cache:
   directories:
@@ -7,22 +9,19 @@ cache:
 env:
   global:
     - COMPOSER_ARGS="--no-interaction"
-
-matrix:
-  include:
-    - php: 7.2
-      env:
-        - CS_CHECK=true
-
-before_install:
-  - phpenv config-rm xdebug.ini || return 0
+    - COVERAGE_DEPS="php-coveralls/php-coveralls"
 
 install:
   - travis_retry composer install $COMPOSER_ARGS
+  - travis_retry composer require --dev $COMPOSER_ARGS $COVERAGE_DEPS
   - stty cols 120 && composer show
 
 script:
-  - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
+  - composer test-coverage
+  - composer cs-check
+
+after_script:
+  - travis_retry php vendor/bin/php-coveralls -v
 
 notifications:
   email: false

@@ -4,7 +4,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/weierophinney/php-github-api.git"
+            "url": "git@github.com:weierophinney/php-github-api.git"
         }
     ],
     "require": {

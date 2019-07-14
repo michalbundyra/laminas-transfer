@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LaminasTest;
+namespace LaminasTest\Transfer;
 
 use Generator;
 use Laminas\Transfer\Repository;

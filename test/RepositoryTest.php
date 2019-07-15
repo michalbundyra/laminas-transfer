@@ -8,6 +8,8 @@ use Generator;
 use Laminas\Transfer\Repository;
 use PHPUnit\Framework\TestCase;
 
+use function getcwd;
+
 class RepositoryTest extends TestCase
 {
     /**
@@ -37,5 +39,20 @@ class RepositoryTest extends TestCase
 
         self::assertSame($legacyName, $repository->getName());
         self::assertSame($newName, $repository->getNewName());
+    }
+
+    public function testDefaultPathIsScriptCurrentDir() : void
+    {
+        $currentDir = getcwd();
+        $repository = new Repository('zendframework/laminas-transfer');
+
+        self::assertSame($currentDir, $repository->getPath());
+    }
+
+    public function testUseCustomPath() : void
+    {
+        $repository = new Repository('zendframework/laminas-transfer', __DIR__);
+
+        self::assertSame(__DIR__, $repository->getPath());
     }
 }

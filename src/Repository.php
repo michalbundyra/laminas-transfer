@@ -162,10 +162,10 @@ class Repository
     /** @var string[] */
     private $replacedContentFiles = [];
 
-    public function __construct(string $name)
+    public function __construct(string $name, ?string $path = null)
     {
         $this->name = $name;
-        $this->path = getcwd();
+        $this->path = $path ?: getcwd();
 
         $namespaceRewrite = RewriteRules::namespaceRewrite();
         // In some places we have namespaces with double slashes - like composer.json

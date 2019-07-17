@@ -29,13 +29,14 @@ class MiddlewareAttributesFixture extends AbstractFixture
             $content = $repository->replace($content);
 
             if (preg_match_all(
-                '/->withAttribute\(([^:$\'")]+::class),\s*([^)]+)\)/',
+                '/(->withAttribute\(\s*)([^:$\'")]+::class)(,\s*)([^)]+)(\s*\))/',
                 $content,
                 $matches
             )) {
-                foreach ($matches[1] as $i => $class) {
+                foreach ($matches[2] as $i => $class) {
                     $legacyName = $this->getLegacyName($class, $namespace, $uses);
-                    $replace = $matches[0][$i] . '->withAttribute(\\' . $legacyName . ', ' . $matches[2][$i] . ')';
+                    $replace = $matches[0][$i] . $matches[1][$i]
+                        . $legacyName . $matches[3][$i] . $matches[4][$i] . $matches[5][$i];
                     $content = str_replace($matches[0][$i], $replace, $content);
                 }
             }
@@ -53,6 +54,6 @@ class MiddlewareAttributesFixture extends AbstractFixture
             $className = strstr($className, '\\', true);
         }
 
-        return isset($uses[$className]) ? $uses[$className] . '::class' : $namespace . '\\' . $class;
+        return '\\' . (isset($uses[$className]) ? $uses[$className] . '::class' : $namespace . '\\' . $class);
     }
 }

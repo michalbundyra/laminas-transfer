@@ -29,7 +29,7 @@ class MiddlewareAttributesFixture extends AbstractFixture
             $content = $repository->replace($content);
 
             if (preg_match_all(
-                '/(->withAttribute\(\s*)([^:$\'")]+::class)(,\s*)([^)]+)(\s*\))/',
+                '/(\s*->withAttribute\(\s*)([^:$\'")]+::class)(,\s*)([^)]+)(\s*\))/',
                 $content,
                 $matches
             )) {

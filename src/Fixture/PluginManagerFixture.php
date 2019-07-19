@@ -100,7 +100,9 @@ class PluginManagerFixture extends AbstractFixture
             $className = strstr($className, '\\', true);
         }
 
-        return isset($uses[$className]) ? $uses[$className] . '::class' : $namespace . '\\' . $class;
+        return isset($uses[$className])
+            ? $uses[$className] . '\\' . str_replace($className . '\\', '', $class)
+            : $namespace . '\\' . $class;
     }
 
     private function aliases(string $content) : array
@@ -109,6 +111,10 @@ class PluginManagerFixture extends AbstractFixture
 
         $lines = explode("\n", trim($content));
         while (($line = current($lines)) !== false) {
+            if (strpos($line, '=>') === false) {
+                $line .= '=>';
+            }
+
             [$key, $value] = explode('=>', trim($line), 2);
             if (! $value) {
                 $next = next($lines);

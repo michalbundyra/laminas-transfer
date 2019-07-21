@@ -1,9 +1,4 @@
 <?php
-/**
- * @see       https://github.com/expressive/expressive-router for the canonical source repository
- * @copyright Copyright (c) 2018 Laminas (https://laminas.dev)
- * @license   https://github.com/expressive/expressive-router/blob/master/LICENSE.md New BSD License
- */
 
 declare(strict_types=1);
 

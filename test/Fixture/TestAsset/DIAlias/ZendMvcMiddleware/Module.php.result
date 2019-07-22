@@ -1,0 +1,30 @@
+<?php
+
+namespace Laminas\Mvc\Middleware;
+
+use Laminas\Mvc\MiddlewareListener as DeprecatedMiddlewareListener;
+use Laminas\ServiceManager\Factory\InvokableFactory;
+
+class Module
+{
+    /**
+     * @return array
+     */
+    public function getConfig()
+    {
+        return [
+            'service_manager' => [
+                'aliases' => [
+                    DeprecatedMiddlewareListener::class => MiddlewareListener::class,
+
+                    // Legacy ZendFramework aliases
+                    \Zend\Mvc\MiddlewareListener::class => DeprecatedMiddlewareListener::class,
+                    \Zend\Mvc\Middleware\MiddlewareListener::class => MiddlewareListener::class,
+                ],
+                'factories' => [
+                    MiddlewareListener::class => InvokableFactory::class,
+                ],
+            ],
+        ];
+    }
+}

@@ -20,10 +20,10 @@ class NamespaceResolver
 
     public static function getUses(string $content) : array
     {
-        preg_match_all('/^use\s+(.*?);/ms', $content, $usesMatches);
+        preg_match_all('/^use\s+(.*?)(?:\s*as\s*(.+?))?;/ms', $content, $usesMatches);
         $uses = [];
-        foreach ($usesMatches[1] ?? [] as $match) {
-            $uses[substr($match, strrpos($match, '\\') + 1)] = $match;
+        foreach ($usesMatches[1] ?? [] as $i => $match) {
+            $uses[$usesMatches[2][$i] ?: substr($match, strrpos($match, '\\') + 1)] = $match;
         }
 
         return $uses;

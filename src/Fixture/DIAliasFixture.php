@@ -127,28 +127,13 @@ class DIAliasFixture extends AbstractFixture
             }
 
             $newData .= PHP_EOL . PHP_EOL . str_repeat(' ', $spaces) . '// Legacy ZendFramework aliases';
-
-            foreach ($aliases as $alias) {
-                if (strpos($alias, '\'') === 0
-                    || strpos($alias, '"') === 0
-                ) {
-                    $newAlias = $repository->replace($alias);
-
-                    if ($newAlias !== $alias) {
-                        $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias . ' => ' . $newAlias . ',';
-                    }
-                } elseif (strpos($alias, '::class') !== false) {
-                    $newKey = $this->getLegacyName($alias, $namespace, $uses);
-                    $newAlias = $repository->replace($newKey);
-
-                    if ($newAlias !== $newKey) {
-                        $newData .= PHP_EOL
-                            . str_repeat(' ', $spaces)
-                            . '\\' . $newKey
-                            . ' => ' . $repository->replace($alias) . ',';
-                    }
-                }
-            }
+            $newData .= $this->prepareData(
+                $repository,
+                $aliases,
+                $spaces,
+                $namespace,
+                $uses
+            );
 
             $newContent = str_replace($search, $newData, $newContent);
         } else {
@@ -157,31 +142,14 @@ class DIAliasFixture extends AbstractFixture
             $search = $repository->replace($matches[0][0]);
             $newData = str_repeat(' ', $spaces) . '// Legacy ZendFramework aliases' . PHP_EOL
                 . str_repeat(' ', $spaces) . '\'aliases\' => [';
-
-            $spaces += 4;
-
-            foreach ($aliases as $alias) {
-                if (strpos($alias, '\'') === 0
-                    || strpos($alias, '"') === 0
-                ) {
-                    $newAlias = $repository->replace($alias);
-
-                    if ($newAlias !== $alias) {
-                        $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias . ' => ' . $newAlias . ',';
-                    }
-                } elseif (strpos($alias, '::class') !== false) {
-                    $newKey = $this->getLegacyName($alias, $namespace, $uses);
-                    $newAlias = $repository->replace($newKey);
-
-                    if ($newAlias !== $newKey) {
-                        $newData .= PHP_EOL
-                            . str_repeat(' ', $spaces)
-                            . '\\' . $newKey
-                            . ' => ' . $repository->replace($alias) . ',';
-                    }
-                }
-            }
-            $newData .= PHP_EOL . str_repeat(' ', $spaces - 4) . '],' . PHP_EOL;
+            $newData .= $this->prepareData(
+                $repository,
+                $aliases,
+                $spaces + 4,
+                $namespace,
+                $uses
+            );
+            $newData .= PHP_EOL . str_repeat(' ', $spaces) . '],' . PHP_EOL;
 
             $newContent = str_replace($search, $newData . $search, $newContent);
         }
@@ -193,6 +161,10 @@ class DIAliasFixture extends AbstractFixture
     {
         $lines = explode("\n", trim($content));
         while (($line = current($lines)) !== false) {
+            if (strpos($line, '=>') === false) {
+                $line .= '=>';
+            }
+
             [$key, $value] = explode('=>', trim($line), 2);
             if (! $value) {
                 $next = next($lines);
@@ -232,5 +204,39 @@ class DIAliasFixture extends AbstractFixture
         }
 
         return isset($uses[$className]) ? $uses[$className] . '::class' : $namespace . '\\' . $class;
+    }
+
+    private function prepareData(
+        Repository $repository,
+        array $aliases,
+        int $spaces,
+        string $namespace,
+        array $uses
+    ) : string {
+        $data = '';
+
+        foreach ($aliases as $alias) {
+            if (strpos($alias, '\'') === 0
+                || strpos($alias, '"') === 0
+            ) {
+                $newAlias = $repository->replace($alias);
+
+                if ($newAlias !== $alias) {
+                    $data .= PHP_EOL . str_repeat(' ', $spaces) . $alias . ' => ' . $newAlias . ',';
+                }
+            } elseif (strpos($alias, '::class') !== false) {
+                $newKey = $this->getLegacyName($alias, $namespace, $uses);
+                $newAlias = $repository->replace($newKey);
+
+                if ($newAlias !== $newKey) {
+                    $data .= PHP_EOL
+                        . str_repeat(' ', $spaces)
+                        . '\\' . $newKey
+                        . ' => ' . $repository->replace($alias) . ',';
+                }
+            }
+        }
+
+        return $data;
     }
 }

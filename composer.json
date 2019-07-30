@@ -22,6 +22,7 @@
         "zendframework/zend-diactoros": "^2.1"
     },
     "require-dev": {
+        "mikey179/vfsstream": "^1.6.6",
         "phpunit/phpunit": "^8.2.4",
         "roave/security-advisories": "dev-master",
         "webimpress/coding-standard": "^1.0.3"

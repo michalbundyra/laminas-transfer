@@ -6,12 +6,11 @@ namespace LaminasTest\Transfer\Fixture;
 
 use Laminas\Transfer\Fixture\AbstractFixture;
 use Laminas\Transfer\Repository;
+use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Console\Output\Output;
 
-use function file_get_contents;
-use function file_put_contents;
 use function str_replace;
 use function strtr;
 use function substr;
@@ -40,7 +39,9 @@ abstract class AbstractFixtureTest extends TestCase
             'FixtureTest' => '',
         ]);
 
-        $this->path = __DIR__ . '/TestAsset/' . $this->name;
+        $root = vfsStream::setup();
+        $directory = vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset/' . $this->name, $root);
+        $this->path = $directory->url();
 
         $this->repository = new Repository('zendframework/transfer', $this->path);
 
@@ -51,14 +52,7 @@ abstract class AbstractFixtureTest extends TestCase
             if (substr($file, -7) === '.result') {
                 continue;
             }
-            $this->originFiles[$file] = file_get_contents($file);
-        }
-    }
-
-    protected function tearDown() : void
-    {
-        foreach ($this->originFiles as $file => $content) {
-            file_put_contents($file, $content);
+            $this->originFiles[] = $file;
         }
     }
 
@@ -70,7 +64,7 @@ abstract class AbstractFixtureTest extends TestCase
         $fixture = new $fixtureClass($this->output->reveal());
         $fixture->process($this->repository);
 
-        foreach ($this->originFiles as $file => $content) {
+        foreach ($this->originFiles as $file) {
             self::assertFileEquals($file . '.result', $file);
         }
     }

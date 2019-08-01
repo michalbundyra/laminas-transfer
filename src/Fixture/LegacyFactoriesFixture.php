@@ -44,6 +44,10 @@ class LegacyFactoriesFixture extends AbstractFixture
                 foreach ($matches['name'] as $i => $class) {
                     $legacyName = $this->getLegacyName($class, $namespace, $uses);
 
+                    if ($legacyName === $repository->replace($legacyName)) {
+                        continue;
+                    }
+
                     $indent = strlen($matches['indent'][$i]);
 
                     $replace = $matches['before'][$i] . '$container->has(' . $class . ')' . PHP_EOL
@@ -64,9 +68,13 @@ class LegacyFactoriesFixture extends AbstractFixture
                 foreach ($matches['name'] as $i => $class) {
                     $legacyName = $this->getLegacyName($class, $namespace, $uses);
 
+                    if ($legacyName === $repository->replace($legacyName)) {
+                        continue;
+                    }
+
                     $replace = $matches[0][$i] . $class . ');' . PHP_EOL
                         . str_repeat(' ', 8) . '}' . PHP_EOL . PHP_EOL
-                        . str_repeat(' ', 8) . 'if ($container->get(\\' . $legacyName . ')) {' . PHP_EOL
+                        . str_repeat(' ', 8) . 'if ($container->has(\\' . $legacyName . ')) {' . PHP_EOL
                         . str_repeat(' ', 12) . 'return $container->get(\\'
                         . str_replace($class, '', $legacyName);
 
@@ -82,6 +90,10 @@ class LegacyFactoriesFixture extends AbstractFixture
                 foreach ($matches['name'] as $i => $class) {
                     $var = $this->getVariableName($class);
                     $legacyName = $this->getLegacyName($class, $namespace, $uses);
+
+                    if ($legacyName === $repository->replace($legacyName)) {
+                        continue;
+                    }
 
                     $replace = $var . ' = $container->has(' . $class . ')' . PHP_EOL
                         . str_repeat(' ', 12) . '? $container->get(' . $class . ')' . PHP_EOL

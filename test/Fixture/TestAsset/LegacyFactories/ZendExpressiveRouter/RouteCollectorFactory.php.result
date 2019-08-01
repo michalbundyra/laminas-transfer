@@ -1,0 +1,40 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Expressive\Router;
+
+use Psr\Container\ContainerInterface;
+
+/**
+ * Create and return a RouteCollector instance.
+ *
+ * This factory depends on one other service:
+ *
+ * - Expressive\Router\RouterInterface, which should resolve to
+ *   a class implementing that interface.
+ */
+class RouteCollectorFactory
+{
+    /**
+     * @throws Exception\MissingDependencyException if the RouterInterface service is
+     *     missing.
+     */
+    public function __invoke(ContainerInterface $container) : RouteCollector
+    {
+        $router = $container->has(RouterInterface::class)
+            ? $container->get(RouterInterface::class)
+            : ($container->has(\Zend\Expressive\Router\RouterInterface::class)
+                ? $container->get(\Zend\Expressive\Router\RouterInterface::class)
+                : null);
+
+        if ($router === null) {
+            throw Exception\MissingDependencyException::dependencyForService(
+                RouterInterface::class,
+                RouteCollector::class
+            );
+        }
+
+        return new RouteCollector($router);
+    }
+}

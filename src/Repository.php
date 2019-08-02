@@ -79,6 +79,7 @@ class Repository
         'zfcampus/zf-apigility' => 'apigility/apigility',
         'zfcampus/zf-' => 'apigility/apigility-',
         'zfcampus/' => 'apigility/',
+        'ZfApigility' => 'Apigility',
         'ZF Apigility' => 'Apigility',
         'Zf-Apigility' => 'Apigility',
         'zf-apigility' => 'apigility',

@@ -1,0 +1,69 @@
+<?php
+
+namespace Apigility\Doctrine\Server;
+
+use Laminas\ServiceManager\Factory\InvokableFactory;
+
+return [
+    'service_manager' => [
+        // Legacy ZendFramework aliases
+        'aliases' => [
+            'ZfApigilityDoctrineQueryProviderManager' => 'ApigilityDoctrineQueryProviderManager',
+            'ZfApigilityDoctrineQueryCreateFilterManager' => 'ApigilityDoctrineQueryCreateFilterManager',
+        ],
+        'abstract_factories' => [
+            Resource\DoctrineResourceFactory::class,
+        ],
+        'factories' => [
+            'ApigilityDoctrineQueryProviderManager'
+            => Query\Provider\Service\QueryProviderManagerFactory::class,
+            'ApigilityDoctrineQueryCreateFilterManager'
+            => Query\CreateFilter\Service\QueryCreateFilterManagerFactory::class,
+        ],
+    ],
+
+    'apigility-doctrine-query-provider' => [
+        'aliases' => [
+            'default_odm' => Query\Provider\DefaultOdm::class,
+            'default_orm' => Query\Provider\DefaultOrm::class,
+
+            // Legacy ZendFramework aliases
+            \ZF\Apigility\Doctrine\Server\Query\Provider\DefaultOdm::class => Query\Provider\DefaultOdm::class,
+            \ZF\Apigility\Doctrine\Server\Query\Provider\DefaultOrm::class => Query\Provider\DefaultOrm::class,
+        ],
+        'factories' => [
+            Query\Provider\DefaultOdm::class => InvokableFactory::class,
+            Query\Provider\DefaultOrm::class => InvokableFactory::class,
+        ],
+    ],
+
+    'apigility-doctrine-query-create-filter' => [
+        'aliases' => [
+            'default' => Query\CreateFilter\DefaultCreateFilter::class,
+
+            // Legacy ZendFramework aliases
+            \ZF\Apigility\Doctrine\Server\Query\CreateFilter\DefaultCreateFilter::class => Query\CreateFilter\DefaultCreateFilter::class,
+        ],
+        'factories' => [
+            Query\CreateFilter\DefaultCreateFilter::class => InvokableFactory::class,
+        ],
+    ],
+
+    'view_manager' => [
+        'template_path_stack' => [
+            'apigility-doctrine' => __DIR__ . '/../view',
+        ],
+    ],
+
+    'validators' => [
+        // Legacy ZendFramework aliases
+        'aliases' => [
+            \ZF\Apigility\Doctrine\Server\Validator\NoObjectExists::class => Validator\NoObjectExists::class,
+            \ZF\Apigility\Doctrine\Server\Validator\ObjectExists::class => Validator\ObjectExists::class,
+        ],
+        'factories' => [
+            Validator\NoObjectExists::class => Validator\NoObjectExistsFactory::class,
+            Validator\ObjectExists::class   => Validator\ObjectExistsFactory::class,
+        ],
+    ],
+];

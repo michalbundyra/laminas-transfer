@@ -4,33 +4,34 @@ declare(strict_types=1);
 
 namespace LaminasTest\Transfer\Fixture;
 
+use Generator;
 use Laminas\Transfer\Fixture\AbstractFixture;
 use Laminas\Transfer\Repository;
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 use Symfony\Component\Console\Output\Output;
 
+use function array_filter;
+use function basename;
+use function glob;
 use function str_replace;
 use function strtr;
 use function substr;
+
+use const GLOB_ONLYDIR;
 
 abstract class AbstractFixtureTest extends TestCase
 {
     /** @var string */
     protected $name;
 
-    /** @var string */
-    protected $path;
-
-    /** @var Repository */
-    protected $repository;
+    /** @var vfsStreamDirectory */
+    protected $root;
 
     /** @var ObjectProphecy|Output */
     protected $output;
-
-    /** @var string[] */
-    private $originFiles = [];
 
     protected function setUp() : void
     {
@@ -39,33 +40,45 @@ abstract class AbstractFixtureTest extends TestCase
             'FixtureTest' => '',
         ]);
 
-        $root = vfsStream::setup();
-        $directory = vfsStream::copyFromFileSystem(__DIR__ . '/TestAsset/' . $this->name, $root);
-        $this->path = $directory->url();
-
-        $this->repository = new Repository('zendframework/transfer', $this->path);
+        $this->root = vfsStream::setup();
 
         $this->output = $this->prophesize(Output::class);
+    }
 
-        $files = $this->repository->files();
-        foreach ($files as $file) {
-            if (substr($file, -7) === '.result') {
-                continue;
-            }
-            $this->originFiles[] = $file;
+    public function projects() : Generator
+    {
+        $name = strtr(static::class, [
+            __NAMESPACE__ . '\\' => '',
+            'FixtureTest' => '',
+        ]);
+        $dirs = glob(__DIR__ . '/TestAsset/' . $name . '/*', GLOB_ONLYDIR);
+
+        foreach ($dirs as $dir) {
+            yield basename($dir) => [$dir];
         }
     }
 
-    public function testFixture() : void
+    /**
+     * @dataProvider projects
+     */
+    public function testFixture(string $dir) : void
     {
+        $directory = vfsStream::copyFromFileSystem($dir, $this->root);
+        $path = $directory->url();
+
+        $repository = new Repository('zendframework/transfer', $path);
+        $files = array_filter($repository->files(), static function (string $file) : bool {
+            return substr($file, -7) === '.result';
+        });
+
         $fixtureClass = str_replace('Test', '', __NAMESPACE__) . '\\' . $this->name . 'Fixture';
 
         /** @var AbstractFixture $fixture */
         $fixture = new $fixtureClass($this->output->reveal());
-        $fixture->process($this->repository);
+        $fixture->process($repository);
 
-        foreach ($this->originFiles as $file) {
-            self::assertFileEquals($file . '.result', $file);
+        foreach ($files as $file) {
+            self::assertFileEquals($file, substr($file, 0, -7));
         }
     }
 }

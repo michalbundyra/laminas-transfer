@@ -15,6 +15,7 @@ use Symfony\Component\Console\Output\Output;
 
 use function array_filter;
 use function basename;
+use function file_exists;
 use function glob;
 use function preg_replace;
 use function str_replace;
@@ -72,7 +73,7 @@ abstract class AbstractFixtureTest extends TestCase
         $name = $this->getRepositoryName(basename($dir));
         $repository = new Repository($name, $path);
         $files = array_filter($repository->files(), static function (string $file) : bool {
-            return substr($file, -7) === '.result';
+            return substr($file, -7) !== '.result';
         });
 
         $fixtureClass = str_replace('Test', '', __NAMESPACE__) . '\\' . $this->name . 'Fixture';
@@ -82,7 +83,11 @@ abstract class AbstractFixtureTest extends TestCase
         $fixture->process($repository);
 
         foreach ($files as $file) {
-            self::assertFileEquals($file, substr($file, 0, -7));
+            if (file_exists($file . '.result')) {
+                self::assertFileEquals($file . '.result', $file);
+            } else {
+                self::assertFileNotExists($file);
+            }
         }
     }
 

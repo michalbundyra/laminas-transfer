@@ -73,7 +73,7 @@ abstract class AbstractFixtureTest extends TestCase
         $name = $this->getRepositoryName(basename($dir));
         $repository = new Repository($name, $path);
         $files = array_filter($repository->files(), static function (string $file) : bool {
-            return substr($file, -7) !== '.result';
+            return basename($file) !== '.gitkeep' && substr($file, -7) !== '.result';
         });
 
         $fixtureClass = str_replace('Test', '', __NAMESPACE__) . '\\' . $this->name . 'Fixture';

@@ -24,9 +24,7 @@ class Repository
     public const T_CONDUCT = 'CODE_OF_CONDUCT.md';
     public const T_CONTRIBUTING = 'CONTRIBUTING.md';
     public const T_COPYRIGHT = 'COPYRIGHT.md';
-    public const T_ISSUE_TEMPLATE = 'ISSUE_TEMPLATE.md';
     public const T_LICENSE = 'LICENSE.md';
-    public const T_PULL_REQUEST_TEMPLATE = 'PULL_REQUEST_TEMPLATE.md';
     public const T_SECURITY = 'SECURITY.md';
     public const T_SUPPORT = 'SUPPORT.md';
 

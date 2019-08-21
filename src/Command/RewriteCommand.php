@@ -12,6 +12,7 @@ use Laminas\Transfer\Fixture\DocsFixture;
 use Laminas\Transfer\Fixture\FunctionAliasFixture;
 use Laminas\Transfer\Fixture\LegacyFactoriesFixture;
 use Laminas\Transfer\Fixture\LicenseFixture;
+use Laminas\Transfer\Fixture\LocalFixture;
 use Laminas\Transfer\Fixture\MiddlewareAttributesFixture;
 use Laminas\Transfer\Fixture\NamespacedConstantFixture;
 use Laminas\Transfer\Fixture\PluginManagerFixture;
@@ -21,6 +22,7 @@ use Laminas\Transfer\Repository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class RewriteCommand extends Command
@@ -49,11 +51,21 @@ class RewriteCommand extends Command
                  'repository',
                  InputArgument::REQUIRED,
                  'The repository name to rewrite'
+             )
+             ->addOption(
+                 'local',
+                 'l',
+                 InputOption::VALUE_NONE,
+                 'Use local fixture to add repositories in composer.json (tests purposes)'
              );
     }
 
     public function execute(InputInterface $input, OutputInterface $output) : void
     {
+        if ($input->getOption('local')) {
+            $this->fixtures[] = LocalFixture::class;
+        }
+
         $repository = new Repository(
             $input->getArgument('repository')
         );

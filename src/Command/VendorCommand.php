@@ -97,8 +97,14 @@ class VendorCommand extends Command
 
         chdir(dirname($path));
 
-        system('git clone https://github.com/laminas/laminas-zendframework-bridge vendor/laminas/laminas-zendframework-bridge');
-        $composer = json_decode(file_get_contents('vendor/laminas/laminas-zendframework-bridge/composer.json'), true);
+        system(
+            'git clone https://github.com/laminas/laminas-zendframework-bridge'
+            . ' vendor/laminas/laminas-zendframework-bridge'
+        );
+        $composer = json_decode(
+            file_get_contents('vendor/laminas/laminas-zendframework-bridge/composer.json'),
+            true
+        );
         $composer['version'] = '1.0.0';
         $content[] = $composer;
         JsonWriter::write($installed, $content);

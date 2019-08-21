@@ -140,10 +140,25 @@ class DocsFixture extends AbstractFixture
         }
 
         // Create SECURITY.md file
-        copy(
-            __DIR__ . '/../../data/templates/' . Repository::T_SECURITY,
-            $repository->getPath() . '/docs/' . Repository::T_SECURITY
-        );
+        if (is_dir($repository->getPath() . '/docs/')) {
+            copy(
+                __DIR__ . '/../../data/templates/' . Repository::T_SECURITY,
+                $repository->getPath() . '/docs/' . Repository::T_SECURITY
+            );
+            system('git add ' . $repository->getPath() . '/docs/' . Repository::T_SECURITY);
+        } elseif (is_dir($repository->getPath() . '/doc/')) {
+            copy(
+                __DIR__ . '/../../data/templates/' . Repository::T_SECURITY,
+                $repository->getPath() . '/doc/' . Repository::T_SECURITY
+            );
+            system('git add ' . $repository->getPath() . '/doc/' . Repository::T_SECURITY);
+        } else {
+            copy(
+                __DIR__ . '/../../data/templates/' . Repository::T_SECURITY,
+                $repository->getPath() . '/' . Repository::T_SECURITY
+            );
+            system('git add ' . $repository->getPath() . '/' . Repository::T_SECURITY);
+        }
 
         // Remove old issue and pull request templates
         foreach (self::OBSOLETE_TEMPLATE_FILES as $fileName) {

@@ -31,6 +31,59 @@ use const CURLOPT_NOBODY;
 
 class DependenciesCommand extends Command
 {
+    public const SKIP = [
+        'component-split',
+        'modules.zendframework.com-Behat',
+        'modules.zendframework.com',
+        'Namespacer',
+        'subsplit-ng',
+        'subsplit',
+        'ZendAmf',
+        'ZendCloud',
+        'Zend_Db-Examples',
+        'zendframework',
+        'ZendGData',
+        'ZendMarkup',
+        'ZendOpenId',
+        'ZendPdf',
+        'ZendQueue',
+        'ZendRest',
+        'ZendSearch',
+        'ZendService_AgileZen',
+        'ZendService_Akismet',
+        'ZendService_Amazon',
+        'ZendService_Api',
+        'ZendService_AudioScrobbler',
+        'ZendService_Delicious',
+        'ZendService_DeveloperGarden',
+        'ZendService_Flickr',
+        'ZendService_GoGrid',
+        'ZendService_Google_C2dm',
+        'ZendService_LiveDocx',
+        'ZendService_Nirvanix',
+        'ZendService_OpenStack',
+        'ZendService_Rackspace',
+        'ZendService_SlideShare',
+        'ZendService_StrikeIron',
+        'ZendService_Technorati',
+        'ZendService_WindowsAzure',
+        'ZendSkeletonModule',
+        'ZendTimeSync',
+        'zend-version',
+        'zf1-extras',
+        'zf1',
+        'zf2-documentation',
+        'ZF2Package',
+        'zf2-tutorial',
+        'zf-composer-repository',
+        'ZFTool',
+        'zf-web',
+        // zfcampus
+        'zf-apigility-example',
+        'zf-angular',
+        'zendcon-design-patterns',
+    ];
+
     /** @var array[] */
     private $repositories = [];
 
@@ -56,59 +109,6 @@ class DependenciesCommand extends Command
         $client = new Client();
         $client->authenticate($token, null, $client::AUTH_URL_TOKEN);
 
-        $skip = [
-            'component-split',
-            'modules.zendframework.com-Behat',
-            'modules.zendframework.com',
-            'Namespacer',
-            'subsplit-ng',
-            'subsplit',
-            'ZendAmf',
-            'ZendCloud',
-            'Zend_Db-Examples',
-            'zendframework',
-            'ZendGData',
-            'ZendMarkup',
-            'ZendOpenId',
-            'ZendPdf',
-            'ZendQueue',
-            'ZendRest',
-            'ZendSearch',
-            'ZendService_AgileZen',
-            'ZendService_Akismet',
-            'ZendService_Amazon',
-            'ZendService_Api',
-            'ZendService_AudioScrobbler',
-            'ZendService_Delicious',
-            'ZendService_DeveloperGarden',
-            'ZendService_Flickr',
-            'ZendService_GoGrid',
-            'ZendService_Google_C2dm',
-            'ZendService_LiveDocx',
-            'ZendService_Nirvanix',
-            'ZendService_OpenStack',
-            'ZendService_Rackspace',
-            'ZendService_SlideShare',
-            'ZendService_StrikeIron',
-            'ZendService_Technorati',
-            'ZendService_WindowsAzure',
-            'ZendSkeletonModule',
-            'ZendTimeSync',
-            'zend-version',
-            'zf1-extras',
-            'zf1',
-            'zf2-documentation',
-            'ZF2Package',
-            'zf2-tutorial',
-            'zf-composer-repository',
-            'ZFTool',
-            'zf-web',
-            // zfcampus
-            'zf-apigility-example',
-            'zf-angular',
-            'zendcon-design-patterns',
-        ];
-
         $page = 1;
         while (true) {
             $repos = $client->organization()->repositories($org, 'all', $page);
@@ -119,7 +119,7 @@ class DependenciesCommand extends Command
             }
 
             foreach ($repos as $repo) {
-                if (in_array($repo['name'], $skip, true)) {
+                if (in_array($repo['name'], self::SKIP, true)) {
                     continue;
                 }
 

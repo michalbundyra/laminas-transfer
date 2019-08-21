@@ -175,7 +175,7 @@ class DependenciesCommand extends Command
         $dependencies = ($this->repositories[$name]['require'] ?? [])
             + ($this->repositories[$name]['require-dev'] ?? []);
 
-        $dependencies = array_filter($dependencies, function ($name) use ($org) {
+        $dependencies = array_filter($dependencies, static function ($name) use ($org) {
             return strpos($name, $org . '/') === 0;
         }, ARRAY_FILTER_USE_KEY);
 

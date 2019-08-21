@@ -76,6 +76,7 @@ class DependenciesCommand extends Command
             'ZendSearch',
             'ZendService_AgileZen',
             'ZendService_Akismet',
+            'ZendService_Amazon',
             'ZendService_Api',
             'ZendService_AudioScrobbler',
             'ZendService_Delicious',

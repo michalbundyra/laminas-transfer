@@ -6,10 +6,11 @@ require __DIR__ . '/../vendor/autoload.php';
 $application = new \Symfony\Component\Console\Application();
 
 $application->addCommands([
-    new \Laminas\Transfer\Command\DependenciesCommand(),
-    new \Laminas\Transfer\Command\TransferCommand(),
-    new \Laminas\Transfer\Command\RewriteCommand(),
-    new \Laminas\Transfer\Command\VendorCommand(),
+    new Laminas\Transfer\Command\DependenciesCommand(),
+    new Laminas\Transfer\Command\LocalTestCommand(),
+    new Laminas\Transfer\Command\TransferCommand(),
+    new Laminas\Transfer\Command\RewriteCommand(),
+    new Laminas\Transfer\Command\VendorCommand(),
 ]);
 
 exit($application->run());

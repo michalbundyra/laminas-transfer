@@ -17,7 +17,9 @@ class IO
     public static function copy(string $source, string $destination) : void
     {
         $dir = opendir($source);
-        mkdir($destination);
+        if (! is_dir($destination)) {
+            mkdir($destination);
+        }
 
         while ($file = readdir($dir)) {
             if ($file !== '.' && $file !== '..') {

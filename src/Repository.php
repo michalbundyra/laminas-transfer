@@ -154,6 +154,8 @@ class Repository
         'ZF' => 'Laminas',
         'Zf' => 'Laminas',
         'zf' => 'laminas',
+        // fix typo
+        'apigiltiy' => 'apigility',
     ];
 
     /** @var string */

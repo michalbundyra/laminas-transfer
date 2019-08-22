@@ -33,6 +33,8 @@ class Repository
 
     /** @var string[] */
     private $replacements = [
+        'api-skeletons/zf-' => 'api-skeletons/zf-',
+        'phpro/zf-' => 'phpro/zf-',
         'ZendXml;' => 'Laminas\\Xml;',
         'ZendXml\\\\' => 'Laminas\\\\Xml\\\\',
         'ZendXmlTest\\\\' => 'LaminasTest\\\\Xml\\\\',

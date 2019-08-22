@@ -10,6 +10,7 @@ use Laminas\Transfer\Repository;
 use function file_get_contents;
 use function file_put_contents;
 use function lcfirst;
+use function ltrim;
 use function microtime;
 use function preg_match_all;
 use function str_repeat;
@@ -36,11 +37,13 @@ class LegacyFactoriesFixture extends AbstractFixture
             $uses = NamespaceResolver::getUses($content);
 
             $content = $repository->replace($content);
+            // @phpcs:disable Generic.Files.LineLength.TooLong
             if (preg_match_all(
-                '/^(?<before>(?<indent>\s*)[^\n]*)\$container->has\((?<name>[^$)\'"]+)\)\s*\?.*?(?<after>\s*\)?;)/ms',
+                '/^(?<before>(?<indent>\s*)[^\n]*)\$container->has\((?<name>[^$)\'"]+)\)\s*\?\s*\$container->get\(.*?\)\s*:\s*(?<else>.*?(\(\))?)(?<after>\s*\)?;)/ms',
                 $content,
                 $matches
             )) {
+                // @phpcs:enable
                 foreach ($matches['name'] as $i => $class) {
                     $legacyName = $this->getLegacyName($class, $namespace, $uses);
 
@@ -48,13 +51,13 @@ class LegacyFactoriesFixture extends AbstractFixture
                         continue;
                     }
 
-                    $indent = strlen($matches['indent'][$i]);
+                    $indent = strlen(ltrim($matches['indent'][$i], "\n"));
 
                     $replace = $matches['before'][$i] . '$container->has(' . $class . ')' . PHP_EOL
                         . str_repeat(' ', $indent + 4) . '? $container->get(' . $class . ')' . PHP_EOL
                         . str_repeat(' ', $indent + 4) . ': ($container->has(\\' . $legacyName . ')' . PHP_EOL
                         . str_repeat(' ', $indent + 8) . '? $container->get(\\' . $legacyName . ')' . PHP_EOL
-                        . str_repeat(' ', $indent + 8) . ': null)' . $matches['after'][$i];
+                        . str_repeat(' ', $indent + 8) . ': ' . $matches['else'][$i] . ')' . $matches['after'][$i];
 
                     $content = str_replace($matches[0][$i], $replace, $content);
                 }

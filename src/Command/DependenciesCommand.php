@@ -53,7 +53,7 @@ class DependenciesCommand extends Command
         'ZendService_Akismet',
         'ZendService_Amazon',
         'ZendService_Api',
-        'ZendService_AudioScrobbler',
+        'ZendService_Audioscrobbler',
         'ZendService_Delicious',
         'ZendService_DeveloperGarden',
         'ZendService_Flickr',

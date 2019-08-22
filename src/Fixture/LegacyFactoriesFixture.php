@@ -37,7 +37,7 @@ class LegacyFactoriesFixture extends AbstractFixture
 
             $content = $repository->replace($content);
             if (preg_match_all(
-                '/^(?<before>(?<indent>\s*)[^\n]*)\$container->has\((?<name>[^$)\'"]+)\)\s*\?.*?;/ms',
+                '/^(?<before>(?<indent>\s*)[^\n]*)\$container->has\((?<name>[^$)\'"]+)\)\s*\?.*?(?<after>\s*\)?;)/ms',
                 $content,
                 $matches
             )) {
@@ -54,7 +54,7 @@ class LegacyFactoriesFixture extends AbstractFixture
                         . str_repeat(' ', $indent + 4) . '? $container->get(' . $class . ')' . PHP_EOL
                         . str_repeat(' ', $indent + 4) . ': ($container->has(\\' . $legacyName . ')' . PHP_EOL
                         . str_repeat(' ', $indent + 8) . '? $container->get(\\' . $legacyName . ')' . PHP_EOL
-                        . str_repeat(' ', $indent + 8) . ': null);';
+                        . str_repeat(' ', $indent + 8) . ': null)' . $matches['after'][$i];
 
                     $content = str_replace($matches[0][$i], $replace, $content);
                 }

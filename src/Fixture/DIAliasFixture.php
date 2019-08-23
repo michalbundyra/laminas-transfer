@@ -196,16 +196,6 @@ class DIAliasFixture extends AbstractFixture
         return $aliases;
     }
 
-    private function getLegacyName(string $class, string $namespace, array $uses) : string
-    {
-        $className = str_replace('::class', '', $class);
-        if (strpos($className, '\\') !== false) {
-            $className = strstr($className, '\\', true);
-        }
-
-        return isset($uses[$className]) ? $uses[$className] . '::class' : $namespace . '\\' . $class;
-    }
-
     private function prepareData(
         Repository $repository,
         array $aliases,
@@ -225,7 +215,7 @@ class DIAliasFixture extends AbstractFixture
                     $data .= PHP_EOL . str_repeat(' ', $spaces) . $alias . ' => ' . $newAlias . ',';
                 }
             } elseif (strpos($alias, '::class') !== false) {
-                $newKey = $this->getLegacyName($alias, $namespace, $uses);
+                $newKey = NamespaceResolver::getLegacyName($alias, $namespace, $uses);
                 $newAlias = $repository->replace($newKey);
 
                 if ($newAlias !== $newKey) {

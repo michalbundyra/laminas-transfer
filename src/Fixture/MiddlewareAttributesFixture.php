@@ -11,8 +11,6 @@ use function file_get_contents;
 use function file_put_contents;
 use function preg_match_all;
 use function str_replace;
-use function strpos;
-use function strstr;
 
 class MiddlewareAttributesFixture extends AbstractFixture
 {
@@ -34,7 +32,7 @@ class MiddlewareAttributesFixture extends AbstractFixture
                 $matches
             )) {
                 foreach ($matches[2] as $i => $class) {
-                    $legacyName = $this->getLegacyName($class, $namespace, $uses);
+                    $legacyName = '\\' . NamespaceResolver::getLegacyName($class, $namespace, $uses);
                     $replace = $matches[0][$i] . $matches[1][$i]
                         . $legacyName . $matches[3][$i] . $matches[4][$i] . $matches[5][$i];
                     $content = str_replace($matches[0][$i], $replace, $content);
@@ -45,15 +43,5 @@ class MiddlewareAttributesFixture extends AbstractFixture
         }
 
         $repository->addReplacedContentFiles($files);
-    }
-
-    private function getLegacyName(string $class, string $namespace, array $uses) : string
-    {
-        $className = str_replace('::class', '', $class);
-        if (strpos($className, '\\') !== false) {
-            $className = strstr($className, '\\', true);
-        }
-
-        return '\\' . (isset($uses[$className]) ? $uses[$className] . '::class' : $namespace . '\\' . $class);
     }
 }

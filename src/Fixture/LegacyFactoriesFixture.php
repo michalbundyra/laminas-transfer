@@ -16,8 +16,6 @@ use function preg_match_all;
 use function str_repeat;
 use function str_replace;
 use function strlen;
-use function strpos;
-use function strstr;
 use function uniqid;
 
 use const PHP_EOL;
@@ -45,7 +43,7 @@ class LegacyFactoriesFixture extends AbstractFixture
             )) {
                 // @phpcs:enable
                 foreach ($matches['name'] as $i => $class) {
-                    $legacyName = $this->getLegacyName($class, $namespace, $uses);
+                    $legacyName = NamespaceResolver::getLegacyName($class, $namespace, $uses);
 
                     if ($legacyName === $repository->replace($legacyName)) {
                         continue;
@@ -69,7 +67,7 @@ class LegacyFactoriesFixture extends AbstractFixture
                 $matches
             )) {
                 foreach ($matches['name'] as $i => $class) {
-                    $legacyName = $this->getLegacyName($class, $namespace, $uses);
+                    $legacyName = NamespaceResolver::getLegacyName($class, $namespace, $uses);
 
                     if ($legacyName === $repository->replace($legacyName)) {
                         continue;
@@ -92,7 +90,7 @@ class LegacyFactoriesFixture extends AbstractFixture
             )) {
                 foreach ($matches['name'] as $i => $class) {
                     $var = $this->getVariableName($class);
-                    $legacyName = $this->getLegacyName($class, $namespace, $uses);
+                    $legacyName = NamespaceResolver::getLegacyName($class, $namespace, $uses);
 
                     if ($legacyName === $repository->replace($legacyName)) {
                         continue;
@@ -118,16 +116,6 @@ class LegacyFactoriesFixture extends AbstractFixture
         }
 
         $repository->addReplacedContentFiles($files);
-    }
-
-    private function getLegacyName(string $class, string $namespace, array $uses) : string
-    {
-        $className = str_replace('::class', '', $class);
-        if (strpos($className, '\\') !== false) {
-            $className = strstr($className, '\\', true);
-        }
-
-        return isset($uses[$className]) ? $uses[$className] . '::class' : $namespace . '\\' . $class;
     }
 
     private function getVariableName(string $class) : string

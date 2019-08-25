@@ -9,15 +9,12 @@ use Laminas\Transfer\Repository;
 
 use function file_get_contents;
 use function file_put_contents;
-use function lcfirst;
 use function ltrim;
-use function microtime;
 use function preg_match_all;
 use function str_repeat;
 use function str_replace;
 use function strlen;
 use function strtr;
-use function uniqid;
 
 use const PHP_EOL;
 
@@ -102,26 +99,22 @@ class LegacyFactoriesFixture extends AbstractFixture
             $matches
         )) {
             foreach ($matches['name'] as $i => $class) {
-                $var = $this->getVariableName($class);
                 $legacyName = NamespaceResolver::getLegacyName($class, $namespace, $uses);
-
                 if ($legacyName === $repository->replace($legacyName)) {
                     continue;
                 }
 
-                $replace = $var . ' = $container->has(' . $class . ')' . PHP_EOL
-                    . str_repeat(' ', 12) . '? $container->get(' . $class . ')' . PHP_EOL
-                    . str_repeat(' ', 12) . ': ($container->has(\\' . $legacyName . ')' . PHP_EOL
-                    . str_repeat(' ', 16) . '? $container->get(\\' . $legacyName . ')' . PHP_EOL
-                    . str_repeat(' ', 16) . ': null);' . PHP_EOL . PHP_EOL
-                    . str_repeat(' ', 8) . 'if (' . $var . ' === null) {' . PHP_EOL
+                $replace = 'if (! $container->has(' . $class . ')' . PHP_EOL
+                    . str_repeat(' ', 12) . '&& ! $container->has(\\' . $legacyName . ')' . PHP_EOL
+                    . str_repeat(' ', 8) . ') {' . PHP_EOL
                     . str_repeat(' ', 12) . 'throw';
 
-                $placeholder = uniqid('___PLACEHOLDER___' . microtime(true), true);
-
-                $content = str_replace($matches[0][$i], $placeholder, $content);
-                $content = str_replace('$container->get(' . $class . ')', $var, $content);
-                $content = str_replace($placeholder, $replace, $content);
+                $content = strtr($content, [
+                    $matches[0][$i] => $replace,
+                    '$container->get(' . $class . ')' => '$container->has(' . $class . ')'
+                        . ' ? $container->get(' . $class . ')'
+                        . ' : $container->get(\\' . $legacyName . ')',
+                ]);
             }
         }
 
@@ -164,12 +157,5 @@ class LegacyFactoriesFixture extends AbstractFixture
         }
 
         file_put_contents($file, $content);
-    }
-
-    private function getVariableName(string $class) : string
-    {
-        $name = str_replace(['::class', 'Interface'], '', $class);
-
-        return '$' . lcfirst($name);
     }
 }

@@ -22,19 +22,15 @@ class RouteCollectorFactory
      */
     public function __invoke(ContainerInterface $container) : RouteCollector
     {
-        $router = $container->has(RouterInterface::class)
-            ? $container->get(RouterInterface::class)
-            : ($container->has(\Zend\Expressive\Router\RouterInterface::class)
-                ? $container->get(\Zend\Expressive\Router\RouterInterface::class)
-                : null);
-
-        if ($router === null) {
+        if (! $container->has(RouterInterface::class)
+            && ! $container->has(\Zend\Expressive\Router\RouterInterface::class)
+        ) {
             throw Exception\MissingDependencyException::dependencyForService(
                 RouterInterface::class,
                 RouteCollector::class
             );
         }
 
-        return new RouteCollector($router);
+        return new RouteCollector($container->has(RouterInterface::class) ? $container->get(RouterInterface::class) : $container->get(\Zend\Expressive\Router\RouterInterface::class));
     }
 }

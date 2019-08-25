@@ -27,13 +27,9 @@ class ImplicitHeadMiddlewareFactory
      */
     public function __invoke(ContainerInterface $container) : ImplicitHeadMiddleware
     {
-        $router = $container->has(RouterInterface::class)
-            ? $container->get(RouterInterface::class)
-            : ($container->has(\Zend\Expressive\Router\RouterInterface::class)
-                ? $container->get(\Zend\Expressive\Router\RouterInterface::class)
-                : null);
-
-        if ($router === null) {
+        if (! $container->has(RouterInterface::class)
+            && ! $container->has(\Zend\Expressive\Router\RouterInterface::class)
+        ) {
             throw MissingDependencyException::dependencyForService(
                 RouterInterface::class,
                 ImplicitHeadMiddleware::class
@@ -48,7 +44,7 @@ class ImplicitHeadMiddlewareFactory
         }
 
         return new ImplicitHeadMiddleware(
-            $router,
+            $container->has(RouterInterface::class) ? $container->get(RouterInterface::class) : $container->get(\Zend\Expressive\Router\RouterInterface::class),
             $container->get(StreamInterface::class)
         );
     }

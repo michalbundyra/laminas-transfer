@@ -52,15 +52,21 @@ class MiddlewareAttributesFixture extends AbstractFixture
         $content = $repository->replace($content);
 
         if (preg_match_all(
-            '/(\s*->withAttribute\(\s*)([^:$\'")]+::class)(,\s*)([^)]+)(\s*\))/',
+            '/(?<before>\s*->withAttribute\(\s*)(?<name>[^:$\'")]+::class)\s*,/',
             $content,
             $matches
         )) {
-            foreach ($matches[2] as $i => $class) {
-                $legacyName = '\\' . NamespaceResolver::getLegacyName($class, $namespace, $uses);
-                $replace = $matches[0][$i] . $matches[1][$i]
-                    . $legacyName . $matches[3][$i] . $matches[4][$i] . $matches[5][$i];
-                $content = str_replace($matches[0][$i], $replace, $content);
+            $results = $this->updateToEndOfStatement($matches, $content, true);
+            foreach ($results as $row) {
+                $legacyName = NamespaceResolver::getLegacyName($row['name'], $namespace, $uses);
+                if ($legacyName === $repository->replace($legacyName)) {
+                    continue;
+                }
+
+                $search = implode('', $row);
+                $replace = $search . $row['before'] . '\\' . $legacyName . $row['after'];
+
+                $content = str_replace($search, $replace, $content);
             }
         }
 
@@ -77,7 +83,7 @@ class MiddlewareAttributesFixture extends AbstractFixture
         $content = $repository->replace($content);
 
         if (preg_match_all(
-            '/(?<before>\s*\$[a-z>\s-]*->withAttribute\(\s*)(?<name>[^$)\'"]+?)(?<after>\s*,[^;]*?;)/m',
+            '/(?<before>\s*\$[a-z>\s-]*->withAttribute\(\s*)(?<name>[^:$\'"]+::class)\s*,/m',
             $content,
             $matches
         )) {
@@ -90,7 +96,7 @@ class MiddlewareAttributesFixture extends AbstractFixture
 
                 $search = implode('', $row);
                 $replace = $search . PHP_EOL
-                    . ltrim($row['before'], "\n") . '\\' . $legacyName . $row['after'];
+                    . $row['before'] . '\\' . $legacyName . $row['after'];
 
                 $content = str_replace($search, $replace, $content);
             }
@@ -99,19 +105,21 @@ class MiddlewareAttributesFixture extends AbstractFixture
         file_put_contents($file, $content);
     }
 
-    private function updateToEndOfStatement(array $matches, string $content) : array
+    private function updateToEndOfStatement(array $matches, string $content, bool $breakOnEmpty = false) : array
     {
         $result = [];
 
         foreach ($matches['before'] as $i => $before) {
-            $before = ltrim($before, "\n");
+            if (! $breakOnEmpty) {
+                $before = ltrim($before, "\n");
+            }
 
             $delimiter = $before . $matches['name'][$i];
             $exp = explode($delimiter, $content);
             array_shift($exp);
 
             foreach ($exp as $part) {
-                $end = $this->getEndOfStatementPosition($part, ['(']);
+                $end = $this->getEndOfStatementPosition($part, ['('], $breakOnEmpty);
                 $after = substr($part, 0, $end + 1);
 
                 $hash = md5($delimiter . $after);
@@ -130,8 +138,9 @@ class MiddlewareAttributesFixture extends AbstractFixture
     /**
      * @throws Exception
      */
-    private function getEndOfStatementPosition(string $string, array $stack) : int
+    private function getEndOfStatementPosition(string $string, array $stack, bool $breakOnEmpty = false) : int
     {
+        $map = [')' => '(', ']' => '[', '}' => '{'];
         $max = strlen($string);
         for ($n = 0; $n < $max; ++$n) {
             $last = end($stack);
@@ -152,18 +161,12 @@ class MiddlewareAttributesFixture extends AbstractFixture
                     }
                     break;
                 case ')':
-                    if ($last === '(') {
-                        array_pop($stack);
-                    }
-                    break;
                 case '}':
-                    if ($last === '{') {
-                        array_pop($stack);
-                    }
-                    break;
                 case ']':
-                    if ($last === '[') {
+                    if ($last === $map[$string[$n]]) {
                         array_pop($stack);
+                    } elseif (! $stack) {
+                        return $n - 1;
                     }
                     break;
                 case ';':
@@ -171,6 +174,10 @@ class MiddlewareAttributesFixture extends AbstractFixture
                         return $n;
                     }
                     break;
+            }
+
+            if ($breakOnEmpty && ! $stack) {
+                return $n;
             }
         }
 

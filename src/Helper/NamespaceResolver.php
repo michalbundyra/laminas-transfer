@@ -34,6 +34,7 @@ class NamespaceResolver
 
     public static function getLegacyName(string $class, string $namespace, array $uses) : string
     {
+        $class = str_replace('Laminas', 'Zend', $class);
         $className = str_replace('::class', '', $class);
         if (strpos($className, '\\') !== false) {
             [$className, $rest] = explode('\\', $className, 2);

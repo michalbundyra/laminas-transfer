@@ -18,10 +18,14 @@ use function implode;
 use function in_array;
 use function ltrim;
 use function md5;
+use function preg_match;
 use function preg_match_all;
 use function str_replace;
 use function strlen;
+use function strpos;
+use function strstr;
 use function substr;
+use function trim;
 
 use const PHP_EOL;
 
@@ -97,6 +101,16 @@ class MiddlewareAttributesFixture extends AbstractFixture
                 $search = implode('', $row);
                 $replace = $search . PHP_EOL
                     . $row['before'] . '\\' . $legacyName . $row['after'];
+
+                if (preg_match('/(?<search>->willReturn\((?<name>.+?)\))\s*(->|;)/m', $search, $match)) {
+                    $mock = trim(strstr($search, '->withAttribute(', true));
+
+                    if (strpos($match['name'], $mock) === false) {
+                        $replace = str_replace($match['search'], '->will([' . $mock . ', \'reveal\'])', $search)
+                            . PHP_EOL
+                            . $row['before'] . '\\' . $legacyName . $row['after'];
+                    }
+                }
 
                 $content = str_replace($search, $replace, $content);
             }

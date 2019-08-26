@@ -41,7 +41,7 @@ class SourceFixture extends AbstractFixture
     public function process(Repository $repository) : void
     {
         $phps = array_unique(array_merge(
-            $repository->files('*.php'),
+            $repository->files('*.ph*'),
             $repository->files('bin/*')
         ));
         foreach ($phps as $k => $php) {
@@ -53,6 +53,7 @@ class SourceFixture extends AbstractFixture
                 'zf-apigility' => 'apigility',
                 'zf-' => 'laminas-',
                 'zfdeploy.php' => 'laminas-deploy',
+                'zendview' => 'laminasview',
             ]);
 
             if ($newName !== $php) {

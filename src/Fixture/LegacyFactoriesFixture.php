@@ -9,11 +9,9 @@ use Laminas\Transfer\Repository;
 
 use function file_get_contents;
 use function file_put_contents;
-use function ltrim;
 use function preg_match_all;
 use function str_repeat;
 use function str_replace;
-use function strlen;
 use function strtr;
 
 use const PHP_EOL;
@@ -47,7 +45,7 @@ class LegacyFactoriesFixture extends AbstractFixture
         $content = $repository->replace($content);
         // @phpcs:disable Generic.Files.LineLength.TooLong
         if (preg_match_all(
-            '/^(?<before>(?<indent>\s*)[^\n]*)\$container->has\((?<name>[^$)\'"]+)\)\s*\?\s*\$container->get\(.*?\)\s*:\s*(?<else>.*?(\(\))?)(?<after>\s*\)?;)/ms',
+            '/^(?<before>(?<indent> *)[^\n]*)\$container->has\((?<name>[^$)\'"]+)\)\s*\?\s*\$container->get\(.*?\)\s*:\s*(?<else>.*?(\(\))?)(?<after>\s*\)?;)/ms',
             $content,
             $matches
         )) {
@@ -59,20 +57,20 @@ class LegacyFactoriesFixture extends AbstractFixture
                     continue;
                 }
 
-                $indent = strlen(ltrim($matches['indent'][$i], "\n"));
+                $indent = $matches['indent'][$i];
 
                 $replace = $matches['before'][$i] . '$container->has(' . $class . ')' . PHP_EOL
-                    . str_repeat(' ', $indent + 4) . '? $container->get(' . $class . ')' . PHP_EOL
-                    . str_repeat(' ', $indent + 4) . ': ($container->has(\\' . $legacyName . ')' . PHP_EOL
-                    . str_repeat(' ', $indent + 8) . '? $container->get(\\' . $legacyName . ')' . PHP_EOL
-                    . str_repeat(' ', $indent + 8) . ': ' . $matches['else'][$i] . ')' . $matches['after'][$i];
+                    . $indent . str_repeat(' ', 4) . '? $container->get(' . $class . ')' . PHP_EOL
+                    . $indent . str_repeat(' ', 4) . ': ($container->has(\\' . $legacyName . ')' . PHP_EOL
+                    . $indent . str_repeat(' ', 8) . '? $container->get(\\' . $legacyName . ')' . PHP_EOL
+                    . $indent . str_repeat(' ', 8) . ': ' . $matches['else'][$i] . ')' . $matches['after'][$i];
 
                 $content = str_replace($matches[0][$i], $replace, $content);
             }
         }
 
         if (preg_match_all(
-            '/if\s*\(\$container->has\((?<name>[^$)\'"]+)\)\)\s*{\s*return\s*\$container->get\(/',
+            '/(?<indent> *)if\s*\(\$container->has\((?<name>[^$)\'"]+)\)\)\s*{\s*return\s*\$container->get\(/',
             $content,
             $matches
         )) {
@@ -83,10 +81,12 @@ class LegacyFactoriesFixture extends AbstractFixture
                     continue;
                 }
 
+                $indent = $matches['indent'][$i];
+
                 $replace = $matches[0][$i] . $class . ');' . PHP_EOL
-                    . str_repeat(' ', 8) . '}' . PHP_EOL . PHP_EOL
-                    . str_repeat(' ', 8) . 'if ($container->has(\\' . $legacyName . ')) {' . PHP_EOL
-                    . str_repeat(' ', 12) . 'return $container->get(\\'
+                    . $indent . '}' . PHP_EOL . PHP_EOL
+                    . $indent . 'if ($container->has(\\' . $legacyName . ')) {' . PHP_EOL
+                    . $indent . str_repeat(' ', 4) . 'return $container->get(\\'
                     . str_replace($class, '', $legacyName);
 
                 $content = str_replace($matches[0][$i], $replace, $content);
@@ -94,7 +94,7 @@ class LegacyFactoriesFixture extends AbstractFixture
         }
 
         if (preg_match_all(
-            '/if\s*\(!\s*\$container->has\((?<name>[^$)\'"]+)\)\)\s*{\s*throw/',
+            '/(?<indent> *)if\s*\(!\s*\$container->has\((?<name>[^$)\'"]+)\)\)\s*{\s*throw/',
             $content,
             $matches
         )) {
@@ -104,10 +104,13 @@ class LegacyFactoriesFixture extends AbstractFixture
                     continue;
                 }
 
-                $replace = 'if (! $container->has(' . $class . ')' . PHP_EOL
-                    . str_repeat(' ', 12) . '&& ! $container->has(\\' . $legacyName . ')' . PHP_EOL
-                    . str_repeat(' ', 8) . ') {' . PHP_EOL
-                    . str_repeat(' ', 12) . 'throw';
+                $indent = $matches['indent'][$i];
+
+                $replace = $indent
+                    . 'if (! $container->has(' . $class . ')' . PHP_EOL
+                    . $indent . str_repeat(' ', 4) . '&& ! $container->has(\\' . $legacyName . ')' . PHP_EOL
+                    . $indent . ') {' . PHP_EOL
+                    . $indent . str_repeat(' ', 4) . 'throw';
 
                 $content = strtr($content, [
                     $matches[0][$i] => $replace,

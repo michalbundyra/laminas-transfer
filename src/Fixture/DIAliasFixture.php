@@ -33,7 +33,7 @@ class DIAliasFixture extends AbstractFixture
     private const DI_KEYS = [
         'abstract_factories',
         'aliases',
-        'delegators',
+        // 'delegators', // we are not adding aliases for delegated services
         'factories',
         'initializers',
         'invokables',
@@ -88,7 +88,8 @@ class DIAliasFixture extends AbstractFixture
     {
         // @phpcs:disable Generic.Files.LineLength.TooLong
         $comment = '(?:^\s*(?:\/\/|\*|\/\*).*?$\n)*';
-        $section = '^(?<indent>\s*)\'(?<key>' . implode('|', self::DI_KEYS) . ')\'\s*=>\s*\[\s*(?<content>.*?)\s*\],?\n';
+        $values = '(?:[^\[\]=>,]*?(?:=>\s*(?:[^\[\]]+?|\[[^\[\]]*?\]))?,?)*?';
+        $section = '^(?<indent>\s*)(?:\'(?<key>' . implode('|', self::DI_KEYS) . ')\'\s*=>\s*\[\s*(?<content>.*?)\s*\]|\'delegators\'\s*=>\s*\[\s*' . $values . '\s*\]),?\n';
         $regexp = '/\[\s*(' . $comment . $section . ')+\s*\]/ms';
         // @phpcs:enable
 

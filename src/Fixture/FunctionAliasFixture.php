@@ -49,6 +49,11 @@ class FunctionAliasFixture extends AbstractFixture
 
     private function rewriteFunctions(Repository $repository, string $file) : ?string
     {
+        if (! file_exists($file)) {
+            $this->writeln(sprintf('Missing autoloader file %s', $file));
+            return null;
+        }
+
         $content = file_get_contents($file);
 
         // No namespace detected

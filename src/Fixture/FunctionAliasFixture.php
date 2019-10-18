@@ -8,6 +8,7 @@ use Laminas\Transfer\Helper\JsonWriter;
 use Laminas\Transfer\Repository;
 
 use function current;
+use function file_exists;
 use function file_get_contents;
 use function file_put_contents;
 use function implode;
@@ -32,7 +33,13 @@ class FunctionAliasFixture extends AbstractFixture
         $composerContent = json_decode(file_get_contents($composer), true);
 
         $files = [];
-        foreach ($composerContent['autoload']['files'] ?? [] as $file) {
+        foreach ($composerContent['autoload']['files'] ?? [] as $index => $file) {
+            if (! file_exists($file)) {
+                $this->writeln(sprintf('Missing autoloader file %s', $file));
+                unset($composerContent['autoload']['files'][$index]);
+                continue;
+            }
+
             $additionalFile = $this->rewriteFunctions($repository, $file);
 
             if ($additionalFile) {
@@ -49,11 +56,6 @@ class FunctionAliasFixture extends AbstractFixture
 
     private function rewriteFunctions(Repository $repository, string $file) : ?string
     {
-        if (! file_exists($file)) {
-            $this->writeln(sprintf('Missing autoloader file %s', $file));
-            return null;
-        }
-
         $content = file_get_contents($file);
 
         // No namespace detected

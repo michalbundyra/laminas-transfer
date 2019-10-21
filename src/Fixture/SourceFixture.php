@@ -54,6 +54,7 @@ class SourceFixture extends AbstractFixture
                 'zf-' => 'laminas-',
                 'zfdeploy.php' => 'laminas-deploy',
                 'zendview' => 'laminasview',
+                'zend-' => 'laminas-',
             ]);
 
             if ($newName !== $php) {

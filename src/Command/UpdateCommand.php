@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Laminas\Transfer\Command;
 
 use Laminas\Transfer\Fixture\AbstractFixture;
-use Laminas\Transfer\Fixture\DIAliasFixture;
-use Laminas\Transfer\Fixture\LegacyFactoriesFixture;
 use Laminas\Transfer\Fixture\LocalFixture;
-use Laminas\Transfer\Fixture\PluginManagerFixture;
 use Laminas\Transfer\Fixture\SourceFixture;
 use Laminas\Transfer\Fixture\ThirdPartyComposerFixture;
 use Laminas\Transfer\Repository;
@@ -34,9 +31,6 @@ class UpdateCommand extends Command
     /** @var string[] */
     private $fixtures = [
         ThirdPartyComposerFixture::class,
-        DIAliasFixture::class,
-        LegacyFactoriesFixture::class,
-        PluginManagerFixture::class,
         SourceFixture::class,
     ];
 

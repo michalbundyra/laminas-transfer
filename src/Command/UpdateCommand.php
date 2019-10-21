@@ -8,7 +8,6 @@ use Laminas\Transfer\Fixture\AbstractFixture;
 use Laminas\Transfer\Fixture\DIAliasFixture;
 use Laminas\Transfer\Fixture\LegacyFactoriesFixture;
 use Laminas\Transfer\Fixture\LocalFixture;
-use Laminas\Transfer\Fixture\MiddlewareAttributesFixture;
 use Laminas\Transfer\Fixture\PluginManagerFixture;
 use Laminas\Transfer\Fixture\SourceFixture;
 use Laminas\Transfer\Fixture\ThirdPartyComposerFixture;
@@ -38,7 +37,6 @@ class UpdateCommand extends Command
         DIAliasFixture::class,
         LegacyFactoriesFixture::class,
         PluginManagerFixture::class,
-        MiddlewareAttributesFixture::class,
         SourceFixture::class,
     ];
 

@@ -1,0 +1,74 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Expressive\Swoole;
+
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Swoole\Http\Server as SwooleHttpServer;
+use Expressive\ApplicationPipeline;
+use Expressive\Response\ServerRequestErrorResponseGenerator;
+use Expressive\Swoole\HotCodeReload\Reloader;
+
+class SwooleRequestHandlerRunnerFactory
+{
+    public function __invoke(ContainerInterface $container) : SwooleRequestHandlerRunner
+    {
+        $logger = $container->has(Log\AccessLogInterface::class)
+            ? $container->get(Log\AccessLogInterface::class)
+            : ($container->has(\Zend\Expressive\Swoole\Log\AccessLogInterface::class)
+                ? $container->get(\Zend\Expressive\Swoole\Log\AccessLogInterface::class)
+                : null);
+
+        $expressiveSwooleConfig = $container->has('config')
+            ? $container->get('config')['expressive-swoole']
+            : [];
+
+        $swooleHttpServerConfig = $expressiveSwooleConfig['swoole-http-server'] ?? [];
+
+        return new SwooleRequestHandlerRunner(
+            $container->get(ApplicationPipeline::class),
+            $container->get(ServerRequestInterface::class),
+            $container->get(ServerRequestErrorResponseGenerator::class),
+            $container->get(PidManager::class),
+            $container->get(SwooleHttpServer::class),
+            $this->retrieveStaticResourceHandler($container, $swooleHttpServerConfig),
+            $logger,
+            $swooleHttpServerConfig['process-name'] ?? SwooleRequestHandlerRunner::DEFAULT_PROCESS_NAME,
+            $this->retrieveHotCodeReloader($container, $expressiveSwooleConfig)
+        );
+    }
+
+    private function retrieveStaticResourceHandler(
+        ContainerInterface $container,
+        array $config
+    ) : ?StaticResourceHandlerInterface {
+        $config = $config['static-files'] ?? [];
+        $enabled = isset($config['enable']) && true === $config['enable'];
+
+        if ($enabled && $container->has(StaticResourceHandlerInterface::class)) {
+            return $container->get(StaticResourceHandlerInterface::class);
+        } elseif ($enabled && $container->has(\Zend\Expressive\Swoole\StaticResourceHandlerInterface::class)) {
+            return $container->get(\Zend\Expressive\Swoole\StaticResourceHandlerInterface::class);
+        } else {
+            return null;
+        }
+    }
+
+    private function retrieveHotCodeReloader(
+        ContainerInterface $container,
+        array $config
+    ) : ?Reloader {
+        $config = $config['hot-code-reload'] ?? [];
+        $enabled = isset($config['enable']) && true === $config['enable'];
+
+        if ($enabled && $container->has(Reloader::class)) {
+            return $container->get(Reloader::class);
+        } elseif ($enabled && $container->has(\Zend\Expressive\Swoole\HotCodeReload\Reloader::class)) {
+            return $container->get(\Zend\Expressive\Swoole\HotCodeReload\Reloader::class);
+        } else {
+            return null;
+        }
+    }
+}

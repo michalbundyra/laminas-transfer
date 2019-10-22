@@ -1,0 +1,29 @@
+name: Laminas Transfer
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: shivammathur/setup-php@master
+      with:
+        php-version: '7.2'
+        coverage: xdebug
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest --no-interaction
+
+    - name: Show installed dependencies
+      run: composer show
+
+    - name: Run PHPUnit with Coverage
+      run: composer test-coverage
+
+    - name: Run CS-Check
+      run: composer cs-check

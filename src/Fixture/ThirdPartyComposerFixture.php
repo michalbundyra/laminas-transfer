@@ -8,7 +8,6 @@ use Laminas\Transfer\Helper\JsonWriter;
 use Laminas\Transfer\Repository;
 
 use function current;
-use function explode;
 use function file_get_contents;
 use function json_decode;
 use function unlink;
@@ -35,8 +34,6 @@ class ThirdPartyComposerFixture extends AbstractFixture
         $content = file_get_contents($composer);
         $originName = json_decode($content, true)['name'] ?? null;
         $content = $repository->replace($content);
-
-        [$org, $name] = explode('/', $repository->getNewName(), 2);
 
         $json = json_decode($content, true);
 

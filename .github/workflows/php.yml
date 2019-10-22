@@ -20,7 +20,7 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-suggest --no-interaction
 
     - name: Install Coveralls dependency
-      run: composer require --dev --no-update --no-interaction php-coveralls/php-coveralls
+      run: composer require --dev --no-interaction php-coveralls/php-coveralls
 
     - name: Show installed dependencies
       run: composer show

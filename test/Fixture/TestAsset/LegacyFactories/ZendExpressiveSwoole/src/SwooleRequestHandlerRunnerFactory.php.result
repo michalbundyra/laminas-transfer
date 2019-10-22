@@ -17,7 +17,9 @@ class SwooleRequestHandlerRunnerFactory
     {
         $logger = $container->has(Log\AccessLogInterface::class)
             ? $container->get(Log\AccessLogInterface::class)
-            : null;
+            : ($container->has(\Zend\Expressive\Swoole\Log\AccessLogInterface::class)
+                ? $container->get(\Zend\Expressive\Swoole\Log\AccessLogInterface::class)
+                : null);
 
         $expressiveSwooleConfig = $container->has('config')
             ? $container->get('config')['expressive-swoole']
@@ -47,11 +49,11 @@ class SwooleRequestHandlerRunnerFactory
 
         if ($enabled && $container->has(StaticResourceHandlerInterface::class)) {
             return $container->get(StaticResourceHandlerInterface::class);
-        }
-        if ($enabled && $container->has(\Zend\Expressive\Swoole\StaticResourceHandlerInterface::class)) {
+        } elseif ($enabled && $container->has(\Zend\Expressive\Swoole\StaticResourceHandlerInterface::class)) {
             return $container->get(\Zend\Expressive\Swoole\StaticResourceHandlerInterface::class);
+        } else {
+            return null;
         }
-        return null;
     }
 
     private function retrieveHotCodeReloader(
@@ -63,10 +65,10 @@ class SwooleRequestHandlerRunnerFactory
 
         if ($enabled && $container->has(Reloader::class)) {
             return $container->get(Reloader::class);
-        }
-        if ($enabled && $container->has(\Zend\Expressive\Swoole\HotCodeReload\Reloader::class)) {
+        } elseif ($enabled && $container->has(\Zend\Expressive\Swoole\HotCodeReload\Reloader::class)) {
             return $container->get(\Zend\Expressive\Swoole\HotCodeReload\Reloader::class);
+        } else {
+            return null;
         }
-        return null;
     }
 }

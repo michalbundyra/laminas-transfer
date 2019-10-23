@@ -51,10 +51,13 @@ class SourceFixture extends AbstractFixture
                 'Zend' => 'Laminas',
                 'zend-expressive' => 'expressive',
                 'zf-apigility' => 'apigility',
-                'zf-' => 'laminas-',
+                'zf-composer-' => 'laminas-composer-',
+                'zf-development-' => 'laminas-development-',
+                'zf-' => 'apigility-',
                 'zfdeploy.php' => 'laminas-deploy',
                 'zendview' => 'laminasview',
                 'zend-' => 'laminas-',
+                'zfconfig' => 'apigility-config',
             ]);
 
             if ($newName !== $php) {

@@ -33,6 +33,12 @@ class Repository
 
     /** @var string[] */
     private $replacements = [
+        'zf-commons' => 'zf-commons',
+        'zfc-' => 'zfc-',
+        'zfc_' => 'zfc_',
+        'Zfc' => 'Zfc',
+        'zfr_' => 'zfr_',
+        'zfr/' => 'zfr/',
         'api-skeletons/zf-' => 'api-skeletons/zf-',
         'phpro/zf-' => 'phpro/zf-',
         'ZendXml;' => 'Laminas\\Xml;',

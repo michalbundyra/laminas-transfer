@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Laminas\Transfer;
 
+use function array_filter;
 use function array_values;
-use function preg_match;
+use function strpos;
 
 class ThirdPartyRepository extends Repository
 {
@@ -24,11 +25,9 @@ class ThirdPartyRepository extends Repository
     public function files(string $pattern = '*') : array
     {
         $fileList = parent::files($pattern);
-        foreach ($fileList as $index => $file) {
-            if (preg_match('#/vendor/#', $file)) {
-                unset($fileList[$index]);
-            }
-        }
-        return array_values($fileList);
+
+        return array_values(array_filter($fileList, static function (string $file) : bool {
+            return strpos($file, '/vendor/') === false;
+        }));
     }
 }

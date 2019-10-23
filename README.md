@@ -1,7 +1,7 @@
 # Laminas Transfer
 
 [![Build Status](https://travis-ci.com/webimpress/laminas-transfer.svg?token=Zs3oDsZuNYyxCSQLbbkU&branch=master)](https://travis-ci.com/webimpress/laminas-transfer)
-[![Coverage Status](https://coveralls.io/repos/github/webimpress/laminas-transfer/badge.svg?branch=master)](https://coveralls.io/github/webimpress/laminas-transfer?branch=master)
+[![codecov](https://codecov.io/gh/webimpress/laminas-transfer/branch/master/graph/badge.svg?token=xoPBalZAZ5)](https://codecov.io/gh/webimpress/laminas-transfer)
 
 Library to transfer ZF repositories to Laminas Project.
 

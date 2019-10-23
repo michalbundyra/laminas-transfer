@@ -16,14 +16,8 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate
 
-    - name: Set composer credentials
-      run: composer config github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
-
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest --no-interaction
-
-    - name: Install Coveralls dependency
-      run: composer require --dev --no-interaction php-coveralls/php-coveralls
 
     - name: Show installed dependencies
       run: composer show
@@ -34,5 +28,5 @@ jobs:
     - name: Run CS-Check
       run: composer cs-check
 
-    - name: Upload coverage to Coveralls
-      run: php vendor/bin/php-coveralls -v
+    - name: Upload coverage to Codecov
+      run: bash <(curl -s https://codecov.io/bash)

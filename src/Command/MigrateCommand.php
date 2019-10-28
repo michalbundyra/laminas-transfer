@@ -52,6 +52,12 @@ class MigrateCommand extends Command
                  'The repository name to migrate'
              )
              ->addOption(
+                 'no-install-dependency-plugin',
+                 'p',
+                 InputOption::VALUE_NONE,
+                 'Do not install laminas/laminas-dependency-plugin'
+             )
+             ->addOption(
                  'local',
                  'l',
                  InputOption::VALUE_NONE,
@@ -67,7 +73,8 @@ class MigrateCommand extends Command
 
         $repository = new ThirdPartyRepository(
             $input->getArgument('path'),
-            $input->getOption('name')
+            $input->getOption('name'),
+            ! (bool) $input->getOption('no-install-dependency-plugin')
         );
 
         foreach ($this->fixtures as $fixtureName) {

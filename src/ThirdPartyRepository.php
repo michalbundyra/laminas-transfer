@@ -10,13 +10,17 @@ use function strpos;
 
 class ThirdPartyRepository extends Repository
 {
+    /** @var bool */
+    private $installDependencyPlugin;
+
     /**
      * The name is not relevant to third-party code, and is nullable. However,
      * the path is required.
      */
-    public function __construct(string $path, ?string $name = null)
+    public function __construct(string $path, ?string $name, bool $installDependencyPlugin = true)
     {
         parent::__construct($name ?: '', $path);
+        $this->installDependencyPlugin = $installDependencyPlugin;
     }
 
     /**
@@ -29,5 +33,10 @@ class ThirdPartyRepository extends Repository
         return array_values(array_filter($fileList, static function (string $file) : bool {
             return strpos($file, '/vendor/') === false;
         }));
+    }
+
+    public function installDependencyPlugin() : bool
+    {
+        return $this->installDependencyPlugin;
     }
 }

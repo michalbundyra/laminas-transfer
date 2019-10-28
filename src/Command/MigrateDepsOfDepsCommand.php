@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Laminas\Transfer\Command;
 
 use Laminas\Transfer\ThirdPartyRepository;
+use stdClass;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -93,7 +94,7 @@ EOH;
                 continue;
             }
 
-            $packages[] = sprintf('"%s:~%s"', $repo->replace($package->name), ltrim($package->version, 'v'));
+            $packages[] = $this->preparePackageInfo($package);
         }
 
         if (empty($packages)) {
@@ -101,21 +102,104 @@ EOH;
             return 0;
         }
 
-        $output->writeln('<info>Preparing to require the following packages:</info>');
+        $createPackageSpec = function (array $package) use ($repo) : string {
+            return sprintf('"%s:~%s"', $repo->replace($package['name']), ltrim($package['version'], 'v'));
+        };
+
+        // Require root packages
+        $success = $this->requirePackages(
+            array_map(
+                $createPackageSpec,
+                array_filter($packages, function (array $package) {
+                    return ! $package['dev'];
+                })
+            ),
+            $forDev = false
+        );
+
+        // Require dev packages
+        $success = $this->requirePackages(
+            array_map(
+                $createPackageSpec,
+                array_filter($packages, function (array $package) {
+                    return $package['dev'];
+                })
+            ),
+            $forDev = true
+        ) && $success;
+
+        return $success ? 0 : 1;
+    }
+
+    /**
+     * @return array<string, string|bool>
+     */
+    private function preparePackageInfo(stdClass $package) : array
+    {
+        return [
+            'name'    => $package->name,
+            'version' => $package->version,
+            'dev'     => $this->isDevPackage($package->name),
+        ];
+    }
+
+    private function isDevPackage(string $packageName, OutputInterface $output) : bool
+    {
+        $command = sprintf('composer why -r %s', $packageName);
+        $results = [];
+        $status = 0;
+
+        exec($command, $results, $status);
+
+        if (0 !== $status) {
+            $output->writeln(sprintf(
+                '<error>Error executing "%s"</error>',
+                $command
+            ));
+            $output->writeln('<Info>Output:</error>');
+            $output->writeln(implode(PHP_EOL, $results));
+            return false;
+        }
+
+        $root = array_shift($results);
+        if (false !== strpos($root, '(for development)')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function requirePackages(array $packages, bool $forDev) : bool
+    {
+        if (empty($packages)) {
+            // Nothing to do!
+            return true;
+        }
+
+        $output->writeln(sprintf(
+            '<info>Preparing to require the following packages%s:</info>',
+            $forDev ? ' (for development)' : ''
+        ));
         $output->writeln(implode("\n", array_map(function ($package) {
             return sprintf('- %s', trim($package, '"'));
         }, $packages)));
 
-        $command = sprintf('%s require %s', $composer, implode(' ', $packages));
+        $command = sprintf(
+            '%s require %s%s',
+            $composer,
+            $forDev ? '--dev ' : '',
+            implode(' ', $packages)
+        );
         passthru($command, $status);
 
         if (0 !== $status) {
-            $output->writeln(
-                '<error>Error executing "composer require"; please check the above logs for details</error>'
-            );
-            return 1;
+            $output->writeln(sprintf(
+                '<error>Error executing "%s"; please check the above logs for details</error>',
+                $command
+            ));
+            return false;
         }
 
-        return 0;
+        return true;
     }
 }

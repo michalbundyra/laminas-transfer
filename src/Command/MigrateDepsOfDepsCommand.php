@@ -12,7 +12,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function array_filter;
 use function array_map;
+use function array_shift;
 use function chdir;
 use function exec;
 use function getcwd;
@@ -22,7 +24,10 @@ use function ltrim;
 use function passthru;
 use function preg_match;
 use function sprintf;
+use function strpos;
 use function trim;
+
+use const PHP_EOL;
 
 class MigrateDepsOfDepsCommand extends Command
 {

@@ -175,7 +175,7 @@ EOH;
         }
 
         $root = array_shift($results);
-        if (strpos($root, '(for development)') !== false) {
+        if ($root && strpos($root, '(for development)') !== false) {
             return true;
         }
 

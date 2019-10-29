@@ -141,7 +141,11 @@ EOH;
     }
 
     /**
-     * @return array<string, string|bool>
+     * @return array {
+     *     @var string $name
+     *     @var string $version
+     *     @var bool $dev
+     * }
      */
     private function preparePackageInfo(stdClass $package, string $composer, OutputInterface $output) : array
     {

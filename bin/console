@@ -11,8 +11,6 @@ $application->addCommands([
     new Laminas\Transfer\Command\TransferCommand(),
     new Laminas\Transfer\Command\RewriteCommand(),
     new Laminas\Transfer\Command\VendorCommand(),
-    new Laminas\Transfer\Command\MigrateCommand(),
-    new Laminas\Transfer\Command\MigrateDepsOfDepsCommand(),
 ]);
 
 exit($application->run());

@@ -31,11 +31,11 @@ use const PHP_EOL;
 
 class MigrateDepsOfDepsCommand extends Command
 {
-    public const DESCRIPTION = <<<'EOH'
+    private const DESCRIPTION = <<<'EOH'
 Update project to require Laminas-variants of nested Zend Framework package dependencies.
 EOH;
 
-    public const HELP = <<<'EOH'
+    private const HELP = <<<'EOH'
 Sometimes, third-party packages will depend on Zend Framework packages.
 In such cases, Composer will go ahead and install them if replacements
 are not already required by the project.

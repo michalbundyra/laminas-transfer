@@ -102,7 +102,7 @@ EOH;
             $packages[] = $this->preparePackageInfo($package, $composer, $output);
         }
 
-        if (empty($packages)) {
+        if (! $packages) {
             $output->writeln('<info>No Zend Framework packages detected; nothing to do!</info>');
             return 0;
         }
@@ -180,7 +180,7 @@ EOH;
 
     private function requirePackages(OutputInterface $output, string $composer, array $packages, bool $forDev) : bool
     {
-        if (empty($packages)) {
+        if (! $packages) {
             // Nothing to do!
             return true;
         }

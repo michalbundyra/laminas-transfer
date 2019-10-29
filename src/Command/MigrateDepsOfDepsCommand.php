@@ -99,7 +99,7 @@ EOH;
                 continue;
             }
 
-            $packages[] = $this->preparePackageInfo($package);
+            $packages[] = $this->preparePackageInfo($package, $composer, $output);
         }
 
         if (empty($packages)) {
@@ -113,6 +113,8 @@ EOH;
 
         // Require root packages
         $success = $this->requirePackages(
+            $output,
+            $composer,
             array_map(
                 $createPackageSpec,
                 array_filter($packages, static function (array $package) {
@@ -124,6 +126,8 @@ EOH;
 
         // Require dev packages
         $success = $this->requirePackages(
+            $output,
+            $composer,
             array_map(
                 $createPackageSpec,
                 array_filter($packages, static function (array $package) {
@@ -139,18 +143,18 @@ EOH;
     /**
      * @return array<string, string|bool>
      */
-    private function preparePackageInfo(stdClass $package) : array
+    private function preparePackageInfo(stdClass $package, string $composer, OutputInterface $output) : array
     {
         return [
-            'name'    => $package->name,
+            'name' => $package->name,
             'version' => $package->version,
-            'dev'     => $this->isDevPackage($package->name),
+            'dev' => $this->isDevPackage($package->name, $composer, $output),
         ];
     }
 
-    private function isDevPackage(string $packageName, OutputInterface $output) : bool
+    private function isDevPackage(string $packageName, string $composer, OutputInterface $output) : bool
     {
-        $command = sprintf('composer why -r %s', $packageName);
+        $command = sprintf('%s why -r %s', $composer, $packageName);
         $results = [];
         $status = 0;
 
@@ -174,7 +178,7 @@ EOH;
         return false;
     }
 
-    private function requirePackages(array $packages, bool $forDev) : bool
+    private function requirePackages(OutputInterface $output, string $composer, array $packages, bool $forDev) : bool
     {
         if (empty($packages)) {
             // Nothing to do!

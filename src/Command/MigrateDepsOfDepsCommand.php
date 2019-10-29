@@ -83,7 +83,7 @@ EOH;
 
         exec($command, $results, $status);
 
-        if (0 !== $status) {
+        if ($status !== 0) {
             $output->writeln(
                 '<error>Unable to execute "composer show"; are you sure the path is correct?</error>'
             );
@@ -160,7 +160,7 @@ EOH;
 
         exec($command, $results, $status);
 
-        if (0 !== $status) {
+        if ($status !== 0) {
             $output->writeln(sprintf(
                 '<error>Error executing "%s"</error>',
                 $command
@@ -171,7 +171,7 @@ EOH;
         }
 
         $root = array_shift($results);
-        if (false !== strpos($root, '(for development)')) {
+        if (strpos($root, '(for development)') !== false) {
             return true;
         }
 
@@ -201,7 +201,7 @@ EOH;
         );
         passthru($command, $status);
 
-        if (0 !== $status) {
+        if ($status !== 0) {
             $output->writeln(sprintf(
                 '<error>Error executing "%s"; please check the above logs for details</error>',
                 $command

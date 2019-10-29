@@ -107,7 +107,7 @@ EOH;
             return 0;
         }
 
-        $createPackageSpec = function (array $package) use ($repo) : string {
+        $createPackageSpec = static function (array $package) use ($repo) : string {
             return sprintf('"%s:~%s"', $repo->replace($package['name']), ltrim($package['version'], 'v'));
         };
 
@@ -115,7 +115,7 @@ EOH;
         $success = $this->requirePackages(
             array_map(
                 $createPackageSpec,
-                array_filter($packages, function (array $package) {
+                array_filter($packages, static function (array $package) {
                     return ! $package['dev'];
                 })
             ),
@@ -126,7 +126,7 @@ EOH;
         $success = $this->requirePackages(
             array_map(
                 $createPackageSpec,
-                array_filter($packages, function (array $package) {
+                array_filter($packages, static function (array $package) {
                     return $package['dev'];
                 })
             ),
@@ -185,7 +185,7 @@ EOH;
             '<info>Preparing to require the following packages%s:</info>',
             $forDev ? ' (for development)' : ''
         ));
-        $output->writeln(implode("\n", array_map(function ($package) {
+        $output->writeln(implode("\n", array_map(static function ($package) {
             return sprintf('- %s', trim($package, '"'));
         }, $packages)));
 

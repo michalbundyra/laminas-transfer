@@ -1,8 +1,0 @@
-docs_dir: docs/book
-site_dir: docs/html
-pages:
-  - Home: index.md
-  - Introduction: intro.md
-site_name: laminas-apple-apns
-site_description: 'PHP OOP wrapper for Apple Push Notification Service'
-repo_url: 'https://github.com/laminas/laminas-apple-apns'

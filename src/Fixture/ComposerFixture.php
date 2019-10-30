@@ -116,7 +116,7 @@ class ComposerFixture extends AbstractFixture
             $json['support']['docs'] = 'https://apigility.org/documentation';
         }
 
-        $json['require']['laminas/laminas-zendframework-bridge'] = '^0.3 || ^1.0';
+        $json['require']['laminas/laminas-zendframework-bridge'] = '^0.3.2 || ^1.0';
         $json['require-dev']['roave/security-advisories'] = 'dev-master';
         $json['replace'] = [$originName ?? $repository->getName() => 'self.version'];
         if (isset($json['keywords'])) {

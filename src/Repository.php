@@ -41,6 +41,7 @@ class Repository
         'zfr/' => 'zfr/',
         'api-skeletons/zf-' => 'api-skeletons/zf-',
         'phpro/zf-' => 'phpro/zf-',
+        'doctrine-zend' => 'doctrine-zend',
         'ZendXml;' => 'Laminas\\Xml;',
         'ZendXml\\\\' => 'Laminas\\\\Xml\\\\',
         'ZendXmlTest\\\\' => 'LaminasTest\\\\Xml\\\\',

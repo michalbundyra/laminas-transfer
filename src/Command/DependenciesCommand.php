@@ -53,12 +53,14 @@ class DependenciesCommand extends Command
         'ZendService_Akismet',
         'ZendService_Amazon',
         'ZendService_Api',
+        'ZendService_Apple_Apns',
         'ZendService_Audioscrobbler',
         'ZendService_Delicious',
         'ZendService_DeveloperGarden',
         'ZendService_Flickr',
         'ZendService_GoGrid',
         'ZendService_Google_C2dm',
+        'ZendService_Google_Gcm',
         'ZendService_LiveDocx',
         'ZendService_Nirvanix',
         'ZendService_OpenStack',
@@ -82,6 +84,11 @@ class DependenciesCommand extends Command
         'zf-apigility-example',
         'zf-angular',
         'zendcon-design-patterns',
+        // other
+        'zf3-web',
+        'zfbot',
+        'maintainers',
+        'statuslib-example',
     ];
 
     /** @var array[] */

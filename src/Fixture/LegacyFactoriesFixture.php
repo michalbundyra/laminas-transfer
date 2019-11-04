@@ -9,13 +9,10 @@ use Laminas\Transfer\Repository;
 
 use function file_get_contents;
 use function file_put_contents;
-use function preg_match;
 use function preg_match_all;
-use function sprintf;
 use function str_repeat;
 use function str_replace;
 use function strtr;
-use function trim;
 
 use const PHP_EOL;
 
@@ -48,7 +45,7 @@ class LegacyFactoriesFixture extends AbstractFixture
         $content = $repository->replace($content);
         // @phpcs:disable Generic.Files.LineLength.TooLong
         if (preg_match_all(
-            '/^(?<before>(?<indent> *)[^\n]*)\$container->has\((?<name>[^$)\'"]+)\)\s*\?\s*\$container->get\(.*?\)\s*:\s*(?<else>.*?(\(\))?)(?<after>\s*\)?;)/ms',
+            '/^(?<before>(?<indent> *)[^\n]*?(?:\s\=\s|return\s+)?(?<conditional>\$[a-z]+\s+\&\&\s+)?)\$container->has\((?<name>[^$)\'"]+)\)\s*\?\s*\$container->get\(.*?\)\s*:\s*(?<else>.*?(\(\))?)(?<after>\s*\)?;)/ms',
             $content,
             $matches
         )) {
@@ -60,33 +57,27 @@ class LegacyFactoriesFixture extends AbstractFixture
                     continue;
                 }
 
-                $replace = preg_match('/(\&\&|\|\|)/', $matches['before'][$i])
-                    ? $this->getReplacementForCompoundTernary(
-                               $class,
-                               $legacyName,
-                               $matches['indent'][$i],
-                               $matches['before'][$i],
-                               $matches['else'][$i],
-                               $matches['after'][$i]
-                    )
-                    : $this->getReplacementForTernary(
-                        $class,
-                        $legacyName,
-                        $matches['indent'][$i],
-                        $matches['before'][$i],
-                        $matches['else'][$i],
-                        $matches['after'][$i]
-                    );
+                $indent = $matches['indent'][$i];
+
+                // @phpcs:disable Generic.Files.LineLength.TooLong
+                $replace = $matches['before'][$i] . '$container->has(' . $class . ')' . PHP_EOL
+                    . $indent . str_repeat(' ', 4) . '? $container->get(' . $class . ')' . PHP_EOL
+                    . $indent . str_repeat(' ', 4) . ': (' . $matches['conditional'][$i] . '$container->has(\\' . $legacyName . ')' . PHP_EOL
+                    . $indent . str_repeat(' ', 8) . '? $container->get(\\' . $legacyName . ')' . PHP_EOL
+                    . $indent . str_repeat(' ', 8) . ': ' . $matches['else'][$i] . ')' . $matches['after'][$i];
+                // @phpcs:enable
 
                 $content = str_replace($matches[0][$i], $replace, $content);
             }
         }
 
+        // @phpcs:disable Generic.Files.LineLength.TooLong
         if (preg_match_all(
-            '/(?<indent> *)if\s*\(\$container->has\((?<name>[^$)\'"]+)\)\)\s*{\s*return\s*\$container->get\(/',
+            '/(?<indent> *)if\s*\((?<conditional>.*?&&\s+)?\$container->has\((?<name>[^$)\'"]+)\)\)\s*{\s*return\s*\$container->get\(/',
             $content,
             $matches
         )) {
+            // @phpcs:enable
             foreach ($matches['name'] as $i => $class) {
                 $legacyName = NamespaceResolver::getLegacyName($class, $namespace, $uses);
 
@@ -96,11 +87,13 @@ class LegacyFactoriesFixture extends AbstractFixture
 
                 $indent = $matches['indent'][$i];
 
+                // @phpcs:disable Generic.Files.LineLength.TooLong
                 $replace = $matches[0][$i] . $class . ');' . PHP_EOL
                     . $indent . '}' . PHP_EOL . PHP_EOL
-                    . $indent . 'if ($container->has(\\' . $legacyName . ')) {' . PHP_EOL
+                    . $indent . 'if (' . $matches['conditional'][$i] . '$container->has(\\' . $legacyName . ')) {' . PHP_EOL
                     . $indent . str_repeat(' ', 4) . 'return $container->get(\\'
                     . str_replace($class, '', $legacyName);
+                // @phpcs:enable
 
                 $content = str_replace($matches[0][$i], $replace, $content);
             }
@@ -173,79 +166,5 @@ class LegacyFactoriesFixture extends AbstractFixture
         }
 
         file_put_contents($file, $content);
-    }
-
-    private function getReplacementForTernary(
-        string $class,
-        string $legacyName,
-        string $indent,
-        string $before,
-        string $else,
-        string $after
-    ) : string {
-        return $before . '$container->has(' . $class . ')' . PHP_EOL
-            . $indent . str_repeat(' ', 4) . '? $container->get(' . $class . ')' . PHP_EOL
-            . $indent . str_repeat(' ', 4) . ': ($container->has(\\' . $legacyName . ')' . PHP_EOL
-            . $indent . str_repeat(' ', 8) . '? $container->get(\\' . $legacyName . ')' . PHP_EOL
-            . $indent . str_repeat(' ', 8) . ': ' . $else . ')' . $after;
-    }
-
-    private function getReplacementForCompoundTernary(
-        string $class,
-        string $legacyName,
-        string $indent,
-        string $before,
-        string $else,
-        string $after
-    ) : string {
-        $before = str_replace($indent, '', $before);
-        [$predicate, $condition] = $this->parseConditionalForPredicate($before);
-        return sprintf(
-            '%sif (%s$container->has(%s)) {' . PHP_EOL
-            . '%s%s%s$container->get(%s);' . PHP_EOL
-            . '%s} elseif (%s$container->has(\\%s)) {' . PHP_EOL
-            . '%s%s%s$container->get(\\%s);' . PHP_EOL
-            . '%s} else {' . PHP_EOL
-            . '%s%s%s%s;' . PHP_EOL
-            . '%s}%s',
-            // Lines 1-2: if (condition + get new class) { predicate get(new class);}
-            $indent,
-            $condition,
-            $class,
-            $indent,
-            str_repeat(' ', 4),
-            $predicate,
-            $class,
-            // Lines 3-4: elseif (condition + get legacy class) { predicate get(legacy class);}
-            $indent,
-            $condition,
-            $legacyName,
-            $indent,
-            str_repeat(' ', 4),
-            $predicate,
-            $legacyName,
-            // Lines 5-6: else { predicate else;}
-            $indent,
-            $indent,
-            str_repeat(' ', 4),
-            $predicate,
-            $else,
-            // Line 7: end
-            $indent,
-            trim($after, ';')
-        );
-    }
-
-    private function parseConditionalForPredicate(string $conditional) : array
-    {
-        if (preg_match('/^(?<predicate>[^=]+\s+\=\s+)(?<conditional>.*)$/', $conditional, $matches)) {
-            return [$matches['predicate'], $matches['conditional']];
-        }
-
-        if (preg_match('/^return\s+(?<conditional>.*)$/', $conditional, $matches)) {
-            return ['return ', $matches['conditional']];
-        }
-
-        return ['', $conditional];
     }
 }

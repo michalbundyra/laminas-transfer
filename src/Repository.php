@@ -33,6 +33,7 @@ class Repository
 
     /** @var string[] */
     private $replacements = [
+        // Do not rewrite
         'zf-commons' => 'zf-commons',
         'zfc-' => 'zfc-',
         'zfc_' => 'zfc_',
@@ -42,6 +43,15 @@ class Repository
         'api-skeletons/zf-' => 'api-skeletons/zf-',
         'phpro/zf-' => 'phpro/zf-',
         'doctrine-zend' => 'doctrine-zend',
+        // Repositories we are not moving:
+        'zfcampus/zf-console' => 'zfcampus/zf-console',
+        'zf-console' => 'zf-console',
+        'ZFTest\\\\Console' => 'ZFTest\\\\Console',
+        'ZFTest\\Console' => 'ZFTest\\Console',
+        'ZendPdf' => 'ZendPdf',
+        'Zend Pdf' => 'Zend Pdf',
+        'zendframework/zendpdf' => 'zendframework/zendpdf',
+        // Rewrite rules:
         'ZendXml;' => 'Laminas\\Xml;',
         'ZendXml\\\\' => 'Laminas\\\\Xml\\\\',
         'ZendXmlTest\\\\' => 'LaminasTest\\\\Xml\\\\',
@@ -57,8 +67,8 @@ class Repository
         'ZendDiagnostics\\\\' => 'Laminas\\\\Diagnostics\\\\',
         'ZendDiagnosticsTest\\\\' => 'LaminasTest\\\\Diagnostics\\\\',
         'ZendDiagnosticsTest' => 'LaminasTest\\Diagnostics',
-        'ZendDiagnostics' => 'zend-diagnostics',
-        'zenddiagnostics' => 'zend-diagnostics',
+        'ZendDiagnostics' => 'laminas-diagnostics',
+        'zenddiagnostics' => 'laminas-diagnostics',
         'ZendService_ReCaptcha' => 'laminas-recaptcha',
         'ZendService_Twitter' => 'laminas-twitter',
         'ZendService\\\\ReCaptcha' => 'Laminas\\\\ReCaptcha',
@@ -81,9 +91,6 @@ class Repository
         'zf-deploy' => 'laminas-deploy',
         'zfdeploy.php' => 'laminas-deploy',
         'zfdeploy.phar' => 'laminas-deploy.phar',
-        // @todo: need to determine the final name for zf-console
-        // 'zfcampus/zf-console' => 'laminas/laminas-console-application',
-        // 'zf-console' => 'laminas-console-application',
         'zfcampus/zf-composer-autoloading' => 'laminas/laminas-composer-autoloading',
         'zf-composer-autoloading' => 'laminas-composer-autoloading',
         'zf-component-installer' => 'laminas-component-installer',
@@ -113,8 +120,6 @@ class Repository
         'zend-problem-details' => 'expressive-problem-details',
         'zendframework/zend-expressive' => 'expressive/expressive',
         'zend-expressive' => 'expressive',
-        // 'ZFTest\\\\Console' => 'LaminasTest\\\\ConsoleApplication',
-        // 'ZFTest\\Console' => 'LaminasTest\\ConsoleApplication',
         'ZFTest\\\\ComposerAutoloading' => 'LaminasTest\\\\ComposerAutoloading',
         'ZFTest\\ComposerAutoloading' => 'LaminasTest\\ComposerAutoloading',
         'ZFTest\\\\Deploy' => 'LaminasTest\\\\Deploy',

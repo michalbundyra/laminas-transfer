@@ -162,6 +162,7 @@ class Repository
         'zend.com' => 'getlaminas.org',
         'zendframework.com' => 'laminas.dev',
         'zendframework' => 'laminas',
+        'zend-framework.flf' => 'laminas-project.flf',
         'Zend Framework 3' => 'Laminas',
         'Zend Framework 2' => 'Laminas',
         'Zend Framework' => 'Laminas',

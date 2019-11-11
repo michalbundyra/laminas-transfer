@@ -176,6 +176,7 @@ class Repository
         'ZF' => 'Laminas',
         'Zf' => 'Laminas',
         'zf' => 'laminas',
+        'zenddevelopertools' => 'laminas-developer-tools',
         // fix typo
         'apigiltiy' => 'apigility',
     ];

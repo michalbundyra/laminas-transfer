@@ -22,6 +22,7 @@ use function system;
  * Renames view/zend-developer-tools to view/laminas-developer-tools
  * Rewrites JS, CSS, PH* files with additional rules
  * Renames zenddevelopertools file to laminas-developer-tools
+ * Renames zendframework file to laminas
  * Removes invalid configuration option from phpunit.xml.dist
  */
 class ZendDeveloperTools extends AbstractFixture
@@ -37,7 +38,10 @@ class ZendDeveloperTools extends AbstractFixture
             rename($legacyPath, $newPath);
         }
 
-        $files = $repository->files('*zenddevelopertools*');
+        $files = array_merge(
+            $repository->files('*zenddevelopertools*'),
+            $repository->files('*zendframework*')
+        );
         foreach ($files as $file) {
             $basename = basename($file);
             $newFile = dirname($file) . '/' . $repository->replace($basename);

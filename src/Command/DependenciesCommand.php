@@ -84,6 +84,7 @@ class DependenciesCommand extends Command
         'zf-apigility-example',
         'zf-angular',
         'zendcon-design-patterns',
+        'zf-console',
         // other
         'zf3-web',
         'zfbot',

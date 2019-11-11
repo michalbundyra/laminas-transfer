@@ -42,8 +42,7 @@ class SourceFixture extends AbstractFixture
     {
         $phps = array_unique(array_merge(
             $repository->files('*.ph*'),
-            $repository->files('bin/*'),
-            $repository->files('*.flf')
+            $repository->files('bin/*')
         ));
         foreach ($phps as $k => $php) {
             $this->replace($repository, $php);
@@ -57,7 +56,6 @@ class SourceFixture extends AbstractFixture
                 'zf-' => 'apigility-',
                 'zfdeploy.php' => 'laminas-deploy',
                 'zendview' => 'laminasview',
-                'zend-framework.flf' => 'laminas-project.flf',
                 'zend-' => 'laminas-',
                 'zfconfig' => 'apigility-config',
             ]);

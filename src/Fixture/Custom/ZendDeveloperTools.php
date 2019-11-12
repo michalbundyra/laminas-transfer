@@ -68,7 +68,9 @@ class ZendDeveloperTools extends AbstractFixture
 
         foreach ($files as $file) {
             $content = file_get_contents($file);
-            $content = $repository->replace($content);
+            if (! $repository->hasReplacedContent($file)) {
+                $content = $repository->replace($content);
+            }
             $content = strtr($content, [
                 'zdf-' => 'laminas-',
                 'zdt-' => 'laminas-',

@@ -10,10 +10,8 @@ use Laminas\Transfer\Repository;
 use function file_get_contents;
 use function file_put_contents;
 use function preg_replace;
-use function rename;
 use function str_repeat;
 use function str_replace;
-use function system;
 
 use const PHP_EOL;
 
@@ -46,11 +44,7 @@ class ZendText extends AbstractFixture
             file_put_contents($file, $content);
 
             $newName = str_replace('zend-framework', 'laminas-project', $file);
-            if ($repository->isUnderGit()) {
-                system('git mv ' . $file . ' ' . $newName);
-            } else {
-                rename($file, $newName);
-            }
+            $repository->move($file, $newName);
         }
 
         $repository->addReplacedContentFiles($files);

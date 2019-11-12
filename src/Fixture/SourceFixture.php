@@ -17,7 +17,6 @@ use function implode;
 use function is_dir;
 use function mkdir;
 use function preg_match_all;
-use function rename;
 use function str_ireplace;
 use function strpos;
 use function strtr;
@@ -65,11 +64,7 @@ class SourceFixture extends AbstractFixture
                 if (! is_dir($dirname)) {
                     mkdir($dirname, 0777, true);
                 }
-                if ($repository->isUnderGit()) {
-                    system('git mv ' . $php . ' ' . $newName);
-                } else {
-                    rename($php, $newName);
-                }
+                $repository->move($php, $newName);
                 $phps[$k] = $newName;
             }
         }

@@ -14,9 +14,7 @@ use function dirname;
 use function file_get_contents;
 use function file_put_contents;
 use function preg_replace;
-use function rename;
 use function strtr;
-use function system;
 
 /**
  * Renames view/zend-developer-tools to view/laminas-developer-tools
@@ -31,12 +29,7 @@ class ZendDeveloperTools extends AbstractFixture
     {
         $legacyPath = $repository->getPath() . '/view/zend-developer-tools';
         $newPath = $repository->getPath() . '/view/' . $repository->replace('zend-developer-tools');
-
-        if ($repository->isUnderGit()) {
-            system('git mv ' . $legacyPath . ' ' . $newPath);
-        } else {
-            rename($legacyPath, $newPath);
-        }
+        $repository->move($legacyPath, $newPath);
 
         $files = array_merge(
             $repository->files('*zenddevelopertools*'),
@@ -45,12 +38,7 @@ class ZendDeveloperTools extends AbstractFixture
         foreach ($files as $file) {
             $basename = basename($file);
             $newFile = dirname($file) . '/' . $repository->replace($basename);
-
-            if ($repository->isUnderGit()) {
-                system('git mv ' . $file . ' ' . $newFile);
-            } else {
-                rename($file, $newFile);
-            }
+            $repository->move($file, $newFile);
         }
 
         $phpunitConfig = current($repository->files('phpunit.xml.dist'));

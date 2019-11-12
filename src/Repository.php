@@ -17,8 +17,10 @@ use function getcwd;
 use function in_array;
 use function is_dir;
 use function preg_quote;
+use function rename;
 use function str_replace;
 use function strtr;
+use function system;
 
 use const DIRECTORY_SEPARATOR;
 
@@ -276,8 +278,17 @@ class Repository
         ]);
     }
 
-    public function isUnderGit() : bool
+    private function isUnderGit() : bool
     {
         return $this->underGit;
+    }
+
+    public function move(string $source, string $target) : void
+    {
+        if ($this->isUnderGit()) {
+            system('git mv ' . $source . ' ' . $target);
+        } else {
+            rename($source, $target);
+        }
     }
 }

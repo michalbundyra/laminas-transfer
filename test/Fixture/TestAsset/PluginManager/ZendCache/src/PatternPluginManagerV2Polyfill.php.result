@@ -44,7 +44,7 @@ class PatternPluginManagerV2Polyfill extends AbstractPluginManager
         'laminascachepatternobjectcache'   => InvokableFactory::class,
         'laminascachepatternoutputcache'   => InvokableFactory::class,
 
-        // Legacy ZendFramework aliases
+        // Legacy Zend Framework aliases
         \Zend\Cache\Pattern\CallbackCache::class => InvokableFactory::class,
         \Zend\Cache\Pattern\CaptureCache::class => InvokableFactory::class,
         \Zend\Cache\Pattern\ClassCache::class => InvokableFactory::class,

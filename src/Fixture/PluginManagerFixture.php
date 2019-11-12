@@ -61,7 +61,7 @@ class PluginManagerFixture extends AbstractFixture
                     $newData .= ',';
                 }
 
-                $newData .= PHP_EOL . PHP_EOL . str_repeat(' ', $spaces) . '// Legacy ZendFramework aliases';
+                $newData .= PHP_EOL . PHP_EOL . str_repeat(' ', $spaces) . '// Legacy Zend Framework aliases';
                 foreach ($aliases as $alias => $value) {
                     if (strpos($alias, '\'') === 0
                         || strpos($alias, '"') === 0

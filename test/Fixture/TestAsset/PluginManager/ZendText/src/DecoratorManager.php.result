@@ -38,7 +38,7 @@ class DecoratorManager extends AbstractPluginManager
         'laminastexttabledecoratorblank'   => InvokableFactory::class,
         'laminastexttabledecoratorunicode' => InvokableFactory::class,
 
-        // Legacy ZendFramework aliases
+        // Legacy Zend Framework aliases
         \Zend\Text\Table\Decorator\Ascii::class => InvokableFactory::class,
         \Zend\Text\Table\Decorator\Unicode::class => InvokableFactory::class,
         \Zend\Text\Table\Decorator\Blank::class => InvokableFactory::class,

@@ -48,7 +48,7 @@ class ScrollingStylePluginManager extends AbstractPluginManager
         'laminaspaginatorscrollingstylejumping' => InvokableFactory::class,
         'laminaspaginatorscrollingstylesliding' => InvokableFactory::class,
 
-        // Legacy ZendFramework aliases
+        // Legacy Zend Framework aliases
         \Zend\Paginator\ScrollingStyle\All::class => InvokableFactory::class,
         \Zend\Paginator\ScrollingStyle\Elastic::class => InvokableFactory::class,
         \Zend\Paginator\ScrollingStyle\Jumping::class => InvokableFactory::class,

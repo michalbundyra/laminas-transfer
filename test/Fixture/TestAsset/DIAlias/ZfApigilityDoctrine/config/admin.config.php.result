@@ -51,7 +51,7 @@ return [
     ],
 
     'service_manager' => [
-        // Legacy ZendFramework aliases
+        // Legacy Zend Framework aliases
         'aliases' => [
             \ZF\Apigility\Doctrine\Admin\Model\DoctrineAutodiscoveryModel::class => Model\DoctrineAutodiscoveryModel::class,
             \ZF\Apigility\Doctrine\Admin\Model\DoctrineMetadataServiceResource::class => Model\DoctrineMetadataServiceResource::class,
@@ -71,7 +71,7 @@ return [
     ],
 
     'controllers' => [
-        // Legacy ZendFramework aliases
+        // Legacy Zend Framework aliases
         'aliases' => [
             \ZF\Apigility\Doctrine\Admin\Controller\DoctrineAutodiscovery::class => Controller\DoctrineAutodiscovery::class,
         ],

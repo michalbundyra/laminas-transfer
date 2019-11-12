@@ -70,7 +70,7 @@ class LoaderPluginManager extends AbstractPluginManager
         'laminasi18ntranslatorloaderini'      => InvokableFactory::class,
         'laminasi18ntranslatorloaderphparray' => InvokableFactory::class,
 
-        // Legacy ZendFramework aliases
+        // Legacy Zend Framework aliases
         \Zend\I18n\Translator\Loader\Gettext::class => InvokableFactory::class,
         \Zend\I18n\Translator\Loader\Ini::class => InvokableFactory::class,
         \Zend\I18n\Translator\Loader\PhpArray::class => InvokableFactory::class,

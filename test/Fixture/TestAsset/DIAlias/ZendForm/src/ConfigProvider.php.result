@@ -35,7 +35,7 @@ class ConfigProvider
                 Annotation\AnnotationBuilder::class => 'FormAnnotationBuilder',
                 FormElementManager::class => 'FormElementManager',
 
-                // Legacy ZendFramework aliases
+                // Legacy Zend Framework aliases
                 'Zend\Form\Annotation\FormAnnotationBuilder' => 'Laminas\Form\Annotation\FormAnnotationBuilder',
                 \Zend\Form\Annotation\AnnotationBuilder::class => Annotation\AnnotationBuilder::class,
                 \Zend\Form\FormElementManager::class => FormElementManager::class,
@@ -258,7 +258,7 @@ class ConfigProvider
                 'formWeek'                   => View\Helper\FormWeek::class,
                 'FormWeek'                   => View\Helper\FormWeek::class,
 
-                // Legacy ZendFramework aliases
+                // Legacy Zend Framework aliases
                 \Zend\Form\View\Helper\Form::class => View\Helper\Form::class,
                 \Zend\Form\View\Helper\FormButton::class => View\Helper\FormButton::class,
                 \Zend\Form\View\Helper\FormCaptcha::class => View\Helper\FormCaptcha::class,

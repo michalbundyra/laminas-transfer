@@ -75,6 +75,8 @@ EOS;
             1
         );
 
+        $content = str_replace("<?php\n/**", "<?php\n\n/**", $content);
+
         file_put_contents($file, $content);
     }
 }

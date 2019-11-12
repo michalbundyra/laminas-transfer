@@ -127,7 +127,7 @@ class DIAliasFixture extends AbstractFixture
                 $newData .= ',';
             }
 
-            $newData .= PHP_EOL . PHP_EOL . str_repeat(' ', $spaces) . '// Legacy ZendFramework aliases';
+            $newData .= PHP_EOL . PHP_EOL . str_repeat(' ', $spaces) . '// Legacy Zend Framework aliases';
             $newData .= $this->prepareData(
                 $repository,
                 $aliases,
@@ -141,7 +141,7 @@ class DIAliasFixture extends AbstractFixture
             $spaces = current($data)['spaces'] ?? 0;
 
             $search = $repository->replace($matches[0][0]);
-            $newData = str_repeat(' ', $spaces) . '// Legacy ZendFramework aliases' . PHP_EOL
+            $newData = str_repeat(' ', $spaces) . '// Legacy Zend Framework aliases' . PHP_EOL
                 . str_repeat(' ', $spaces) . '\'aliases\' => [';
             $newData .= $this->prepareData(
                 $repository,

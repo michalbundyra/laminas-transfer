@@ -6,7 +6,7 @@ use Laminas\ServiceManager\Factory\InvokableFactory;
 
 return [
     'service_manager' => [
-        // Legacy ZendFramework aliases
+        // Legacy Zend Framework aliases
         'aliases' => [
             'ZfApigilityDoctrineQueryProviderManager' => 'ApigilityDoctrineQueryProviderManager',
             'ZfApigilityDoctrineQueryCreateFilterManager' => 'ApigilityDoctrineQueryCreateFilterManager',
@@ -27,7 +27,7 @@ return [
             'default_odm' => Query\Provider\DefaultOdm::class,
             'default_orm' => Query\Provider\DefaultOrm::class,
 
-            // Legacy ZendFramework aliases
+            // Legacy Zend Framework aliases
             \ZF\Apigility\Doctrine\Server\Query\Provider\DefaultOdm::class => Query\Provider\DefaultOdm::class,
             \ZF\Apigility\Doctrine\Server\Query\Provider\DefaultOrm::class => Query\Provider\DefaultOrm::class,
         ],
@@ -41,7 +41,7 @@ return [
         'aliases' => [
             'default' => Query\CreateFilter\DefaultCreateFilter::class,
 
-            // Legacy ZendFramework aliases
+            // Legacy Zend Framework aliases
             \ZF\Apigility\Doctrine\Server\Query\CreateFilter\DefaultCreateFilter::class => Query\CreateFilter\DefaultCreateFilter::class,
         ],
         'factories' => [
@@ -56,7 +56,7 @@ return [
     ],
 
     'validators' => [
-        // Legacy ZendFramework aliases
+        // Legacy Zend Framework aliases
         'aliases' => [
             \ZF\Apigility\Doctrine\Server\Validator\NoObjectExists::class => Validator\NoObjectExists::class,
             \ZF\Apigility\Doctrine\Server\Validator\ObjectExists::class => Validator\ObjectExists::class,

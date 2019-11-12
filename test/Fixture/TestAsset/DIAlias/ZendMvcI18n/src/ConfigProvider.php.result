@@ -29,7 +29,7 @@ class ConfigProvider
             'aliases' => [
                 'MvcTranslator' => Translator::class,
 
-                // Legacy ZendFramework aliases
+                // Legacy Zend Framework aliases
                 \Zend\Mvc\I18n\Translator::class => Translator::class,
             ],
             'delegators' => [

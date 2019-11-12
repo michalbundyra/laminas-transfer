@@ -176,6 +176,8 @@ class Repository
         'ZF' => 'Laminas',
         'Zf' => 'Laminas',
         'zf' => 'laminas',
+        'zenddevelopertools' => 'laminas-developer-tools',
+        'EV6ZfFY' => 'EV6ZfFY', // used in ZendDeveloperTools as base64 for image
         // fix typo
         'apigiltiy' => 'apigility',
     ];

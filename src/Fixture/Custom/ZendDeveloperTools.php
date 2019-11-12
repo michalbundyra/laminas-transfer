@@ -71,11 +71,14 @@ class ZendDeveloperTools extends AbstractFixture
             if (! $repository->hasReplacedContent($file)) {
                 $content = $repository->replace($content);
             }
+            // @phpcs:disable Generic.Files.LineLength.TooLong
             $content = strtr($content, [
                 'zdf-' => 'laminas-',
                 'zdt-' => 'laminas-',
                 'ZDT_Laminas_' => 'Laminas_Developer_Tool_',
+                'http://modules.laminas.dev/' => 'https://packagist.org/?tags=module~zf2~zendframework~zend%20framework~zend%20framework%202~zf3~zf~zend~laminas',
             ]);
+            // @phpcs:enable
 
             file_put_contents($file, $content);
         }

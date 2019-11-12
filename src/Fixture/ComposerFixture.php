@@ -23,6 +23,7 @@ use function explode;
 use function file_get_contents;
 use function json_decode;
 use function json_encode;
+use function strtolower;
 use function uksort;
 use function unlink;
 
@@ -36,6 +37,7 @@ use function unlink;
  * Prepends "laminas" and "expressive"/"apigility" keywords.
  * Sorts sections as defined in constant.
  * Removes redundant sections.
+ * Lowercase package names in "require", "require-dev", "suggest", "conflict" sections.
  */
 class ComposerFixture extends AbstractFixture
 {
@@ -114,6 +116,16 @@ class ComposerFixture extends AbstractFixture
 
         if ($org === 'apigility') {
             $json['support']['docs'] = 'https://apigility.org/documentation';
+        }
+
+        // Lowercase repository names
+        foreach (['require', 'require-dev', 'suggest', 'conflict'] as $section) {
+            foreach ($json[$section] ?? [] as $package => $version) {
+                if (strtolower($package) !== $package) {
+                    $json[$section][strtolower($package)] = $version;
+                    unset($json[$section][$package]);
+                }
+            }
         }
 
         $json['require']['laminas/laminas-zendframework-bridge'] = '^0.3.2 || ^1.0';

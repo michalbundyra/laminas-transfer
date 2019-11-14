@@ -17,6 +17,7 @@ use function implode;
 use function in_array;
 use function is_dir;
 use function preg_replace;
+use function str_replace;
 use function strstr;
 use function trim;
 use function usort;
@@ -55,7 +56,15 @@ class QAConfigFixture extends AbstractFixture
         $filename = basename($file);
 
         if ($filename === '.travis.yml') {
+            // Remove IRC in notifications
             $content = preg_replace('/\n^\s*irc:.*$/m', '', $content);
+
+            // Remove sudo: ...
+            $content = preg_replace('/^\s*sudo:.*$\n*/m', '', $content);
+
+            // Add fast_finish: true
+            $content = preg_replace('/\n^\s*fast_finish:.*$/m', '', $content);
+            $content = str_replace('matrix:' . "\n", 'matrix:' . "\n" . '  fast_finish: true' . "\n", $content);
         }
 
         if (in_array($filename, ['.gitattributes', '.gitignore'], true)) {

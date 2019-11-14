@@ -178,8 +178,16 @@ class Repository
         'ZF' => 'Laminas',
         'Zf' => 'Laminas',
         'zf' => 'laminas',
+        // DeveloperTools
+        'ZendDeveloperTools tests suite' => 'Laminas\\DeveloperTools tests suite',
+        '"ZendDeveloperTools"' => '"Laminas\\\\DeveloperTools"',
+        '`ZendDeveloperTools`' => '`Laminas\\\\DeveloperTools`',
+        'ZendDeveloperTools;' => 'Laminas\\DeveloperTools;',
+        'ZendDeveloperTools\\\\' => 'Laminas\\\\DeveloperTools\\\\',
+        'ZendDeveloperToolsTest\\\\' => 'LaminasTest\\\\DeveloperTools\\\\',
+        'ZendDeveloperToolsTest' => 'LaminasTest\\DeveloperTools',
         'zenddevelopertools' => 'laminas-developer-tools',
-        'EV6ZfFY' => 'EV6ZfFY', // used in ZendDeveloperTools as base64 for image
+        'ZfSnapEventDebugger' => 'ZfSnapEventDebugger',
         // fix typo
         'apigiltiy' => 'apigility',
     ];

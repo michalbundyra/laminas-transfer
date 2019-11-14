@@ -13,7 +13,10 @@ use function current;
 use function dirname;
 use function file_get_contents;
 use function file_put_contents;
+use function preg_match_all;
 use function preg_replace;
+use function sprintf;
+use function str_replace;
 use function strtr;
 
 /**
@@ -56,11 +59,25 @@ class ZendDeveloperTools extends AbstractFixture
 
         foreach ($files as $file) {
             $content = file_get_contents($file);
+
+            // Use Placeholders for Images, so we skip base64 image content
+            $images = [];
+
             if (! $repository->hasReplacedContent($file)) {
+                // Find all base64 images and replace with placeholders
+                if (preg_match_all('/src="data:image.*?"/', $content, $matches)) {
+                    foreach ($matches[0] as $i => $str) {
+                        $placeholder = sprintf('IMAGE_PLACEHOLDER_%07d', $i);
+                        $content = str_replace($str, $placeholder, $content);
+
+                        $images[$placeholder] = $str;
+                    }
+                }
+
                 $content = $repository->replace($content);
             }
             // @phpcs:disable Generic.Files.LineLength.TooLong
-            $content = strtr($content, [
+            $content = strtr($content, $images + [
                 'zdf-' => 'laminas-',
                 'zdt-' => 'laminas-',
                 'ZDT_Laminas_' => 'Laminas_Developer_Tool_',

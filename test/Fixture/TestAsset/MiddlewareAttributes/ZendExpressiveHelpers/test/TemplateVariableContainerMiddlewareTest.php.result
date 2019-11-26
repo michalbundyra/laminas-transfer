@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace ExpressiveTest\Helper\Template;
+namespace MezzioTest\Helper\Template;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Expressive\Helper\Template\TemplateVariableContainer;
-use Expressive\Helper\Template\TemplateVariableContainerMiddleware;
+use Mezzio\Helper\Template\TemplateVariableContainer;
+use Mezzio\Helper\Template\TemplateVariableContainerMiddleware;
 
 class TemplateVariableContainerMiddlewareTest extends TestCase
 {

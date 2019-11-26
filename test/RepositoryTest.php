@@ -22,12 +22,12 @@ class RepositoryTest extends TestCase
         yield 'zendframework/zendservice-twitter' => ['zendframework/zendservice-twitter', 'laminas/laminas-twitter'];
 
         // Expressive
-        yield 'zendframework/zend-expressive' => ['zendframework/zend-expressive', 'expressive/expressive'];
+        yield 'zendframework/zend-expressive' => ['zendframework/zend-expressive', 'mezzio/mezzio'];
 
         // Apigility
-        yield 'zfcampus/zf-apigility' => ['zfcampus/zf-apigility', 'apigility/apigility'];
-        yield 'zfcampus/zf-apigility-admin' => ['zfcampus/zf-apigility-admin', 'apigility/apigility-admin'];
-        yield 'zfcampus/zf-hal' => ['zfcampus/zf-hal', 'apigility/apigility-hal'];
+        yield 'zfcampus/zf-apigility' => ['zfcampus/zf-apigility', 'laminas-api-tools/api-tools'];
+        yield 'zfcampus/zf-apigility-admin' => ['zfcampus/zf-apigility-admin', 'laminas-api-tools/api-tools-admin'];
+        yield 'zfcampus/zf-hal' => ['zfcampus/zf-hal', 'laminas-api-tools/api-tools-hal'];
     }
 
     /**

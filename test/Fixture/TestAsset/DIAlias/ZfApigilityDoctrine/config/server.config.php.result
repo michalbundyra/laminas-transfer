@@ -1,6 +1,6 @@
 <?php
 
-namespace Apigility\Doctrine\Server;
+namespace Laminas\ApiTools\Doctrine\Server;
 
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
@@ -8,16 +8,16 @@ return [
     'service_manager' => [
         // Legacy Zend Framework aliases
         'aliases' => [
-            'ZfApigilityDoctrineQueryProviderManager' => 'ApigilityDoctrineQueryProviderManager',
-            'ZfApigilityDoctrineQueryCreateFilterManager' => 'ApigilityDoctrineQueryCreateFilterManager',
+            'ZfApigilityDoctrineQueryProviderManager' => 'LaminasApiToolsDoctrineQueryProviderManager',
+            'ZfApigilityDoctrineQueryCreateFilterManager' => 'LaminasApiToolsDoctrineQueryCreateFilterManager',
         ],
         'abstract_factories' => [
             Resource\DoctrineResourceFactory::class,
         ],
         'factories' => [
-            'ApigilityDoctrineQueryProviderManager'
+            'LaminasApiToolsDoctrineQueryProviderManager'
             => Query\Provider\Service\QueryProviderManagerFactory::class,
-            'ApigilityDoctrineQueryCreateFilterManager'
+            'LaminasApiToolsDoctrineQueryCreateFilterManager'
             => Query\CreateFilter\Service\QueryCreateFilterManagerFactory::class,
         ],
     ],
@@ -51,7 +51,7 @@ return [
 
     'view_manager' => [
         'template_path_stack' => [
-            'apigility-doctrine' => __DIR__ . '/../view',
+            'laminas-api-tools-doctrine' => __DIR__ . '/../view',
         ],
     ],
 

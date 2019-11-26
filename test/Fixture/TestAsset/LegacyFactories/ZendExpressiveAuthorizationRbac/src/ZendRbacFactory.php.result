@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Expressive\Authorization\Rbac;
+namespace Mezzio\Authorization\Rbac;
 
 use Psr\Container\ContainerInterface;
-use Expressive\Authorization\AuthorizationInterface;
-use Expressive\Authorization\Exception;
+use Mezzio\Authorization\AuthorizationInterface;
+use Mezzio\Authorization\Exception;
 use Laminas\Permissions\Rbac\Exception\ExceptionInterface as RbacExceptionInterface;
 use Laminas\Permissions\Rbac\Rbac;
 
@@ -19,22 +19,22 @@ class LaminasRbacFactory
      */
     public function __invoke(ContainerInterface $container) : AuthorizationInterface
     {
-        $config = $container->get('config')['expressive-authorization-rbac'] ?? null;
+        $config = $container->get('config')['mezzio-authorization-rbac'] ?? null;
         if (null === $config) {
             throw new Exception\InvalidConfigException(sprintf(
-                'Cannot create %s instance; no "expressive-authorization-rbac" config key present',
+                'Cannot create %s instance; no "mezzio-authorization-rbac" config key present',
                 LaminasRbac::class
             ));
         }
         if (! isset($config['roles'])) {
             throw new Exception\InvalidConfigException(sprintf(
-                'Cannot create %s instance; no expressive-authorization-rbac.roles configured',
+                'Cannot create %s instance; no mezzio-authorization-rbac.roles configured',
                 LaminasRbac::class
             ));
         }
         if (! isset($config['permissions'])) {
             throw new Exception\InvalidConfigException(sprintf(
-                'Cannot create %s instance; no expressive-authorization-rbac.permissions configured',
+                'Cannot create %s instance; no mezzio-authorization-rbac.permissions configured',
                 LaminasRbac::class
             ));
         }

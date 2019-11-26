@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace ExpressiveTest\Hal;
+namespace MezzioTest\Hal;
 
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionProperty;
-use Expressive\Hal\HalResponseFactory;
-use Expressive\Hal\HalResponseFactoryFactory;
-use Expressive\Hal\Renderer;
+use Mezzio\Hal\HalResponseFactory;
+use Mezzio\Hal\HalResponseFactoryFactory;
+use Mezzio\Hal\Renderer;
 
 class HalResponseFactoryFactoryTest extends TestCase
 {

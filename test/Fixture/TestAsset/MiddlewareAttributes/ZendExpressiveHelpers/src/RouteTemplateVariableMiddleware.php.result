@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Expressive\Helper\Template;
+namespace Mezzio\Helper\Template;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Expressive\Router\RouteResult;
+use Mezzio\Router\RouteResult;
 
 /**
  * Inject the currently matched route into the template variable container.
@@ -23,7 +23,7 @@ use Expressive\Router\RouteResult;
  * `null` value is injected for that key.
  *
  * Templates rendered using the container can then access that value. It will
- * either be a Expressive\Router\RouteResult instance, or empty.
+ * either be a Mezzio\Router\RouteResult instance, or empty.
  *
  * This middleware can replace the `UrlHelperMiddleware` in your pipeline.
  */

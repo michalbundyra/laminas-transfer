@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Expressive\Swoole;
+namespace Mezzio\Swoole;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Swoole\Http\Server as SwooleHttpServer;
-use Expressive\ApplicationPipeline;
-use Expressive\Response\ServerRequestErrorResponseGenerator;
-use Expressive\Swoole\HotCodeReload\Reloader;
+use Mezzio\ApplicationPipeline;
+use Mezzio\Response\ServerRequestErrorResponseGenerator;
+use Mezzio\Swoole\HotCodeReload\Reloader;
 
 class SwooleRequestHandlerRunnerFactory
 {
@@ -22,7 +22,7 @@ class SwooleRequestHandlerRunnerFactory
                 : null);
 
         $expressiveSwooleConfig = $container->has('config')
-            ? $container->get('config')['expressive-swoole']
+            ? $container->get('config')['mezzio-swoole']
             : [];
 
         $swooleHttpServerConfig = $expressiveSwooleConfig['swoole-http-server'] ?? [];

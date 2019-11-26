@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace ExpressiveTest\Authentication;
+namespace MezzioTest\Authentication;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Expressive\Authentication\AuthenticationInterface;
-use Expressive\Authentication\AuthenticationMiddleware;
-use Expressive\Authentication\UserInterface;
+use Mezzio\Authentication\AuthenticationInterface;
+use Mezzio\Authentication\AuthenticationMiddleware;
+use Mezzio\Authentication\UserInterface;
 
 class AuthenticationMiddlewareTest extends TestCase
 {

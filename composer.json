@@ -1,35 +1,25 @@
 {
     "name": "webimpress/laminas-transfer",
     "description": "Transfer ZF repository to Laminas Project",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git://github.com/weierophinney/laminas-zendframework-bridge.git"
-        },
-        {
-            "type": "vcs",
-            "url": "git@github.com:weierophinney/php-github-api.git"
-        }
-    ],
     "require": {
         "php": "^7.2",
         "ext-curl": "*",
         "ext-json": "*",
         "dflydev/fig-cookies": "^2.0",
         "fig/http-message-util": "^1.1",
-        "knplabs/github-api": "dev-feature/httplug-v2 as 2.12.0",
-        "laminas/laminas-zendframework-bridge": "dev-feature/subproject-rename as 0.4.0",
+        "knplabs/github-api": "^2.12.1",
+        "laminas/laminas-zendframework-bridge": "^0.4",
         "localheinz/composer-json-normalizer": "^1.0.2",
         "php-http/guzzle6-adapter": "^2.0",
         "php-http/httplug": "^2.0",
-        "symfony/console": "^4.3.3",
+        "symfony/console": "^5.0",
         "zendframework/zend-diactoros": "^2.1.3"
     },
     "require-dev": {
-        "mikey179/vfsstream": "^1.6.7",
-        "phpunit/phpunit": "^8.3.2",
+        "mikey179/vfsstream": "^1.6.8",
+        "phpunit/phpunit": "^8.4.3",
         "roave/security-advisories": "dev-master",
-        "webimpress/coding-standard": "^1.0.4"
+        "webimpress/coding-standard": "dev-develop"
     },
     "config": {
         "sort-packages": true
@@ -53,5 +43,6 @@
         "cs-fix": "phpcbf",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
-    }
+    },
+    "minimum-stability": "beta"
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Apigility\Doctrine\Server;
+namespace Laminas\ApiTools\Doctrine\Server;
 
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
@@ -8,21 +8,21 @@ return [
     'service_manager' => [
         // Legacy Zend Framework aliases
         'aliases' => [
-            'ZfApigilityDoctrineQueryProviderManager' => 'ApigilityDoctrineQueryProviderManager',
-            'ZfApigilityDoctrineQueryCreateFilterManager' => 'ApigilityDoctrineQueryCreateFilterManager',
+            'ZfApigilityDoctrineQueryProviderManager' => 'LaminasApiToolsDoctrineQueryProviderManager',
+            'ZfApigilityDoctrineQueryCreateFilterManager' => 'LaminasApiToolsDoctrineQueryCreateFilterManager',
         ],
         'abstract_factories' => [
             Resource\DoctrineResourceFactory::class,
         ],
         'factories' => [
-            'ApigilityDoctrineQueryProviderManager'
+            'LaminasApiToolsDoctrineQueryProviderManager'
             => Query\Provider\Service\QueryProviderManagerFactory::class,
-            'ApigilityDoctrineQueryCreateFilterManager'
+            'LaminasApiToolsDoctrineQueryCreateFilterManager'
             => Query\CreateFilter\Service\QueryCreateFilterManagerFactory::class,
         ],
     ],
 
-    'apigility-doctrine-query-provider' => [
+    'api-tools-doctrine-query-provider' => [
         'aliases' => [
             'default_odm' => Query\Provider\DefaultOdm::class,
             'default_orm' => Query\Provider\DefaultOrm::class,
@@ -37,7 +37,7 @@ return [
         ],
     ],
 
-    'apigility-doctrine-query-create-filter' => [
+    'api-tools-doctrine-query-create-filter' => [
         'aliases' => [
             'default' => Query\CreateFilter\DefaultCreateFilter::class,
 
@@ -51,7 +51,7 @@ return [
 
     'view_manager' => [
         'template_path_stack' => [
-            'apigility-doctrine' => __DIR__ . '/../view',
+            'api-tools-doctrine' => __DIR__ . '/../view',
         ],
     ],
 

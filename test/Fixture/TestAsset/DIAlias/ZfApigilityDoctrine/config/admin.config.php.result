@@ -1,46 +1,46 @@
 <?php
 
-namespace Apigility\Doctrine\Admin;
+namespace Laminas\ApiTools\Doctrine\Admin;
 
-use Apigility\Doctrine\Server;
+use Laminas\ApiTools\Doctrine\Server;
 
 return [
     'router' => [
         'routes' => [
-            'apigility-doctrine-rpc-service' => [
+            'api-tools-doctrine-rpc-service' => [
                 'type' => 'segment',
                 'options' => [
-                    'route' => '/apigility/api/module[/:name]/doctrine-rpc[/:controller_service_name]',
+                    'route' => '/api-tools/api/module[/:name]/doctrine-rpc[/:controller_service_name]',
                     'defaults' => [
                         'controller' => Controller\DoctrineRpcService::class,
                     ],
                 ],
                 'may_terminate' => true,
             ],
-            'apigility-doctrine-service' => [
+            'api-tools-doctrine-service' => [
                 'type' => 'segment',
                 'options' => [
-                    'route' => '/apigility/api/module[/:name]/doctrine[/:controller_service_name]',
+                    'route' => '/api-tools/api/module[/:name]/doctrine[/:controller_service_name]',
                     'defaults' => [
                         'controller' => Controller\DoctrineRestService::class,
                     ],
                 ],
                 'may_terminate' => true,
             ],
-            'apigility-doctrine-metadata-service' => [
+            'api-tools-doctrine-metadata-service' => [
                 'type' => 'segment',
                 'options' => [
-                    'route' => '/apigility/api/doctrine[/:object_manager_alias]/metadata[/:name]',
+                    'route' => '/api-tools/api/doctrine[/:object_manager_alias]/metadata[/:name]',
                     'defaults' => [
                         'controller' => Controller\DoctrineMetadataService::class,
                     ],
                 ],
                 'may_terminate' => true,
             ],
-            'apigility-doctrine-autodiscovery' => [
+            'api-tools-doctrine-autodiscovery' => [
                 'type' => 'segment',
                 'options' => [
-                    'route' => '/apigility/api/module/:name/:version/autodiscovery/doctrine/:object_manager_alias',
+                    'route' => '/api-tools/api/module/:name/:version/autodiscovery/doctrine/:object_manager_alias',
                     'defaults' => [
                         'controller' => Controller\DoctrineAutodiscovery::class,
                         'action' => 'discover',
@@ -80,7 +80,7 @@ return [
         ],
     ],
 
-    'apigility-content-negotiation' => [
+    'api-tools-content-negotiation' => [
         'controllers' => [
             Controller\DoctrineAutodiscovery::class   => 'Json',
             Controller\DoctrineRestService::class     => 'HalJson',
@@ -125,33 +125,33 @@ return [
         ],
     ],
 
-    'apigility-hal' => [
+    'api-tools-hal' => [
         'metadata_map' => [
             Model\DoctrineRpcServiceEntity::class => [
                 'hydrator'               => 'ArraySerializable',
                 'route_identifier_name'  => 'controller_service_name',
                 'entity_identifier_name' => 'controller_service_name',
-                'route_name'             => 'apigility-doctrine-rpc-service',
+                'route_name'             => 'api-tools-doctrine-rpc-service',
             ],
             Model\DoctrineRestServiceEntity::class => [
                 'hydrator'               => 'ArraySerializable',
                 'route_identifier_name'  => 'controller_service_name',
                 'entity_identifier_name' => 'controller_service_name',
-                'route_name'             => 'apigility-doctrine-service',
+                'route_name'             => 'api-tools-doctrine-service',
             ],
             Model\DoctrineMetadataServiceEntity::class => [
                 'hydrator'               => 'ArraySerializable',
                 'entity_identifier_name' => 'name',
                 'route_identifier_name'  => 'name',
-                'route_name'             => 'apigility-doctrine-metadata-service',
+                'route_name'             => 'api-tools-doctrine-metadata-service',
             ],
         ],
     ],
 
-    'apigility-rest' => [
+    'api-tools-rest' => [
         Controller\DoctrineRpcService::class => [
             'listener'                   => Model\DoctrineRpcServiceResource::class,
-            'route_name'                 => 'apigility-doctrine-rpc-service',
+            'route_name'                 => 'api-tools-doctrine-rpc-service',
             'entity_class'               => Model\DoctrineRpcServiceEntity::class,
             'route_identifier_name'      => 'controller_service_name',
             'entity_http_methods'        => ['GET', 'POST', 'PATCH', 'DELETE'],
@@ -161,7 +161,7 @@ return [
         ],
         Controller\DoctrineRestService::class => [
             'listener'                   => Model\DoctrineRestServiceResource::class,
-            'route_name'                 => 'apigility-doctrine-service',
+            'route_name'                 => 'api-tools-doctrine-service',
             'entity_class'               => Model\DoctrineRestServiceEntity::class,
             'route_identifier_name'      => 'controller_service_name',
             'entity_http_methods'        => ['GET', 'POST', 'PATCH', 'DELETE'],
@@ -171,7 +171,7 @@ return [
         ],
         Controller\DoctrineMetadataService::class => [
             'listener'                   => Model\DoctrineMetadataServiceResource::class,
-            'route_name'                 => 'apigility-doctrine-metadata-service',
+            'route_name'                 => 'api-tools-doctrine-metadata-service',
             'entity_class'               => Model\DoctrineMetadataServiceEntity::class,
             'route_identifier_name'      => 'name',
             'entity_http_methods'        => ['GET'],
@@ -180,10 +180,10 @@ return [
             'collection_query_whitelist' => ['version'],
         ],
     ],
-    'apigility-rpc' => [
+    'api-tools-rpc' => [
         Controller\DoctrineAutodiscovery::class => [
             'http_methods' => ['GET'],
-            'route_name'   => 'apigility-doctrine-autodiscovery',
+            'route_name'   => 'api-tools-doctrine-autodiscovery',
         ],
     ],
     'validator_metadata' => [

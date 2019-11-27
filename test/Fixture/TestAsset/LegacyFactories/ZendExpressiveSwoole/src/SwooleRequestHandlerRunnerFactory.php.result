@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Expressive\Swoole;
+namespace Mezzio\Swoole;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Swoole\Http\Server as SwooleHttpServer;
-use Expressive\ApplicationPipeline;
-use Expressive\Response\ServerRequestErrorResponseGenerator;
-use Expressive\Swoole\HotCodeReload\Reloader;
+use Mezzio\ApplicationPipeline;
+use Mezzio\Response\ServerRequestErrorResponseGenerator;
+use Mezzio\Swoole\HotCodeReload\Reloader;
 
 class SwooleRequestHandlerRunnerFactory
 {
@@ -21,11 +21,11 @@ class SwooleRequestHandlerRunnerFactory
                 ? $container->get(\Zend\Expressive\Swoole\Log\AccessLogInterface::class)
                 : null);
 
-        $expressiveSwooleConfig = $container->has('config')
-            ? $container->get('config')['expressive-swoole']
+        $mezzioSwooleConfig = $container->has('config')
+            ? $container->get('config')['mezzio-swoole']
             : [];
 
-        $swooleHttpServerConfig = $expressiveSwooleConfig['swoole-http-server'] ?? [];
+        $swooleHttpServerConfig = $mezzioSwooleConfig['swoole-http-server'] ?? [];
 
         return new SwooleRequestHandlerRunner(
             $container->get(ApplicationPipeline::class),
@@ -36,7 +36,7 @@ class SwooleRequestHandlerRunnerFactory
             $this->retrieveStaticResourceHandler($container, $swooleHttpServerConfig),
             $logger,
             $swooleHttpServerConfig['process-name'] ?? SwooleRequestHandlerRunner::DEFAULT_PROCESS_NAME,
-            $this->retrieveHotCodeReloader($container, $expressiveSwooleConfig)
+            $this->retrieveHotCodeReloader($container, $mezzioSwooleConfig)
         );
     }
 

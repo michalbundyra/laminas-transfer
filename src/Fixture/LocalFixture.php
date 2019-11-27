@@ -20,6 +20,7 @@ use function file_get_contents;
 use function in_array;
 use function json_decode;
 use function json_encode;
+use function strpos;
 
 class LocalFixture extends AbstractFixture
 {
@@ -57,10 +58,14 @@ class LocalFixture extends AbstractFixture
 
     private function addLocalRepository(string $section, string $repo, array &$json) : void
     {
+        if (strpos($repo, '/') === false) {
+            return;
+        }
+
         [$org, $name] = explode('/', $repo);
 
         if ($name === 'laminas-zendframework-bridge'
-            || ! in_array($org, ['laminas', 'expressive', 'apigility'], true)
+            || ! in_array($org, ['laminas', 'mezzio', 'laminas-api-tools'], true)
         ) {
             return;
         }

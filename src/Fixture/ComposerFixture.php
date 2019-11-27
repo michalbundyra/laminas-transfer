@@ -34,7 +34,7 @@ use function unlink;
  * Deletes composer.lock file.
  * Adds "laminas/laminas-zendframework-bridge" dependency to require section.
  * Updates license to BSD-3-Clause.
- * Prepends "laminas" and "expressive"/"apigility" keywords.
+ * Prepends "laminas" and "mezzio"/"api-tools" keywords.
  * Sorts sections as defined in constant.
  * Removes redundant sections.
  * Lowercase package names in "require", "require-dev", "suggest", "conflict" sections.
@@ -114,8 +114,9 @@ class ComposerFixture extends AbstractFixture
             'forum' => 'https://discourse.laminas.dev',
         ];
 
-        if ($org === 'apigility') {
-            $json['support']['docs'] = 'https://apigility.org/documentation';
+        if ($org === 'laminas-api-tools') {
+            $json['support']['docs'] = 'https://api-tools.laminas.dev/documentation';
+            $json['homepage'] = 'https://api-tools.laminas.dev';
         }
 
         // Lowercase repository names
@@ -128,11 +129,11 @@ class ComposerFixture extends AbstractFixture
             }
         }
 
-        $json['require']['laminas/laminas-zendframework-bridge'] = '^0.3.2 || ^1.0';
+        $json['require']['laminas/laminas-zendframework-bridge'] = '^0.4 || ^1.0';
         $json['require-dev']['roave/security-advisories'] = 'dev-master';
         $json['replace'] = [$originName ?? $repository->getName() => 'self.version'];
         if (isset($json['keywords'])) {
-            array_unshift($json['keywords'], 'laminas', $org);
+            array_unshift($json['keywords'], 'laminas', $org === 'laminas-api-tools' ? 'api-tools' : $org);
             $json['keywords'] = array_values(array_unique($json['keywords']));
         }
         $json['license'] = 'BSD-3-Clause';

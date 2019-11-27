@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Expressive\Swoole;
+namespace Mezzio\Swoole;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Swoole\Http\Server as SwooleHttpServer;
-use Expressive\ApplicationPipeline;
-use Expressive\Response\ServerRequestErrorResponseGenerator;
+use Mezzio\ApplicationPipeline;
+use Mezzio\Response\ServerRequestErrorResponseGenerator;
 
 class SwooleRequestHandlerRunnerPrevFactory
 {
@@ -33,7 +33,7 @@ class SwooleRequestHandlerRunnerPrevFactory
 
     private function retrieveStaticResourceHandler(ContainerInterface $container) :? StaticResourceHandlerInterface
     {
-        $config = $container->get('config')['expressive-swoole']['swoole-http-server']['static-files'];
+        $config = $container->get('config')['mezzio-swoole']['swoole-http-server']['static-files'];
         $enabled = isset($config['enable']) && true === $config['enable'];
         if ($enabled && $container->has(StaticResourceHandlerInterface::class)) {
             return $container->get(StaticResourceHandlerInterface::class);

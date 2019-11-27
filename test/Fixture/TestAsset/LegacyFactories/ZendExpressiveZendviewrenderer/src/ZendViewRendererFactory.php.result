@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Expressive\LaminasView;
+namespace Mezzio\LaminasView;
 
 use Interop\Container\ContainerInterface as InteropContainerInterface;
 use Psr\Container\ContainerInterface;
-use Expressive\Helper\ServerUrlHelper as BaseServerUrlHelper;
-use Expressive\Helper\UrlHelper as BaseUrlHelper;
+use Mezzio\Helper\ServerUrlHelper as BaseServerUrlHelper;
+use Mezzio\Helper\UrlHelper as BaseUrlHelper;
 use Laminas\View\HelperPluginManager;
 use Laminas\View\Renderer\PhpRenderer;
 use Laminas\View\Resolver;
@@ -20,7 +20,7 @@ use function sprintf;
 /**
  * Create and return a LaminasView template instance.
  *
- * Requires the Expressive\Router\RouterInterface service (for creating
+ * Requires the Mezzio\Router\RouterInterface service (for creating
  * the UrlHelper instance).
  *
  * Optionally requires the Laminas\View\HelperPluginManager service; if present,
@@ -45,7 +45,7 @@ use function sprintf;
  * ]
  * </code>
  *
- * Injects the HelperPluginManager used by the PhpRenderer with expressive
+ * Injects the HelperPluginManager used by the PhpRenderer with mezzio
  * overrides of the url and serverurl helpers.
  */
 class LaminasViewRendererFactory

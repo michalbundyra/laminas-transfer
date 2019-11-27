@@ -85,7 +85,8 @@ class DocsFixture extends AbstractFixture
             $dirname = dirname($doc);
             $filename = basename($doc);
             $newName = $dirname . '/' . strtr($filename, [
-                'zend-expressive' => 'expressive',
+                'zend-expressive' => 'mezzio',
+                'expressive' => 'mezzio',
                 'zend-' => 'laminas-',
                 'zf-' => 'laminas-',
             ]);

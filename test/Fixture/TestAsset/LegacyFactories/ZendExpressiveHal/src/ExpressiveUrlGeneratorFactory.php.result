@@ -1,15 +1,15 @@
 <?php
 
-namespace Expressive\Hal\LinkGenerator;
+namespace Mezzio\Hal\LinkGenerator;
 
 use Psr\Container\ContainerInterface;
 use RuntimeException;
-use Expressive\Helper\ServerUrlHelper;
-use Expressive\Helper\UrlHelper;
+use Mezzio\Helper\ServerUrlHelper;
+use Mezzio\Helper\UrlHelper;
 
 use function sprintf;
 
-class ExpressiveUrlGeneratorFactory
+class MezzioUrlGeneratorFactory
 {
     /** @var string */
     private $urlHelperServiceName;
@@ -32,18 +32,18 @@ class ExpressiveUrlGeneratorFactory
         $this->urlHelperServiceName = $urlHelperServiceName;
     }
 
-    public function __invoke(ContainerInterface $container) : ExpressiveUrlGenerator
+    public function __invoke(ContainerInterface $container) : MezzioUrlGenerator
     {
         if (! $container->has($this->urlHelperServiceName)) {
             throw new RuntimeException(sprintf(
                 '%s requires a %s in order to generate a %s instance; none found',
                 __CLASS__,
                 $this->urlHelperServiceName,
-                ExpressiveUrlGenerator::class
+                MezzioUrlGenerator::class
             ));
         }
 
-        return new ExpressiveUrlGenerator(
+        return new MezzioUrlGenerator(
             $container->get($this->urlHelperServiceName),
             $container->has(ServerUrlHelper::class)
                 ? $container->get(ServerUrlHelper::class)

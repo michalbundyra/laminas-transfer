@@ -6,10 +6,10 @@ parameters:
 	reportUnmatchedIgnoredErrors: true
 	ignoreErrors:
 		# Virtual classes can be safely ignored
-		- '#Class Expressive\\ApplicationPipeline not found#'
-		# @see src/Application.php and https://github.com/expressive/expressive/pull/564
+		- '#Class Mezzio\\ApplicationPipeline not found#'
+		# @see src/Application.php and https://github.com/mezzio/mezzio/pull/564
 		- '#Parameter \#1 \$path of function Laminas\\Stratigility\\path expects string, array\|callable\|Psr\\Http\\Server\\MiddlewareInterface\|Psr\\Http\\Server\\RequestHandlerInterface\|string given.#'
-		# @see src/Container/WhoopsFactory.php (expressive supports Whoops 1.x)
+		# @see src/Container/WhoopsFactory.php (mezzio supports Whoops 1.x)
 		- '#Call to an undefined method Whoops\\Handler\\JsonResponseHandler::onlyForAjaxRequests\(\).#'
 		# @see src/MiddlewareFactory
 		- '#PHPDoc tag @param for parameter \$middleware with type array\|string\|Laminas\\Stratigility\\MiddlewarePipe is not subtype of native type array\<int, mixed\>#'

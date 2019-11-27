@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Expressive\Router\Middleware;
+namespace Mezzio\Router\Middleware;
 
 use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use Psr\Http\Message\ResponseInterface;
@@ -10,8 +10,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Expressive\Router\RouteResult;
-use Expressive\Router\RouterInterface;
+use Mezzio\Router\RouteResult;
+use Mezzio\Router\RouterInterface;
 
 /**
  * Handle implicit HEAD requests.

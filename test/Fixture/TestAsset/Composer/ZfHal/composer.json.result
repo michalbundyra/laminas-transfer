@@ -1,21 +1,21 @@
 {
-    "name": "apigility/apigility-hal",
+    "name": "laminas-api-tools/api-tools-hal",
     "description": "Laminas Module providing Hypermedia Application Language assets and rendering",
     "license": "BSD-3-Clause",
     "keywords": [
         "laminas",
-        "apigility",
+        "api-tools",
         "module",
         "psr-13",
         "rest",
         "hal"
     ],
-    "homepage": "https://apigility.dev",
+    "homepage": "https://api-tools.laminas.dev",
     "support": {
-        "docs": "https://apigility.org/documentation",
-        "issues": "https://github.com/apigility/apigility-hal/issues",
-        "source": "https://github.com/apigility/apigility-hal",
-        "rss": "https://github.com/apigility/apigility-hal/releases.atom",
+        "docs": "https://api-tools.laminas.dev/documentation",
+        "issues": "https://github.com/laminas-api-tools/api-tools-hal/issues",
+        "source": "https://github.com/laminas-api-tools/api-tools-hal",
+        "rss": "https://github.com/laminas-api-tools/api-tools-hal/releases.atom",
         "chat": "https://laminas.dev/chat",
         "forum": "https://discourse.laminas.dev"
     },
@@ -28,12 +28,12 @@
             "dev-develop": "1.7.x-dev"
         },
         "laminas": {
-            "module": "Apigility\\Hal"
+            "module": "Laminas\\ApiTools\\Hal"
         }
     },
     "require": {
         "php": "^5.6 || ^7.0",
-        "apigility/apigility-api-problem": "^1.2.1",
+        "laminas-api-tools/api-tools-api-problem": "^1.2.1",
         "laminas/laminas-eventmanager": "^2.6.3 || ^3.0.1",
         "laminas/laminas-filter": "^2.7.1",
         "laminas/laminas-http": "^2.5.4",
@@ -43,7 +43,7 @@
         "laminas/laminas-stdlib": "^2.7.7 || ^3.0.1",
         "laminas/laminas-uri": "^2.5.2",
         "laminas/laminas-view": "^2.8.1",
-        "laminas/laminas-zendframework-bridge": "^0.3.2 || ^1.0",
+        "laminas/laminas-zendframework-bridge": "^0.4 || ^1.0",
         "psr/link": "^1.0"
     },
     "require-dev": {
@@ -56,12 +56,12 @@
             "src/_autoload.php"
         ],
         "psr-4": {
-            "Apigility\\Hal\\": "src/"
+            "Laminas\\ApiTools\\Hal\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ApigilityTest\\Hal\\": "test/"
+            "LaminasTest\\ApiTools\\Hal\\": "test/"
         }
     },
     "scripts": {

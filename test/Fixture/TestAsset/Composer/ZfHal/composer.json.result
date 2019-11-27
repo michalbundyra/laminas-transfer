@@ -12,7 +12,7 @@
     ],
     "homepage": "https://api-tools.laminas.dev",
     "support": {
-        "docs": "https://api-tools.lamainas.dev/documentation",
+        "docs": "https://api-tools.laminas.dev/documentation",
         "issues": "https://github.com/laminas-api-tools/api-tools-hal/issues",
         "source": "https://github.com/laminas-api-tools/api-tools-hal",
         "rss": "https://github.com/laminas-api-tools/api-tools-hal/releases.atom",

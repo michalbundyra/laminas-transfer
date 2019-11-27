@@ -45,7 +45,7 @@ use function sprintf;
  * ]
  * </code>
  *
- * Injects the HelperPluginManager used by the PhpRenderer with expressive
+ * Injects the HelperPluginManager used by the PhpRenderer with mezzio
  * overrides of the url and serverurl helpers.
  */
 class LaminasViewRendererFactory

@@ -19,9 +19,9 @@ class NotFoundHandlerFactory
             : ($container->has(\Zend\Expressive\Template\TemplateRendererInterface::class)
                 ? $container->get(\Zend\Expressive\Template\TemplateRendererInterface::class)
                 : null);
-        $template = $config['expressive']['error_handler']['template_404']
+        $template = $config['mezzio']['error_handler']['template_404']
             ?? NotFoundHandler::TEMPLATE_DEFAULT;
-        $layout   = $config['expressive']['error_handler']['layout']
+        $layout   = $config['mezzio']['error_handler']['layout']
             ?? NotFoundHandler::LAYOUT_DEFAULT;
 
         return new NotFoundHandler(

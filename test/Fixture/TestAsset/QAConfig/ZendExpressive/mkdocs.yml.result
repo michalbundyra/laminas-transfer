@@ -244,7 +244,7 @@ pages:
             - '_migration_to_mezzio_1.1': reference/migration/to-v1-1.md
 site_name: Mezzio
 site_description: 'mezzio: PSR-7 Middleware Microframework'
-repo_url: 'https://github.com/zendframework/mezzio'
+repo_url: 'https://github.com/mezzio/mezzio'
 copyright: 'Copyright (c) 2015-2018 <a href="https://www.zend.com/">Zend Technologies USA Inc.</a>'
 extra_css:
     - css/mezzio.css

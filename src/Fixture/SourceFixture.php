@@ -48,15 +48,15 @@ class SourceFixture extends AbstractFixture
 
             $newName = strtr($php, [
                 'Zend' => 'Laminas',
-                'zend-expressive' => 'expressive',
-                'zf-apigility' => 'apigility',
+                'zend-expressive' => 'mezzio',
+                'zf-apigility' => 'api-tools',
                 'zf-composer-' => 'laminas-composer-',
                 'zf-development-' => 'laminas-development-',
-                'zf-' => 'apigility-',
+                'zf-' => 'api-tools-',
                 'zfdeploy.php' => 'laminas-deploy',
                 'zendview' => 'laminasview',
                 'zend-' => 'laminas-',
-                'zfconfig' => 'apigility-config',
+                'zfconfig' => 'api-tools-config',
             ]);
 
             if ($newName !== $php) {

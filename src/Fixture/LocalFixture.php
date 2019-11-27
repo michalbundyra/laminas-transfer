@@ -60,7 +60,7 @@ class LocalFixture extends AbstractFixture
         [$org, $name] = explode('/', $repo);
 
         if ($name === 'laminas-zendframework-bridge'
-            || ! in_array($org, ['laminas', 'expressive', 'apigility'], true)
+            || ! in_array($org, ['laminas', 'mezzio', 'laminas-api-tools'], true)
         ) {
             return;
         }

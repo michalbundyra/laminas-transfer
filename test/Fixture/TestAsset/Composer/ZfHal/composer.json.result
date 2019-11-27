@@ -4,7 +4,7 @@
     "license": "BSD-3-Clause",
     "keywords": [
         "laminas",
-        "apigility",
+        "api-tools",
         "module",
         "psr-13",
         "rest",
@@ -43,7 +43,7 @@
         "laminas/laminas-stdlib": "^2.7.7 || ^3.0.1",
         "laminas/laminas-uri": "^2.5.2",
         "laminas/laminas-view": "^2.8.1",
-        "laminas/laminas-zendframework-bridge": "^0.3.2 || ^1.0",
+        "laminas/laminas-zendframework-bridge": "^0.4 || ^1.0",
         "psr/link": "^1.0"
     },
     "require-dev": {
@@ -61,7 +61,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Laminas\\ApiToolsTest\\Hal\\": "test/"
+            "LaminasTest\\ApiTools\\Hal\\": "test/"
         }
     },
     "scripts": {

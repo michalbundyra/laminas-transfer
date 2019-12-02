@@ -60,7 +60,7 @@ class RewriteCommand extends Command
              );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output) : void
+    public function execute(InputInterface $input, OutputInterface $output) : int
     {
         if ($input->getOption('local')) {
             $this->fixtures[] = LocalFixture::class;
@@ -75,5 +75,7 @@ class RewriteCommand extends Command
             $fixture = new $fixtureName($output);
             $fixture->process($repository);
         }
+
+        return 0;
     }
 }

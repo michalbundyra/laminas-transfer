@@ -50,7 +50,7 @@ class VendorCommand extends Command
     /**
      * @throws RuntimeException When provided directory is invalid.
      */
-    protected function execute(InputInterface $input, OutputInterface $output) : void
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $path = realpath(
             getcwd()
@@ -110,6 +110,8 @@ class VendorCommand extends Command
         JsonWriter::write($installed, $content);
 
         system('composer dump-autoload');
+
+        return 0;
     }
 
     private function iterate(string $path) : Generator

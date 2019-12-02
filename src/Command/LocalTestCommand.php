@@ -29,7 +29,7 @@ class LocalTestCommand extends Command
              ->addArgument('token', InputArgument::REQUIRED, 'GitHub token');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output) : void
+    public function execute(InputInterface $input, OutputInterface $output) : int
     {
         $token = $input->getArgument('token');
 
@@ -48,6 +48,8 @@ class LocalTestCommand extends Command
             system(__DIR__ . '/../../bin/console rewrite ' . $repo . ' --local');
             chdir($currentDir);
         }
+
+        return 0;
     }
 
     protected function repositories(string $token) : Generator

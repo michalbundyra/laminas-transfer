@@ -109,7 +109,7 @@ class DependenciesCommand extends Command
              ->addArgument('token', InputArgument::REQUIRED, 'GitHub token');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output) : void
+    public function execute(InputInterface $input, OutputInterface $output) : int
     {
         $org = $input->getArgument('org');
         $token = $input->getArgument('token');
@@ -150,6 +150,8 @@ class DependenciesCommand extends Command
         }
 
         $output->writeln(var_export($this->resolved, true));
+
+        return 0;
     }
 
     private function exists(string $url) : bool

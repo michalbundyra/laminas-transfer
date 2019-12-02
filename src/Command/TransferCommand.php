@@ -46,7 +46,7 @@ class TransferCommand extends Command
              );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output) : void
+    public function execute(InputInterface $input, OutputInterface $output) : int
     {
         $repository = $input->getArgument('repository');
         $path = $input->getArgument('path');
@@ -89,6 +89,8 @@ class TransferCommand extends Command
 
         $output->writeln(sprintf('<info>DONE in %0.4f minutes</info>', (microtime(true) - $start) / 60));
         $output->writeln('<comment>Directory:</comment> ' . $dirname);
+
+        return 0;
     }
 
     private function clearTag(string $tag) : string

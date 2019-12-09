@@ -12,104 +12,6 @@ use function sprintf;
 
 class GithubService
 {
-    private const LABELS = [
-        [
-            'name' => 'Awaiting Author Updates',
-            'color' => '#e11d21',
-            'description' => '',
-        ],
-        [
-            'name' => 'Awaiting Maintainer Response',
-            'color' => '#fbca03',
-            'description' => '',
-        ],
-        [
-            'name' => 'BC Break',
-            'color' => '#e11d21',
-            'description' => '',
-        ],
-        [
-            'name' => 'Bug',
-            'color' => '#fc2929',
-            'description' => 'Something is not working',
-        ],
-        [
-            'name' => 'Documentation',
-            'color' => '#207def',
-            'description' => '',
-        ],
-        [
-            'name' => 'Documentation needed',
-            'color' => '#c7def8',
-            'description' => '',
-        ],
-        [
-            'name' => 'Duplicate',
-            'color' => '#cccccc',
-            'description' => 'This issue or pull request already exists',
-        ],
-        [
-            'name' => 'Enhancement',
-            'color' => '#84b6eb',
-            'description' => '',
-        ],
-        [
-            'name' => 'Feature Removal',
-            'color' => '#eb6420',
-            'description' => '',
-        ],
-        [
-            'name' => 'Feature Request',
-            'color' => '#0052cc',
-            'description' => '',
-        ],
-        [
-            'name' => 'Good First Issue',
-            'color' => '#7057ff',
-            'description' => 'Good for newcomers',
-        ],
-        [
-            'name' => 'Help Wanted',
-            'color' => '#159818',
-            'description' => '',
-        ],
-        [
-            'name' => 'Invalid',
-            'color' => '#e6e6e6',
-            'description' => 'This does not seem right',
-        ],
-        [
-            'name' => 'Question',
-            'color' => '#cc317c',
-            'description' => 'Further information is requested',
-        ],
-        [
-            'name' => 'Revert Needed',
-            'color' => '#e11d21',
-            'description' => '',
-        ],
-        [
-            'name' => 'Review Needed',
-            'color' => '#ff9500',
-            'description' => '',
-        ],
-        [
-            'name' => 'Unit Test Needed',
-            'color' => '#eb6420',
-            'description' => '',
-        ],
-        [
-            'name' => 'Work In Progress',
-            'color' => '#0b02e1',
-            'description' => '',
-        ],
-        [
-            'name' => 'Won\t Fix',
-            'color' => '#ffffff',
-            'description' => 'This will not be worked on',
-        ],
-    ];
-
     /** @var null|GithubClient */
     private $client;
 
@@ -173,23 +75,6 @@ class GithubService
                 ->replaceTopics($org, $repo, $topics);
         } catch (GithubException $e) {
             throw GithubService\FailureSettingRepositoryTopicsException::forPackage($org, $repo, $e);
-        }
-    }
-
-    /**
-     * Set issue labels for the repository
-     *
-     * @throws GithubService\FailureSettingRepositoryIssueLabelsException
-     */
-    public function createRepositoryIssueLabels(string $org, string $repo) : void
-    {
-        $api = $this->getClient()->api('issue')->labels();
-        foreach (self::LABELS as $labelData) {
-            try {
-                $api->create($org, $repo, $labelData);
-            } catch (GithubException $e) {
-                throw GithubService\FailureSettingRepositoryIssueLabelsException::forPackage($org, $repo, $e);
-            }
         }
     }
 

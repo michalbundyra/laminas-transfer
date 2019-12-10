@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use function feof;
 use function fread;
+use function preg_replace;
 use function stream_select;
 
 use const STDIN;

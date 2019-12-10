@@ -285,16 +285,12 @@ class Repository
         foreach ((array) $matches['url'] as $index => $url) {
             $replacement = sprintf('%%TRANSFER_URL_%d%%', $index);
             $urlMap[$replacement] = $url;
-            $content = str_replace($url, $replacement, $content);
         }
 
-        $content = strtr($content, $this->replacements);
-
-        foreach ($urlMap as $placeholder => $url) {
-            $content = str_replace($placeholder, $url, $content);
-        }
-
-        return $content;
+        return strtr(
+            strtr($content, array_flip($urlMap)),
+            $this->replacements + $urlMap
+        );
     }
 
     public function addReplacedContentFiles(array $files) : void

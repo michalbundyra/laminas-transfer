@@ -17,7 +17,6 @@ use function file_get_contents;
 use function file_put_contents;
 use function is_dir;
 use function preg_replace;
-use function sprintf;
 use function str_replace;
 use function strpos;
 use function strtr;
@@ -32,7 +31,7 @@ use const PHP_EOL;
  * Updates README.md if present
  * Updates mkdocs.yml if present
  * Renames .zf-mkdoc-theme-landing
- * Updates contents of CONTRIBUTING/CODE_OF_CONDUCT/SUPPORT files
+ * Removes CONTRIBUTING/CODE_OF_CONDUCT/SUPPORT files and Github PR and Issue templates
  */
 class DocsFixture extends AbstractFixture
 {
@@ -128,37 +127,11 @@ class DocsFixture extends AbstractFixture
         foreach (self::FILES as $template => $files) {
             foreach ($files as $fileName) {
                 $file = current($repository->files($fileName));
-                if ($file) {
-                    file_put_contents($file, $repository->getTemplateText($template));
-                    $newName = str_replace('/CONDUCT.md', '/CODE_OF_CONDUCT.md', $file);
-
-                    // rename CONDUCT.md to CODE_OF_CONDUCT.md
-                    if ($file !== $newName) {
-                        system('git mv ' . $file . ' ' . $newName);
-                    }
+                if (! $file) {
+                    continue;
                 }
+                unlink($file);
             }
-        }
-
-        // Create SECURITY.md file
-        if (is_dir($repository->getPath() . '/docs/')) {
-            copy(
-                __DIR__ . '/../../data/templates/' . Repository::T_SECURITY,
-                $repository->getPath() . '/docs/' . Repository::T_SECURITY
-            );
-            system('git add ' . $repository->getPath() . '/docs/' . Repository::T_SECURITY);
-        } elseif (is_dir($repository->getPath() . '/doc/')) {
-            copy(
-                __DIR__ . '/../../data/templates/' . Repository::T_SECURITY,
-                $repository->getPath() . '/doc/' . Repository::T_SECURITY
-            );
-            system('git add ' . $repository->getPath() . '/doc/' . Repository::T_SECURITY);
-        } else {
-            copy(
-                __DIR__ . '/../../data/templates/' . Repository::T_SECURITY,
-                $repository->getPath() . '/' . Repository::T_SECURITY
-            );
-            system('git add ' . $repository->getPath() . '/' . Repository::T_SECURITY);
         }
 
         // Remove old issue and pull request templates

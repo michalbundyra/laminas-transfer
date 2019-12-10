@@ -16,8 +16,10 @@ use function file_get_contents;
 use function getcwd;
 use function in_array;
 use function is_dir;
+use function preg_match_all;
 use function preg_quote;
 use function rename;
+use function sprintf;
 use function str_replace;
 use function strtr;
 use function system;
@@ -32,6 +34,10 @@ class Repository
     public const T_LICENSE = 'LICENSE.md';
     public const T_SECURITY = 'SECURITY.md';
     public const T_SUPPORT = 'SUPPORT.md';
+
+    // @phpcs:disable
+    public const REGEX_URL = '%\b(?P<url>(?:zendframework|zfcampus)/[^/]+(?:/(?:issues|pull)/|#)\d+)\b%i';
+    // @phpcs:enable
 
     /** @var string[] */
     private $replacements = [
@@ -267,9 +273,28 @@ class Repository
         return $fileList;
     }
 
-    public function replace(string $content) : string
+    public function replace(string $content, bool $replaceUrls = true) : string
     {
-        return strtr($content, $this->replacements);
+        preg_match_all(self::REGEX_URL, $content, $matches);
+
+        if (! $replaceUrls || empty($matches['url'])) {
+            return strtr($content, $this->replacements);
+        }
+
+        $urlMap = [];
+        foreach ((array) $matches['url'] as $index => $url) {
+            $replacement = sprintf('%%TRANSFER_URL_%d%%', $index);
+            $urlMap[$replacement] = $url;
+            $content = str_replace($url, $replacement, $content);
+        }
+
+        $content = strtr($content, $this->replacements);
+
+        foreach ($urlMap as $placeholder => $url) {
+            $content = str_replace($placeholder, $url, $content);
+        }
+
+        return $content;
     }
 
     public function addReplacedContentFiles(array $files) : void

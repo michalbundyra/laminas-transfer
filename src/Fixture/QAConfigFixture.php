@@ -18,6 +18,7 @@ use function in_array;
 use function is_dir;
 use function preg_replace;
 use function str_replace;
+use function strpos;
 use function strstr;
 use function trim;
 use function usort;
@@ -51,7 +52,7 @@ class QAConfigFixture extends AbstractFixture
     private function replace(Repository $repository, string $file) : void
     {
         $content = file_get_contents($file);
-        $content = $repository->replace($content);
+        $content = $repository->replace($content, strpos($file, 'mkdocs.yml') !== false);
 
         $filename = basename($file);
 

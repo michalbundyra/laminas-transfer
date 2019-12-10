@@ -71,10 +71,16 @@ class TransferCommand extends Command
             done'
         );
 
+        $messageFilter = sprintf(
+            'sed -re \'s/(^|[^a-zA-Z])(\#[1-9][0-9]*)/\1%s\2/g\'',
+            preg_quote($repository, '/')
+        );
+
         system(sprintf(
             'git filter-branch -f'
             . ' --tree-filter "php %s rewrite %s"'
             . ' --commit-filter \'git_commit_non_empty_tree "$@"\''
+            . sprintf(' --msg-filter "%s"', $messageFilter)
             . ' --tag-name-filter cat -- --all',
             __DIR__ . '/../../bin/console',
             $repository

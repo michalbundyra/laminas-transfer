@@ -79,9 +79,9 @@ class TransferCommand extends Command
 
         system(sprintf(
             'git filter-branch -f'
-            . ' --tree-filter "php %s rewrite %s"'
+            . ' --tree-filter "php %1$s rewrite %2$s"'
             . ' --commit-filter \'git_commit_non_empty_tree "$@"\''
-            . sprintf(' --msg-filter "%s"', $messageFilter)
+            . ' --msg-filter "php %1$s rewrite:message %2$s"'
             . ' --tag-name-filter cat -- --all',
             __DIR__ . '/../../bin/console',
             $repository

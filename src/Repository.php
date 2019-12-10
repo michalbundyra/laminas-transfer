@@ -9,6 +9,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
 
+use function array_flip;
 use function array_merge;
 use function date;
 use function explode;
@@ -273,11 +274,11 @@ class Repository
         return $fileList;
     }
 
-    public function replace(string $content, bool $replaceUrls = true) : string
+    public function replace(string $content) : string
     {
         preg_match_all(self::REGEX_URL, $content, $matches);
 
-        if (! $replaceUrls || empty($matches['url'])) {
+        if (empty($matches['url'])) {
             return strtr($content, $this->replacements);
         }
 

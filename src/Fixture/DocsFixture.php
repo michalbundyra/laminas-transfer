@@ -196,7 +196,7 @@ class DocsFixture extends AbstractFixture
     {
         $content = file_get_contents($changelogFile);
         $content = preg_replace(
-            '@(^||\[|\S)(#[1-9][0-9]*)@m',
+            '@(^|\[|[^a-z])(#[1-9][0-9]*)@m',
             str_replace('%repo%', $repository->getName(), '$1%repo%$2'),
             $content
         );

@@ -170,20 +170,6 @@ class DocsFixture extends AbstractFixture
             unlink($file);
         }
 
-        // Copy over issue and pull request templates
-        $githubDir = sprintf('%s/.github', $repository->getPath());
-        IO::copy(__DIR__ . '/../../data/github', $githubDir);
-        foreach (IO::traverseDirectory($githubDir) as $file) {
-            $replacement = $repository->replaceTemplatedText($file);
-            file_put_contents($file, $replacement);
-        }
-        $file = current($repository->files('.gitattributes'));
-        if ($file) {
-            $content = file_get_contents($file);
-            $content .= '/.github/ export-ignore' . PHP_EOL;
-            file_put_contents($file, $content);
-        }
-
         [$org, $name] = explode('/', $repository->getNewName());
 
         // Copy any additional

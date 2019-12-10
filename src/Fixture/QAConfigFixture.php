@@ -75,7 +75,6 @@ class QAConfigFixture extends AbstractFixture
                 $rows[] = '.coveralls.yml export-ignore';
                 $rows[] = '.docheader export-ignore';
                 $rows[] = '.gitattributes export-ignore';
-                $rows[] = '.github/ export-ignore';
                 $rows[] = '.gitignore export-ignore';
                 $rows[] = '.travis.yml export-ignore';
                 $rows[] = 'benchmark/ export-ignore';

@@ -71,6 +71,7 @@ class DependenciesCommand extends Command
         'ZendService_WindowsAzure',
         'ZendSkeletonModule',
         'ZendTimeSync',
+        'zend-debug',
         'zend-version',
         'zf1-extras',
         'zf1',
@@ -89,7 +90,6 @@ class DependenciesCommand extends Command
         'zf3-web',
         'zfbot',
         'maintainers',
-        'statuslib-example',
     ];
 
     /** @var array[] */

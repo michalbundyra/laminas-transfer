@@ -55,6 +55,10 @@ class Repository
         'zendframework/zendpdf' => 'zendframework/zendpdf',
         'Zend\\Version' => 'Zend\\Version',
         'zendframework/zend-version' => 'zendframework/zend-version',
+        'zend-version' => 'zend-version',
+        'Zend\\Debug' => 'Zend\\Debug',
+        'zendframework/zend-debug' => 'zendframework/zend-debug',
+        'zend-debug' => 'zend-debug',
         // Rewrite rules:
         'ZendXml;' => 'Laminas\\Xml;',
         'ZendXml\\\\' => 'Laminas\\\\Xml\\\\',

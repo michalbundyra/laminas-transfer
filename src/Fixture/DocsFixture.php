@@ -95,7 +95,7 @@ class DocsFixture extends AbstractFixture
             }
 
             if ($newName !== $doc) {
-                system('git mv ' . $doc . ' ' . $newName);
+                $repository->move($doc, $newName);
             }
         }
 

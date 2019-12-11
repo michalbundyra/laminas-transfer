@@ -57,7 +57,7 @@ class MessageRewriteCommand extends Command
     private function replace(string $content, Repository $repo) : string
     {
         $replacement = '$1' . $repo->getName() . '$2';
-        $content = preg_replace('/(^|[^a-zA-Z])(\#[1-9][0-9]*)/m', $replacement, $content);
+        $content = preg_replace('/(^|[^a-z])(\#[1-9]\d{0,3}\b)/im', $replacement, $content);
         $content = preg_replace('/\[ZF2-\d+\]/', '', $content);
 
         return $repo->replace($content);

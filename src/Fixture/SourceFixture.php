@@ -43,10 +43,12 @@ class SourceFixture extends AbstractFixture
             $repository->files('*.ph*'),
             $repository->files('bin/*')
         ));
+
         foreach ($phps as $k => $php) {
             $this->replace($repository, $php);
 
             $newName = strtr($php, [
+                getcwd() => getcwd(),
                 'Zend' => 'Laminas',
                 'zend-expressive' => 'mezzio',
                 'expressive' => 'mezzio',

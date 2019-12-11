@@ -15,7 +15,6 @@ use function exec;
 use function getcwd;
 use function implode;
 use function microtime;
-use function preg_quote;
 use function preg_replace;
 use function realpath;
 use function sprintf;

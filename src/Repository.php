@@ -35,9 +35,7 @@ class Repository
     public const T_LICENSE = 'LICENSE.md';
     public const T_SUPPORT = 'SUPPORT.md';
 
-    // @phpcs:disable
     public const REGEX_URL = '%\b(?P<url>(?:zendframework|zfcampus)/[^/]+(?:/(?:issues|pull)/|#)\d+)\b%i';
-    // @phpcs:enable
 
     /** @var string[] */
     private $replacements = [

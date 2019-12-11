@@ -206,6 +206,10 @@ class Repository
         'ZfSnapEventDebugger' => 'ZfSnapEventDebugger',
         // fix typo
         'apigiltiy' => 'apigility',
+        // security advisories link to old address
+        'framework.zend.com/security/advisory/ZF' => 'framework.zend.com/security/advisory/ZF',
+        'framework.zend.com/security/advisory' => 'framework.zend.com/security/advisory',
+        'ZF20' => 'ZF20',
     ];
 
     /** @var string */

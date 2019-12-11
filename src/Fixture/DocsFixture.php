@@ -29,6 +29,8 @@ use const PHP_EOL;
  * Updates documentation files in doc/ or docs/ directories (*.html, *.md)
  * Renames files with "zend-"/"zf-" names
  * Updates README.md if present
+ * Updates CHANGELOG.md if present to rewrite links to issues/PRs to reference
+ *     original locations.
  * Updates mkdocs.yml if present
  * Renames .zf-mkdoc-theme-landing
  * Removes CONTRIBUTING/CODE_OF_CONDUCT/SUPPORT files and Github PR and Issue templates
@@ -102,6 +104,12 @@ class DocsFixture extends AbstractFixture
         $readme = current($repository->files('README.md'));
         if ($readme) {
             $this->replace($repository, $readme);
+        }
+
+        $changelog = current($repository->files('CHANGELOG.md'));
+        if ($changelog) {
+            $this->replace($repository, $changelog);
+            $this->processChangelog($changelog, $repository);
         }
 
         $mkdocs = current($repository->files('mkdocs.yml'));
@@ -182,5 +190,16 @@ class DocsFixture extends AbstractFixture
         $content = file_get_contents($file);
         $content = $repository->replace($content);
         file_put_contents($file, $content);
+    }
+
+    private function processChangelog(string $changelogFile, Repository $repository) : void
+    {
+        $content = file_get_contents($changelogFile);
+        $content = preg_replace(
+            '@(^|\[|[^a-z])(#[1-9][0-9]*)@m',
+            str_replace('%repo%', $repository->getName(), '$1%repo%$2'),
+            $content
+        );
+        file_put_contents($changelogFile, $content);
     }
 }

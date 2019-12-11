@@ -9,6 +9,7 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
 
+use function array_flip;
 use function array_merge;
 use function date;
 use function explode;
@@ -16,8 +17,10 @@ use function file_get_contents;
 use function getcwd;
 use function in_array;
 use function is_dir;
+use function preg_match_all;
 use function preg_quote;
 use function rename;
+use function sprintf;
 use function str_replace;
 use function strtr;
 use function system;
@@ -31,6 +34,10 @@ class Repository
     public const T_COPYRIGHT = 'COPYRIGHT.md';
     public const T_LICENSE = 'LICENSE.md';
     public const T_SUPPORT = 'SUPPORT.md';
+
+    // @phpcs:disable
+    public const REGEX_URL = '%\b(?P<url>(?:zendframework|zfcampus)/[^/]+(?:/(?:issues|pull)/|#)\d+)\b%i';
+    // @phpcs:enable
 
     /** @var string[] */
     private $replacements = [
@@ -268,7 +275,22 @@ class Repository
 
     public function replace(string $content) : string
     {
-        return strtr($content, $this->replacements);
+        preg_match_all(self::REGEX_URL, $content, $matches);
+
+        if (empty($matches['url'])) {
+            return strtr($content, $this->replacements);
+        }
+
+        $urlMap = [];
+        foreach ((array) $matches['url'] as $index => $url) {
+            $replacement = sprintf('%%TRANSFER_URL_%d%%', $index);
+            $urlMap[$replacement] = $url;
+        }
+
+        return strtr(
+            strtr($content, array_flip($urlMap)),
+            $this->replacements + $urlMap
+        );
     }
 
     public function addReplacedContentFiles(array $files) : void

@@ -55,4 +55,23 @@ class RepositoryTest extends TestCase
 
         self::assertSame(__DIR__, $repository->getPath());
     }
+
+    public function testDoesNotReplaceUrls() : void
+    {
+        $content = <<<'END'
+class SomeClassname
+{
+    /**
+     * Fixes zendframework/zend-mvc#42
+     * @see https://github.com/zendframework/zend-view/issues/152
+     */
+    public function someMethod()
+    {
+    }
+}
+END;
+        $repository = new Repository('zendframework/zend-view', __DIR__);
+        $result = $repository->replace($content);
+        self::assertSame($content, $result);
+    }
 }

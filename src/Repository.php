@@ -30,7 +30,6 @@ class Repository
     public const T_CONTRIBUTING = 'CONTRIBUTING.md';
     public const T_COPYRIGHT = 'COPYRIGHT.md';
     public const T_LICENSE = 'LICENSE.md';
-    public const T_SECURITY = 'SECURITY.md';
     public const T_SUPPORT = 'SUPPORT.md';
 
     /** @var string[] */

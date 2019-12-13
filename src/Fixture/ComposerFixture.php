@@ -23,6 +23,7 @@ use function explode;
 use function file_get_contents;
 use function json_decode;
 use function json_encode;
+use function rtrim;
 use function strtolower;
 use function uksort;
 use function unlink;

@@ -64,8 +64,8 @@ class LocalTestCommand extends Command
             }
             system(
                 'cd ' . $dirname . ' && \
-                hub remote add ' . $org . ' && \
-                git push ' . $org . ' --set-upstream master:master -f'
+                git remote add origin git@github.com:' . $org . '/' . $name . '.git && \
+                git push origin --set-upstream master:master -f'
             );
             chdir($currentDir);
         }

@@ -23,6 +23,7 @@ use function explode;
 use function file_get_contents;
 use function json_decode;
 use function json_encode;
+use function rtrim;
 use function strtolower;
 use function uksort;
 use function unlink;
@@ -38,6 +39,7 @@ use function unlink;
  * Sorts sections as defined in constant.
  * Removes redundant sections.
  * Lowercase package names in "require", "require-dev", "suggest", "conflict" sections.
+ * Fixes namespace and paths in PSR-0/PSR-4 autoload(-dev) sections (add missing trailing slash/backslash).
  */
 class ComposerFixture extends AbstractFixture
 {
@@ -119,6 +121,9 @@ class ComposerFixture extends AbstractFixture
             $json['homepage'] = 'https://api-tools.laminas.dev';
         }
 
+        // Normalize autoloader rules
+        $json = $this->normalizeAutoloaderRules($json);
+
         // Lowercase repository names
         foreach (['require', 'require-dev', 'suggest', 'conflict'] as $section) {
             foreach ($json[$section] ?? [] as $package => $version) {
@@ -176,5 +181,31 @@ class ComposerFixture extends AbstractFixture
             new PackageHashNormalizer(),
             new VersionConstraintNormalizer()
         );
+    }
+
+    /**
+     * Ensure autoloading rules are correct.
+     *
+     * Fixes an issue in the 2.0.0 - 2.0.2 components, whereby they were
+     * originally written incorrectly.
+     */
+    private function normalizeAutoloaderRules(array $json) : array
+    {
+        foreach (['autoload', 'autoload-dev'] as $autoloaderSection) {
+            foreach (['psr-4', 'psr-0'] as $psr) {
+                foreach ($json[$autoloaderSection][$psr] ?? [] as $namespace => $path) {
+                    $newNamespace = $namespace === '' ? '' : rtrim($namespace, '\\') . '\\';
+                    $newPath = $path === '' ? '' : rtrim($path, '/') . '/';
+
+                    if ($namespace !== $newNamespace) {
+                        unset($json[$autoloaderSection][$psr][$namespace]);
+                    }
+
+                    $json[$autoloaderSection][$psr][$newNamespace] = $newPath;
+                }
+            }
+        }
+
+        return $json;
     }
 }

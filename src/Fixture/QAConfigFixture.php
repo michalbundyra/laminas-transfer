@@ -16,9 +16,13 @@ use function file_put_contents;
 use function implode;
 use function in_array;
 use function is_dir;
+use function preg_match;
 use function preg_replace;
 use function str_replace;
+use function strlen;
+use function strpos;
 use function strstr;
+use function strtr;
 use function trim;
 use function usort;
 
@@ -48,6 +52,80 @@ class QAConfigFixture extends AbstractFixture
         }
     }
 
+    private function getDeps(string $section) : ?string
+    {
+        if (! preg_match('/- DEPS=(?P<deps>lowest|locked|latest)/', $section, $match)) {
+            return null;
+        }
+
+        return $match['deps'];
+    }
+
+    private function getPhpVersion(string $section) : ?string
+    {
+        if (! preg_match('/- php: [\'"]?(?P<version>[\d.]+)[\'"]?/', $section, $php)) {
+            return null;
+        }
+
+        return $php['version'];
+    }
+
+    private function getEnvs(string $section) : array
+    {
+        $envs = [];
+        $lines = explode("\n", $section);
+
+        $inEnvs = false;
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if (! $inEnvs) {
+                if (strpos($line, 'env:') === 0) {
+                    $inEnvs = true;
+                }
+                continue;
+            }
+
+            if (strpos($line, '=') === false) {
+                return $envs;
+            }
+
+            [$name, $value] = explode('=', $line, 2);
+            $envs[$name] = $value;
+        }
+
+        return $envs;
+    }
+
+    private function getSpaces(string $section) : string
+    {
+        preg_match('/(^\s*)- DEPS=/m', $section, $spaces);
+
+        return $spaces[1] ?? '';
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getSections(string $content) : array
+    {
+        $offset = 0;
+
+        $sections = [];
+        while (preg_match('/(^\s*- php: .*?)(?=^\s*- php|allow_failures|\n\n)/sm', $content, $matches, 0, $offset)) {
+            $offset = strpos($content, $matches[0], $offset) + strlen($matches[1]);
+            $sections[] = $matches[1];
+        }
+
+        return $sections;
+    }
+
+    private function getServicesAndAddons(string $section) : string
+    {
+        preg_match('/- php: .*?^\s*env:/sm', $section, $match);
+
+        return $match[0];
+    }
+
     private function replace(Repository $repository, string $file) : void
     {
         $content = file_get_contents($file);
@@ -56,6 +134,9 @@ class QAConfigFixture extends AbstractFixture
         $filename = basename($file);
 
         if ($filename === '.travis.yml') {
+            // use always CS_CHECK env variable
+            $content = str_replace('CHECK_CS', 'CS_CHECK', $content);
+
             // Remove IRC in notifications
             $content = preg_replace('/\n^\s*irc:.*$/m', '', $content);
 
@@ -65,6 +146,71 @@ class QAConfigFixture extends AbstractFixture
             // Add fast_finish: true
             $content = preg_replace('/\n^\s*fast_finish:.*$/m', '', $content);
             $content = str_replace('matrix:' . "\n", 'matrix:' . "\n" . '  fast_finish: true' . "\n", $content);
+
+            // Add php linter to script section:
+            // @phpcs:disable Generic.Files.LineLength.TooLong
+            $lint = "  - find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v \"No syntax errors detected\")";
+            // @phpcs:enable
+            $content = preg_replace('/^\s*script:\n/m', '$0' . $lint . "\n", $content);
+
+            $replacements = [];
+            $sections = $this->getSections($content);
+
+            if ($sections) {
+                foreach ($sections as $k => $section) {
+                    $deps = $this->getDeps($section);
+                    if ($deps !== 'locked') {
+                        continue;
+                    }
+
+                    $php = $this->getPhpVersion($section);
+
+                    if ($deps === null || $php === null || ! isset($sections[$k + 1])) {
+                        continue;
+                    }
+
+                    $nextDeps = $this->getDeps($sections[$k + 1]);
+                    $nextPhp = $this->getPhpVersion($sections[$k + 1]);
+
+                    if ($nextDeps !== 'latest' || $nextPhp !== $php) {
+                        $replacements[$section] = str_replace('DEPS=locked', 'DEPS=latest', $section);
+                        continue;
+                    }
+
+                    $oldEnvs = $this->getEnvs($section);
+                    $newEnvs = $this->getEnvs($sections[$k + 1]);
+                    $spaces = $this->getSpaces($sections[$k + 1]);
+
+                    $additionalEnvs = [];
+                    foreach ($oldEnvs as $name => $value) {
+                        if (strpos($name, 'LEGACY_DEPS') !== false) {
+                            continue;
+                        }
+
+                        if (strpos($name, 'CS_CHECK') !== false) {
+                            continue;
+                        }
+
+                        if (! isset($newEnvs[$name])) {
+                            $additionalEnvs[] = $spaces . $name . '=' . $value;
+                        }
+                    }
+
+                    $addons = $this->getServicesAndAddons($section);
+                    $newSection = preg_replace('/- php.*?env:/s', $addons, $sections[$k + 1]);
+                    if ($additionalEnvs) {
+                        $newSection = str_replace(
+                            '- DEPS=latest',
+                            '- DEPS=latest' . "\n" . implode("\n", $additionalEnvs),
+                            $newSection
+                        );
+                    }
+                    $replacements[$sections[$k + 1]] = $newSection;
+                    $replacements[$section] = '';
+                }
+
+                $content = strtr($content, $replacements);
+            }
         }
 
         if (in_array($filename, ['.gitattributes', '.gitignore'], true)) {
@@ -118,6 +264,8 @@ class QAConfigFixture extends AbstractFixture
                     $rows[] = '/laminas-mkdoc-theme.tgz';
                     $rows[] = '/laminas-mkdoc-theme/';
                 }
+
+                $rows[] = '/composer.lock';
 
                 foreach ($rows as $i => $row) {
                     $line = trim($row);

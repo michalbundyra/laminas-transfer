@@ -189,32 +189,17 @@ class ComposerFixture extends AbstractFixture
      */
     private function normalizeAutoloaderRules(array $json) : array
     {
-        $pattern = sprintf('#%s$#', preg_quote('\\'));
-
         foreach (['autoload', 'autoload-dev'] as $autoloaderSection) {
-            if (! isset($json[$autoloaderSection]['psr-4'])) {
-                continue;
-            }
+            foreach (['psr-4', 'psr-0'] as $psr) {
+                foreach ($json[$autoloaderSection][$psr] ?? [] as $namespace => $path) {
+                    $newNamespace = $namespace === '' ? '' : rtrim($namespace, '\\') . '\\';
+                    $newPath = $path === '' ? '' : rtrim($path, '/') . '/';
 
-            foreach ($json[$autoloaderSection]['psr-4'] as $namespace => $path) {
-                $changedNamespace = $namespace;
-                $changedPath = $path;
+                    if ($namespace !== $newNamespace) {
+                        unset($json[$autoloaderSection][$psr][$namespace]);
+                    }
 
-                if (! preg_match($pattern, $namespace)) {
-                    $changedNamespace .= '\\';
-                }
-
-                if (! preg_match('#/$#', $path)) {
-                    $changedPath .= '/';
-                }
-
-                if ($changedNamespace === $namespace && $changedPath === $path) {
-                    continue;
-                }
-
-                $json[$autoloaderSection]['psr-4'][$changedNamespace] = $changedPath;
-                if ($changedNamespace !== $namespace) {
-                    unset($json[$autoloaderSection]['psr-4'][$namespace]);
+                    $json[$autoloaderSection][$psr][$newNamespace] = $newPath;
                 }
             }
         }

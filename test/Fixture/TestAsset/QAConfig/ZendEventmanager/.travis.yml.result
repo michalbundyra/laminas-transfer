@@ -17,20 +17,11 @@ matrix:
         - DEPS=lowest
     - php: 5.6
       env:
-        - DEPS=locked
-        - LEGACY_DEPS="phpunit/phpunit"
-        - TEST_COVERAGE=true
-    - php: 5.6
-      env:
         - DEPS=latest
+        - TEST_COVERAGE=true
     - php: 7
       env:
         - DEPS=lowest
-    - php: 7
-      env:
-        - DEPS=locked
-        - LEGACY_DEPS="phpunit/phpunit"
-        - CS_CHECK=true
     - php: 7
       env:
         - DEPS=latest
@@ -39,18 +30,12 @@ matrix:
         - DEPS=lowest
     - php: 7.1
       env:
-        - DEPS=locked
-        - TEST_COVERAGE=true
-    - php: 7.1
-      env:
         - DEPS=latest
+        - TEST_COVERAGE=true
         - BENCHMARKS=true
     - php: 7.2
       env:
         - DEPS=lowest
-    - php: 7.2
-      env:
-        - DEPS=locked
     - php: 7.2
       env:
         - DEPS=latest
@@ -67,6 +52,7 @@ install:
   - stty cols 120 && composer show
 
 script:
+  - find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v "No syntax errors detected")
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
   - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
 

@@ -1,0 +1,203 @@
+language: php
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+services:
+  - memcached
+  - mongodb
+  - redis-server
+
+env:
+  global:
+    - COMPOSER_ARGS="--no-interaction"
+    - COVERAGE_DEPS="php-coveralls/php-coveralls"
+    - EXTMONGODB_DEPS="mongodb/mongodb"
+    - TESTS_LAMINAS_CACHE_APC_ENABLED=true
+    - TESTS_LAMINAS_CACHE_APCU_ENABLED=true
+    - TESTS_LAMINAS_CACHE_FILESYSTEM_DIR=/dev/shm
+    - TESTS_LAMINAS_CACHE_MEMCACHED_ENABLED=true
+    - TESTS_LAMINAS_CACHE_MEMCACHED_HOST="127.0.0.1"
+    - TESTS_LAMINAS_CACHE_MEMCACHED_PORT=11211
+    - TESTS_LAMINAS_CACHE_MEMCACHE_ENABLED=false # Supported only on PHP 5.6
+    - TESTS_LAMINAS_CACHE_MEMCACHE_HOST=$TESTS_LAMINAS_CACHE_MEMCACHED_HOST
+    - TESTS_LAMINAS_CACHE_MEMCACHE_PORT=$TESTS_LAMINAS_CACHE_MEMCACHED_PORT
+    - TESTS_LAMINAS_CACHE_MONGODB_ENABLED=true
+    - TESTS_LAMINAS_CACHE_EXTMONGODB_ENABLED=true
+    - TESTS_LAMINAS_CACHE_REDIS_ENABLED=true
+    - TESTS_LAMINAS_CACHE_REDIS_HOST="127.0.0.1"
+    - TESTS_LAMINAS_CACHE_REDIS_PORT=6379
+    - TESTS_LAMINAS_CACHE_REDIS_PASSWORD=""
+    - TESTS_LAMINAS_CACHE_REDIS_DATABASE=0
+    - TESTS_LAMINAS_CACHE_XCACHE_ENABLED=false # Supported only on PHP 5.6
+    - TESTS_LAMINAS_CACHE_XCACHE_ADMIN_AUTH=true
+    - TESTS_LAMINAS_CACHE_XCACHE_ADMIN_USER=travis
+    - TESTS_LAMINAS_CACHE_XCACHE_ADMIN_PASS=test
+    - TESTS_LAMINAS_CACHE_MONGODB_USE_POLYFILL=false
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 5.6
+      env:
+        - DEPS=lowest
+        - APCU_PECL_VERSION="apcu-4.0.8"
+        - MEMCACHE_PECL_VERSION="memcache-2.2.7"
+        - MEMCACHED_PECL_VERSION="memcached-2.2.0"
+        - REDIS_PECL_VERSION="redis-2.2.3"
+        - TESTS_LAMINAS_CACHE_EXTMONGODB_ENABLED=false
+        - TESTS_LAMINAS_CACHE_MEMCACHE_ENABLED=true
+        - TESTS_LAMINAS_CACHE_XCACHE_ENABLED=true
+    - php: 5.6
+      env:
+        - DEPS=latest
+        - APCU_PECL_VERSION="apcu"
+        - MEMCACHE_PECL_VERSION="memcache"
+        - MEMCACHED_PECL_VERSION="memcached-2.2.0"
+        - REDIS_PECL_VERSION="redis-4.3.0"
+        - TESTS_LAMINAS_CACHE_EXTMONGODB_ENABLED=false
+        - TESTS_LAMINAS_CACHE_MEMCACHE_ENABLED=true
+        - TESTS_LAMINAS_CACHE_XCACHE_ENABLED=true
+    - php: 7
+      env:
+        - DEPS=lowest
+        - APCU_PECL_VERSION="apcu-5.1.2"
+        - APCU_BC_PECL_VERSION="apcu_bc-1.0.0"
+        - REDIS_PECL_VERSION="redis-4.0.0"
+        - TESTS_LAMINAS_CACHE_MONGODB_USE_POLYFILL=true
+        - TESTS_LAMINAS_CACHE_EXTMONGODB_ENABLED=false
+    - php: 7
+      env:
+        - DEPS=latest
+        - APCU_PECL_VERSION="apcu"
+        - APCU_BC_PECL_VERSION="apcu_bc"
+        - REDIS_PECL_VERSION="redis"
+        - TESTS_LAMINAS_CACHE_MONGODB_USE_POLYFILL=true
+        - TESTS_LAMINAS_CACHE_EXTMONGODB_ENABLED=false
+    - php: 7.1
+      env:
+        - DEPS=lowest
+        - APCU_PECL_VERSION="apcu-5.1.7"
+        - APCU_BC_PECL_VERSION="apcu_bc-1.0.2"
+        - REDIS_PECL_VERSION="redis-4.0.0"
+        - TESTS_LAMINAS_CACHE_MONGODB_USE_POLYFILL=true
+    - php: 7.1
+      env:
+        - DEPS=latest
+        - BENCHMARKS=true
+        - TEST_COVERAGE=true
+        - APCU_PECL_VERSION="apcu"
+        - APCU_BC_PECL_VERSION="apcu_bc"
+        - REDIS_PECL_VERSION="redis"
+        - TESTS_LAMINAS_CACHE_MONGODB_USE_POLYFILL=true
+    - php: 7.2
+      env:
+        - DEPS=lowest
+        - APCU_PECL_VERSION="apcu-5.1.10"
+        - APCU_BC_PECL_VERSION="apcu_bc-1.0.2"
+        - REDIS_PECL_VERSION="redis-4.0.0"
+        - TESTS_LAMINAS_CACHE_MONGODB_USE_POLYFILL=true
+    - php: 7.2
+      env:
+        - DEPS=latest
+        - APCU_PECL_VERSION="apcu"
+        - APCU_BC_PECL_VERSION="apcu_bc"
+        - REDIS_PECL_VERSION="redis"
+        - TESTS_LAMINAS_CACHE_MONGODB_USE_POLYFILL=true
+    - php: 7.3
+      env:
+        - DEPS=lowest
+        - APCU_PECL_VERSION="apcu-5.1.10"
+        - APCU_BC_PECL_VERSION="apcu_bc-1.0.2"
+        - MEMCACHED_PECL_VERSION="memcached-3.1.2"
+        - REDIS_PECL_VERSION="redis-4.0.0"
+        - TESTS_LAMINAS_CACHE_MONGODB_USE_POLYFILL=true
+    - php: 7.3
+      env:
+        - DEPS=latest
+        - APCU_PECL_VERSION="apcu"
+        - APCU_BC_PECL_VERSION="apcu_bc"
+        - MEMCACHED_PECL_VERSION="memcached"
+        - REDIS_PECL_VERSION="redis"
+        - TESTS_LAMINAS_CACHE_MONGODB_USE_POLYFILL=true
+
+before_install:
+  - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
+  - pecl channel-update pecl.php.net
+
+install:
+  # prevent PECL from enabling the extension by default, see https://pear.php.net/bugs/bug.php?id=21007
+  - if [[ $APCU_PECL_VERSION != '' ]]; then
+        echo "yes\nno\n" | pecl install -f $APCU_PECL_VERSION || return 0 ;
+        sed -i 's/extension="apcu.so"//' ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ;
+    fi ;
+
+  - if [[ $APCU_BC_PECL_VERSION != '' ]]; then
+        pecl install -f $APCU_BC_PECL_VERSION ;
+        sed -i 's/extension="apc.so"//' ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini ;
+    fi ;
+
+  - if [[ $TESTS_LAMINAS_CACHE_XCACHE_ENABLED == 'true' ]]; then
+        git clone https://github.com/lighttpd/xcache.git
+        && (
+            cd xcache
+            && git checkout $(git rev-list --tags --max-count=1)
+            && phpize && ./configure --enable-xcache && make install
+        );
+    fi ;
+
+  - if [[ $APCU_PECL_VERSION != '' && $APCU_BC_PECL_VERSION == '' ]]; then
+        phpenv config-add .ci/apcu.ini ;
+    elif [[ $APCU_BC_PECL_VERSION != '' ]]; then
+        phpenv config-add .ci/apcu_bc.ini ;
+    fi ;
+
+  - if [[ $TESTS_LAMINAS_CACHE_REDIS_ENABLED == 'true' ]]; then
+        echo "no" | pecl install -f $REDIS_PECL_VERSION ;
+    fi ;
+
+  - if [[ $TESTS_LAMINAS_CACHE_MEMCACHE_ENABLED == 'true' ]]; then
+        yes|CFLAGS="-fgnu89-inline" pecl install -f $MEMCACHE_PECL_VERSION ;
+    fi ;
+
+  - if [[ $TESTS_LAMINAS_CACHE_MEMCACHED_ENABLED == 'true' && $MEMCACHED_PECL_VERSION != '' ]]; then
+        echo "no" | pecl install -f $MEMCACHED_PECL_VERSION ;
+    elif [[ $TESTS_LAMINAS_CACHE_MEMCACHED_ENABLED == 'true' ]]; then
+        phpenv config-add .ci/memcached.ini ;
+    fi ;
+
+  - if [[ $TESTS_LAMINAS_CACHE_MONGODB_ENABLED == 'true' && $TESTS_LAMINAS_CACHE_MONGODB_USE_POLYFILL != 'true' ]]; then
+        phpenv config-add .ci/mongo.ini ;
+    fi ;
+
+  - if [[ $TESTS_LAMINAS_CACHE_EXTMONGODB_ENABLED == 'true' ]]; then
+        phpenv config-add .ci/mongodb.ini ;
+    fi ;
+
+  - if [[ $TESTS_LAMINAS_CACHE_XCACHE_ENABLED == 'true' ]]; then
+        phpenv config-add .ci/xcache.ini ;
+    fi ;
+
+  - travis_retry composer install $COMPOSER_ARGS --ignore-platform-reqs
+  - if [[ $LEGACY_DEPS != '' ]]; then travis_retry composer update $COMPOSER_ARGS --with-dependencies $LEGACY_DEPS ; fi
+  - if [[ $DEPS == 'latest' ]]; then travis_retry composer update $COMPOSER_ARGS ; fi
+  - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable $COMPOSER_ARGS ; fi
+  - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS $COVERAGE_DEPS ; fi
+  - if [[ $TESTS_LAMINAS_CACHE_MONGODB_USE_POLYFILL == 'true' ]]; then travis_retry composer require --dev --no-update $COMPOSER_ARGS mongofill/mongofill:dev-master ; fi
+  - if [[ $TESTS_LAMINAS_CACHE_EXTMONGODB_ENABLED == 'true' ]]; then travis_retry composer require --dev --no-update $COMPOSER_ARGS $EXTMONGODB_DEPS ; fi
+  - stty cols 120 && composer show
+  - pecl list
+  - php -m
+
+script:
+  - find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v "No syntax errors detected")
+  - if [[ $TEST_COVERAGE == 'true' ]]; then composer run-script test-coverage -- --verbose ; else composer run-script test -- --verbose ; fi
+  - if [[ $BENCHMARKS == 'true' ]]; then vendor/bin/phpbench run --revs=2 --iterations=2 --report=aggregate ; fi
+  - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
+
+after_script:
+  - if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry vendor/bin/php-coveralls -v ; fi
+
+notifications:
+  email: false

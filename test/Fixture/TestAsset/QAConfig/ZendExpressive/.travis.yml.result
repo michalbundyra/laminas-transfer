@@ -17,22 +17,15 @@ matrix:
         - DEPS=lowest
     - php: 7.1
       env:
-        - DEPS=locked
-        - CS_CHECK=true
-        - TEST_COVERAGE=true
-    - php: 7.1
-      env:
         - DEPS=latest
+        - TEST_COVERAGE=true
     - php: 7.2
       env:
         - DEPS=lowest
     - php: 7.2
       env:
-        - DEPS=locked
-        - PHPSTAN_CHECK=true
-    - php: 7.2
-      env:
         - DEPS=latest
+        - PHPSTAN_CHECK=true
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
@@ -46,6 +39,7 @@ install:
   - cat phpunit.xml.dist
 
 script:
+  - find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v "No syntax errors detected")
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
   - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
   - if [[ $CS_CHECK == 'true' ]]; then composer license-check ; fi

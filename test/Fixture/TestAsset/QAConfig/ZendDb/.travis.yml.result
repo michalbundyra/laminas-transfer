@@ -19,13 +19,9 @@ matrix:
       services:
         - mysql
       env:
-        - DEPS=locked
-        - LEGACY_DEPS="phpunit/phpunit laminas/laminas-hydrator"
+        - DEPS=latest
         - TEST_INTEGRATION=true
         - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
-    - php: 5.6
-      env:
-        - DEPS=latest
     - php: 7.0
       env:
         - DEPS=lowest
@@ -33,13 +29,9 @@ matrix:
       services:
         - mysql
       env:
-        - DEPS=locked
-        - LEGACY_DEPS="phpunit/phpunit laminas/laminas-hydrator"
+        - DEPS=latest
         - TEST_INTEGRATION=true
         - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
-    - php: 7.0
-      env:
-        - DEPS=latest
     - php: 7.1
       env:
         - DEPS=lowest
@@ -47,15 +39,10 @@ matrix:
       services:
         - mysql
       env:
-        - DEPS=locked
-        - LEGACY_DEPS="laminas/laminas-hydrator"
-        - CS_CHECK=true
+        - DEPS=latest
         - TEST_COVERAGE=true
         - TEST_INTEGRATION=true
         - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
-    - php: 7.1
-      env:
-        - DEPS=latest
     - php: 7.2
       env:
         - DEPS=lowest
@@ -63,7 +50,7 @@ matrix:
       services:
         - mysql
       env:
-        - DEPS=locked
+        - DEPS=latest
         - TEST_INTEGRATION=true
         - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
     - php: 7.2
@@ -72,18 +59,12 @@ matrix:
       addons:
         postgresql: "9.6"
       env:
-        - DEPS=locked
+        - DEPS=latest
         - TEST_INTEGRATION=true
         - TESTS_LAMINAS_DB_ADAPTER_DRIVER_PGSQL=true
-    - php: 7.2
-      env:
-        - DEPS=latest
     - php: 7.3
       env:
         - DEPS=lowest
-    - php: 7.3
-      env:
-        - DEPS=locked
     - php: 7.3
       env:
         - DEPS=latest
@@ -100,6 +81,7 @@ install:
   - stty cols 120 && composer show
 
 script:
+  - find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v "No syntax errors detected")
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
   - if [[ $TEST_INTEGRATION == 'true' ]]; then composer test-integration ; fi
   - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi

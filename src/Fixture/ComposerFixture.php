@@ -119,6 +119,9 @@ class ComposerFixture extends AbstractFixture
             $json['homepage'] = 'https://api-tools.laminas.dev';
         }
 
+        // Normalize autoloader rules
+        $json = $this->normalizeAutoloaderRules($json);
+
         // Lowercase repository names
         foreach (['require', 'require-dev', 'suggest', 'conflict'] as $section) {
             foreach ($json[$section] ?? [] as $package => $version) {
@@ -176,5 +179,46 @@ class ComposerFixture extends AbstractFixture
             new PackageHashNormalizer(),
             new VersionConstraintNormalizer()
         );
+    }
+
+    /**
+     * Ensure autoloading rules are correct.
+     *
+     * Fixes an issue in the 2.0.0 - 2.0.2 components, whereby they were
+     * originally written incorrectly.
+     */
+    private function normalizeAutoloaderRules(array $json) : array
+    {
+        $pattern = sprintf('#%s$#', preg_quote('\\'));
+
+        foreach (['autoload', 'autoload-dev'] as $autoloaderSection) {
+            if (! isset($json[$autoloaderSection]['psr-4'])) {
+                continue;
+            }
+
+            foreach ($json[$autoloaderSection]['psr-4'] as $namespace => $path) {
+                $changedNamespace = $namespace;
+                $changedPath = $path;
+
+                if (! preg_match($pattern, $namespace)) {
+                    $changedNamespace .= '\\';
+                }
+
+                if (! preg_match('#/$#', $path)) {
+                    $changedPath .= '/';
+                }
+
+                if ($changedNamespace === $namespace && $changedPath === $path) {
+                    continue;
+                }
+
+                $json[$autoloaderSection]['psr-4'][$changedNamespace] = $changedPath;
+                if ($changedNamespace !== $namespace) {
+                    unset($json[$autoloaderSection]['psr-4'][$namespace]);
+                }
+            }
+        }
+
+        return $json;
     }
 }

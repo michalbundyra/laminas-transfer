@@ -45,7 +45,7 @@ class LocalTestCommand extends Command
 
             $currentDir = getcwd();
             chdir($dirname);
-            system(__DIR__ . '/../../bin/console rewrite ' . $repo . ' --local');
+            system(__DIR__ . '/../../bin/console rewrite ' . $repo);
             chdir($currentDir);
         }
 

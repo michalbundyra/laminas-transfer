@@ -39,6 +39,7 @@ use function unlink;
  * Sorts sections as defined in constant.
  * Removes redundant sections.
  * Lowercase package names in "require", "require-dev", "suggest", "conflict" sections.
+ * Fixes namespace and paths in PSR-0/PSR-4 autoload(-dev) sections (add missing trailing slash/backslash).
  */
 class ComposerFixture extends AbstractFixture
 {

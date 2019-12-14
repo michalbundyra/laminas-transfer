@@ -45,11 +45,5 @@
     },
     "replace": {
         "zendframework/zendxml": "self.version"
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://getlaminas.org/"
-        }
-    ]
+    }
 }

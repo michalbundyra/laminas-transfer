@@ -98,7 +98,8 @@ class ComposerFixture extends AbstractFixture
             $json['readme'],
             $json['time'],
             $json['minimum-stability'],
-            $json['prefer-stable']
+            $json['prefer-stable'],
+            $json['repositories']
         );
 
         $json['homepage'] = 'https://' . $org . '.dev';

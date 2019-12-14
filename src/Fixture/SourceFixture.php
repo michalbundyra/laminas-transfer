@@ -41,7 +41,8 @@ class SourceFixture extends AbstractFixture
     {
         $phps = array_unique(array_merge(
             $repository->files('*.ph*'),
-            $repository->files('bin/*')
+            $repository->files('bin/*'),
+            $repository->files('*.twig')
         ));
 
         foreach ($phps as $k => $php) {

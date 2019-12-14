@@ -1,0 +1,55 @@
+{
+    "name": "laminas/laminas-xml",
+    "description": "Utility library for XML usage, best practices, and security in PHP",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "laminas",
+        "xml",
+        "security"
+    ],
+    "homepage": "https://laminas.dev",
+    "support": {
+        "docs": "https://docs.laminas.dev/laminas-xml-old/",
+        "issues": "https://github.com/laminas/laminas-xml-old/issues",
+        "source": "https://github.com/laminas/laminas-xml-old",
+        "rss": "https://github.com/laminas/laminas-xml-old/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "require": {
+        "php": "^5.3.3 || ^7.0",
+        "laminas/laminas-zendframework-bridge": "^0.4 || ^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^3.7 || ^4.0",
+        "roave/security-advisories": "dev-master",
+        "squizlabs/php_codesniffer": "^1.5"
+    },
+    "autoload": {
+        "psr-0": {
+            "Laminas\\Xml\\": "library/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaminasTest\\Xml\\": "tests/LaminasTest/Xml/"
+        }
+    },
+    "replace": {
+        "zendframework/zendxml": "self.version"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://getlaminas.org/"
+        }
+    ]
+}

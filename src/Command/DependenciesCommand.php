@@ -90,6 +90,10 @@ class DependenciesCommand extends Command
         'zf3-web',
         'zfbot',
         'maintainers',
+        'ZendSkeletonApplication',
+        'getexpressive.org',
+        'apigility-documentation',
+        'apigility.org',
     ];
 
     /** @var array[] */

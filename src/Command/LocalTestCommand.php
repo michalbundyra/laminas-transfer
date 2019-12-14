@@ -16,6 +16,7 @@ use function chdir;
 use function explode;
 use function getcwd;
 use function in_array;
+use function strpos;
 use function system;
 
 use const DIRECTORY_SEPARATOR;
@@ -41,11 +42,32 @@ class LocalTestCommand extends Command
 
             $dirname = getcwd() . DIRECTORY_SEPARATOR . $name;
 
+            system('rm -Rf ' . $dirname);
             system('git clone https://github.com/' . $repo . ' ' . $dirname);
+            system('rm -Rf ' . $dirname . '/.git');
 
             $currentDir = getcwd();
             chdir($dirname);
+            system('cd ' . $dirname . ' && git init && git add . && git commit -am "original"');
             system(__DIR__ . '/../../bin/console rewrite ' . $repo);
+            system(
+                'cd ' . $dirname . ' && \
+                composer config repositories.laminas composer https://laminas.mwop.net/repo/testing && \
+                git add . && \
+                git commit -am "' . $name . ': rewrite test 2"'
+            );
+            if (strpos($name, 'mezzio') === 0) {
+                $org = 'mezzio-dev';
+            } elseif (strpos($name, 'api-') === 0) {
+                $org = 'laminas-api-tools-dev';
+            } else {
+                $org = 'laminas-dev';
+            }
+            system(
+                'cd ' . $dirname . ' && \
+                git remote add origin git@github.com:' . $org . '/' . $name . '.git && \
+                git push origin --set-upstream master:master -f'
+            );
             chdir($currentDir);
         }
 

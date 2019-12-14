@@ -42,6 +42,7 @@ class LocalTestCommand extends Command
 
             $dirname = getcwd() . DIRECTORY_SEPARATOR . $name;
 
+            system('rm -Rf ' . $dirname);
             system('git clone https://github.com/' . $repo . ' ' . $dirname);
             system('rm -Rf ' . $dirname . '/.git');
 

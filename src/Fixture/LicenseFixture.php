@@ -13,7 +13,6 @@ use function file_put_contents;
 use function preg_replace;
 use function sprintf;
 use function str_replace;
-use function system;
 
 /**
  * Renames LICENSE.txt to LICENSE.md
@@ -36,7 +35,7 @@ EOS;
     {
         $licenseTxt = current($repository->files('LICENSE.txt'));
         if ($licenseTxt) {
-            system('git mv ' . $licenseTxt . ' ' . str_replace('.txt', '.md', $licenseTxt));
+            $repository->move($licenseTxt, str_replace('.txt', '.md', $licenseTxt));
         }
 
         $license = current($repository->files('LICENSE.md'));
@@ -56,7 +55,7 @@ EOS;
             $repository->getPath() . '/COPYRIGHT.md',
             $repository->getTemplateText($repository::T_COPYRIGHT)
         );
-        system('git add ' . $repository->getPath() . '/COPYRIGHT.md');
+        $repository->add($repository->getPath() . '/COPYRIGHT.md');
 
         $docheader = current($repository->files('.docheader'));
         if ($docheader) {
@@ -69,7 +68,7 @@ EOS;
         $content = file_get_contents($file);
 
         $content = preg_replace(
-            '/\/\*\*.+?@license.+? \*\//s',
+            '/\/\*\*.+?@license.+?^\s*\*\//sm',
             sprintf(self::HEADER, $repository->getNewName()),
             $content,
             1

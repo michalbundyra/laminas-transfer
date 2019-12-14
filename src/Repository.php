@@ -333,6 +333,15 @@ class Repository
         return $this->underGit;
     }
 
+    public function add(string $filename) : void
+    {
+        if (! $this->isUnderGit()) {
+            return;
+        }
+
+        system('git add ' . $filename);
+    }
+
     public function move(string $source, string $target) : void
     {
         if ($this->isUnderGit()) {

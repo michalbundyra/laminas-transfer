@@ -8,7 +8,6 @@ use Laminas\Transfer\Repository;
 
 use function array_unique;
 use function basename;
-use function current;
 use function explode;
 use function file_exists;
 use function file_get_contents;
@@ -33,11 +32,9 @@ class QAConfigFixture extends AbstractFixture
         '.gitattributes',
         '.gitignore',
         '.travis.yml',
-        'phpcs.xml',
-        'phpstan.neon',
-        'phpunit.xml',
-        'phpunit.xml.dist',
-        'phpunit.xml.travis',
+        'phpcs.xm*',
+        '*.neon',
+        'phpunit.xm*',
         'Makefile',
         'Vagrantfile',
     ];
@@ -45,8 +42,7 @@ class QAConfigFixture extends AbstractFixture
     public function process(Repository $repository) : void
     {
         foreach ($this->files as $fileName) {
-            $file = current($repository->files($fileName));
-            if ($file) {
+            foreach ($repository->files($fileName) as $file) {
                 $this->replace($repository, $file);
             }
         }

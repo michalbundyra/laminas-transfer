@@ -217,6 +217,7 @@ class Repository
         'framework.zend.com/security/advisory/ZF' => 'framework.zend.com/security/advisory/ZF',
         'framework.zend.com/security/advisory' => 'framework.zend.com/security/advisory',
         'ZF20' => 'ZF20',
+        'ZF209' => 'Laminas209', // zend-http
     ];
 
     /** @var string */

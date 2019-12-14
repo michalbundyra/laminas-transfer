@@ -49,6 +49,11 @@ class Repository
         'api-skeletons/zf-' => 'api-skeletons/zf-',
         'phpro/zf-' => 'phpro/zf-',
         'doctrine-zend' => 'doctrine-zend',
+        // phrases uses in expressive-skeleton
+        'zend-phpdi' => 'zend-phpdi',
+        'zend-sf-di' => 'zend-sf-di',
+        'Northwoods\\Container\\Zend' => 'Northwoods\\Container\\Zend',
+        'Zend\\DI\\Config' => 'Zend\\DI\\Config',
         // Repositories we are not moving:
         'zfcampus/zf-console' => 'zfcampus/zf-console',
         'zf-console' => 'zf-console',

@@ -74,6 +74,8 @@ class Repository
         'ZendXmlTest\\\\' => 'LaminasTest\\\\Xml\\\\',
         'ZendXmlTest' => 'LaminasTest\\Xml',
         'ZendXml' => 'laminas-xml',
+        '/ZendXml' => '/LaminasXml',
+        '/ZendXmlTest' => '/LaminasTest/Xml',
         'zendxml' => 'laminas-xml',
         '"ZendOAuth":' => '"Laminas\\\\OAuth":',
         'ZendOAuth;' => 'Laminas\\OAuth;',

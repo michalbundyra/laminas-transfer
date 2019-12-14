@@ -61,6 +61,7 @@ class SourceFixture extends AbstractFixture
                 'zfdeploy.php' => 'laminas-deploy',
                 'zendview' => 'laminasview',
                 'zend-' => 'laminas-',
+                'zend.' => 'laminas.', // zf-oauth2
                 'zfconfig' => 'api-tools-config',
             ]);
 

@@ -68,7 +68,7 @@ EOS;
         $content = file_get_contents($file);
 
         $content = preg_replace(
-            '/\/\*\*.+?@license.+?^\s*\*\//sm',
+            '/\/\*\*.+?@license.+?^\s*\*+\//sm',
             sprintf(self::HEADER, $repository->getNewName()),
             $content,
             1

@@ -139,6 +139,8 @@ class Repository
         'apigility' => 'api-tools',
         'zf-' => 'api-tools-',
         'ApigilityModuleInterface' => 'ApiToolsModuleInterface', // apigility
+        'ApigilityProviderInterface' => 'ApiToolsProviderInterface',
+        'ApigilityVersionController' => 'ApiToolsVersionController',
         'docs.zendframework.com/zend-expressive' => 'docs.mezzio.dev/mezzio',
         'zendframework.github.io/zend-expressive' => 'docs.mezzio.dev/mezzio',
         'docs.zendframework.com/zend-problem-details' => 'docs.mezzio.dev/mezzio-problem-details',

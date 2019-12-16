@@ -48,6 +48,7 @@ class Repository
         'Zfc' => 'Zfc',
         'zfr_' => 'zfr_',
         'zfr/' => 'zfr/',
+        'zfr-' => 'zfr-', // apigility skeleton
         'api-skeletons/zf-' => 'api-skeletons/zf-',
         'phpro/zf-' => 'phpro/zf-',
         'doctrine-zend' => 'doctrine-zend',
@@ -132,6 +133,9 @@ class Repository
         'Zf-Apigility' => 'api-tools',
         'zf-apigility' => 'api-tools',
         'zfapigility' => 'apitools',
+        'Apigility/' => 'ApiTools/',
+        'Apigility' => 'Laminas Api Tools',
+        'apigility' => 'api-tools',
         'zf-' => 'api-tools-',
         'docs.zendframework.com/zend-expressive' => 'docs.mezzio.dev/mezzio',
         'zendframework.github.io/zend-expressive' => 'docs.mezzio.dev/mezzio',
@@ -212,7 +216,8 @@ class Repository
         'zenddevelopertools' => 'laminas-developer-tools',
         'ZfSnapEventDebugger' => 'ZfSnapEventDebugger',
         // fix typo
-        'apigiltiy' => 'apigility',
+        'apigiltiy' => 'api-tools',
+        'instructions' => 'instruction',
         // security advisories link to old address
         'framework.zend.com/security/advisory/ZF' => 'framework.zend.com/security/advisory/ZF',
         'framework.zend.com/security/advisory' => 'framework.zend.com/security/advisory',

@@ -1,0 +1,115 @@
+{
+    "name": "mezzio/mezzio-skeleton",
+    "description": "Laminas mezzio skeleton. Begin developing PSR-15 middleware applications in seconds!",
+    "type": "project",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "laminas",
+        "mezzio",
+        "skeleton",
+        "middleware",
+        "psr",
+        "psr-7",
+        "psr-11",
+        "psr-15"
+    ],
+    "homepage": "https://mezzio.dev",
+    "support": {
+        "docs": "https://docs.mezzio.dev/mezzio-skeleton/",
+        "issues": "https://github.com/mezzio/mezzio-skeleton/issues",
+        "source": "https://github.com/mezzio/mezzio-skeleton",
+        "rss": "https://github.com/mezzio/mezzio-skeleton/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.2.x-dev",
+            "dev-develop": "3.3.x-dev"
+        },
+        "laminas": {
+            "component-whitelist": [
+                "mezzio/mezzio",
+                "mezzio/mezzio-helpers",
+                "mezzio/mezzio-router",
+                "laminas/laminas-httphandlerrunner"
+            ]
+        }
+    },
+    "require": {
+        "php": "^7.1",
+        "laminas/laminas-component-installer": "^2.1.1",
+        "laminas/laminas-config-aggregator": "^1.0",
+        "laminas/laminas-diactoros": "^1.7.1 || ^2.0",
+        "laminas/laminas-stdlib": "^3.2.1",
+        "laminas/laminas-zendframework-bridge": "^0.4.1 || ^1.0",
+        "mezzio/mezzio": "^3.0.1",
+        "mezzio/mezzio-helpers": "^5.0"
+    },
+    "require-dev": {
+        "composer/composer": "^1.5",
+        "elie29/zend-phpdi-config": "^3.0",
+        "filp/whoops": "^2.1.12",
+        "jsoumelidis/zend-sf-di-config": "^0.3",
+        "laminas/laminas-auradi-config": "^1.0",
+        "laminas/laminas-coding-standard": "~1.0.0",
+        "laminas/laminas-development-mode": "^3.1",
+        "laminas/laminas-pimple-config": "^1.0",
+        "laminas/laminas-servicemanager": "^3.3",
+        "mezzio/mezzio-aurarouter": "^3.0",
+        "mezzio/mezzio-fastroute": "^3.0",
+        "mezzio/mezzio-laminasrouter": "^3.0",
+        "mezzio/mezzio-laminasviewrenderer": "^2.0.2",
+        "mezzio/mezzio-platesrenderer": "^2.0",
+        "mezzio/mezzio-tooling": "^1.0",
+        "mezzio/mezzio-twigrenderer": "^2.0",
+        "mikey179/vfsstream": "^1.6.5",
+        "northwoods/container": "^3.0",
+        "phpstan/phpstan": "^0.9.2",
+        "phpstan/phpstan-strict-rules": "^0.9.0",
+        "phpunit/phpunit": "^7.0.1",
+        "roave/security-advisories": "dev-master",
+        "squizlabs/php_codesniffer": "^2.9.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/App/src/",
+            "MezzioInstaller\\": "src/MezzioInstaller/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AppTest\\": "test/AppTest/",
+            "MezzioInstallerTest\\": "test/MezzioInstallerTest/"
+        }
+    },
+    "scripts": {
+        "pre-install-cmd": "MezzioInstaller\\OptionalPackages::install",
+        "pre-update-cmd": "MezzioInstaller\\OptionalPackages::install",
+        "post-create-project-cmd": [
+            "@development-enable"
+        ],
+        "development-disable": "laminas-development-mode disable",
+        "development-enable": "laminas-development-mode enable",
+        "development-status": "laminas-development-mode status",
+        "mezzio": "mezzio --ansi",
+        "check": [
+            "@cs-check",
+            "@test",
+            "@analyze"
+        ],
+        "analyze": "phpstan analyze -l max -c ./phpstan.installer.neon ./src ./config",
+        "clear-config-cache": "php bin/clear-config-cache.php",
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "serve": "php -S 0.0.0.0:8080 -t public/",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    },
+    "replace": {
+        "zendframework/zend-expressive-skeleton": "self.version"
+    }
+}

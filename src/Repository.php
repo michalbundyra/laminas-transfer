@@ -200,6 +200,7 @@ class Repository
         'ZF' => 'Laminas',
         'Zf' => 'Laminas',
         'zf' => 'laminas',
+        'ZF2_PATH' => 'LAMINAS_PATH',
         // DeveloperTools
         'ZendDeveloperTools tests suite' => 'Laminas\\DeveloperTools tests suite',
         '"ZendDeveloperTools"' => '"Laminas\\\\DeveloperTools"',

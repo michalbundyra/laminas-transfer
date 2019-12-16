@@ -35,6 +35,7 @@ class QAConfigFixture extends AbstractFixture
         'phpcs.xm*',
         '*.neon',
         'phpunit.xm*',
+        '*/phpunit.xm*',
         'Makefile',
         'Vagrantfile',
     ];

@@ -12,8 +12,7 @@ use function file_put_contents;
 use function str_replace;
 
 /**
- * Process *.txt/*.php files (test assets)
- * Rename ZF\d+ files to Laminas\d+
+ * Process and move *.xml tests assets
  */
 class ZendserviceTwitter extends AbstractFixture
 {

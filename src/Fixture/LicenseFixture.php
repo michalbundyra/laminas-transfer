@@ -45,6 +45,7 @@ EOS;
 
         $phps = array_merge(
             $repository->files('*.php'),
+            $repository->files('*.php.*'),
             $repository->files('bin/*')
         );
         foreach ($phps as $php) {

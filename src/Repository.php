@@ -104,7 +104,8 @@ class Repository
         'Zend\\Expressive' => 'Mezzio',
         'zf-mkdoc-theme' => 'laminas-mkdoc-theme',
         'zendservice-' => 'laminas-',
-        'apigility.org' => 'api-tools.getlaminas.dev',
+        'http://apigility.org' => 'https://api-tools.getlaminas.org',
+        'apigility.org' => 'api-tools.getlaminas.org',
         'zfcampus/zf-development-mode' => 'laminas/laminas-development-mode',
         'zf-development-mode' => 'laminas-development-mode',
         'zfcampus/zf-deploy' => 'laminas/laminas-deploy',
@@ -137,6 +138,7 @@ class Repository
         'Apigility' => 'Laminas Api Tools',
         'apigility' => 'api-tools',
         'zf-' => 'api-tools-',
+        'ApigilityModuleInterface' => 'ApiToolsModuleInterface', // apigility
         'docs.zendframework.com/zend-expressive' => 'docs.mezzio.dev/mezzio',
         'zendframework.github.io/zend-expressive' => 'docs.mezzio.dev/mezzio',
         'docs.zendframework.com/zend-problem-details' => 'docs.mezzio.dev/mezzio-problem-details',

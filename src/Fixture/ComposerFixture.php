@@ -40,6 +40,7 @@ use function unlink;
  * Removes redundant sections.
  * Lowercase package names in "require", "require-dev", "suggest", "conflict" sections.
  * Fixes namespace and paths in PSR-0/PSR-4 autoload(-dev) sections (add missing trailing slash/backslash).
+ * Adds "roave/security-advisories" dev dependency for skeleton applications and remove for all other components.
  */
 class ComposerFixture extends AbstractFixture
 {
@@ -135,8 +136,16 @@ class ComposerFixture extends AbstractFixture
             }
         }
 
-        $json['require']['laminas/laminas-zendframework-bridge'] = '^0.4 || ^1.0';
-        $json['require-dev']['roave/security-advisories'] = 'dev-master';
+        $json['require']['laminas/laminas-zendframework-bridge'] = '^0.4.1 || ^1.0';
+
+        if ($repository->getNewName() === 'mezzio/mezzio-skeleton'
+            || $repository->getNewName() === 'laminas-api-tools/api-tools-skeleton'
+        ) {
+            $json['require-dev']['roave/security-advisories'] = 'dev-master';
+        } else {
+            unset($json['require-dev']['roave/security-advisories']);
+        }
+
         $json['replace'] = [$originName ?? $repository->getName() => 'self.version'];
         if (isset($json['keywords'])) {
             array_unshift($json['keywords'], 'laminas', $org === 'laminas-api-tools' ? 'api-tools' : $org);

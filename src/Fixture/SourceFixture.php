@@ -66,6 +66,7 @@ class SourceFixture extends AbstractFixture
                 'zend-' => 'laminas-',
                 'zend.' => 'laminas.', // zf-oauth2
                 'zfconfig' => 'api-tools-config',
+                'Apigility/' => 'ApiTools/', // apigility skeleton
             ]);
 
             if ($newName !== $php) {

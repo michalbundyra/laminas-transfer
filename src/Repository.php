@@ -12,11 +12,13 @@ use RegexIterator;
 use function array_flip;
 use function array_merge;
 use function date;
+use function dirname;
 use function explode;
 use function file_get_contents;
 use function getcwd;
 use function in_array;
 use function is_dir;
+use function mkdir;
 use function preg_match_all;
 use function preg_quote;
 use function rename;
@@ -342,6 +344,11 @@ class Repository
 
     public function move(string $source, string $target) : void
     {
+        $dir = dirname($target);
+        if (! is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
+
         if ($this->isUnderGit()) {
             system('git mv ' . $source . ' ' . $target);
         } else {

@@ -144,6 +144,10 @@ class Repository
         'apigility' => 'api-tools',
         '$apigility' => '$apiTools',
         'zf-' => 'api-tools-',
+        // zf-mvc-auth test with http digist auth
+        // md5('Opaque Data:Zend\Authentication\Adapter\Http')
+        //   => md5('Opaque Data:Laminas\Authentication\Adapter\Http');
+        'e66aa41ca5bf6992a5479102cc787bc9' => 'cbf8b7892feb4d4aaacecc4e4fb12f83',
         'ApigilityModuleInterface' => 'ApiToolsModuleInterface', // apigility
         'ApigilityProviderInterface' => 'ApiToolsProviderInterface',
         'ApigilityVersionController' => 'ApiToolsVersionController',

@@ -60,6 +60,7 @@ class SourceFixture extends AbstractFixture
                 'zf-composer-' => 'laminas-composer-',
                 'zf-development-' => 'laminas-development-',
                 'zf-' => 'api-tools-',
+                'apigility' => 'api-tools',
                 'zfdeploy.php' => 'laminas-deploy',
                 'zendview' => 'laminasview',
                 'zend-' => 'laminas-',

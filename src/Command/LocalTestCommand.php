@@ -54,7 +54,7 @@ class LocalTestCommand extends Command
                 'cd ' . $dirname . ' && \
                 composer config repositories.laminas composer https://laminas.mwop.net/repo/testing && \
                 git add . && \
-                git commit -am "' . $name . ': rewrite test 2"'
+                git commit -am "' . $name . ': rewrite test 3"'
             );
             if (strpos($name, 'mezzio') === 0) {
                 $org = 'mezzio-dev';

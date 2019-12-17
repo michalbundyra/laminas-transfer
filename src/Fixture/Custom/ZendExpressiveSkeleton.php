@@ -13,8 +13,7 @@ use function getcwd;
 use function strtr;
 
 /**
- * Process *.txt/*.php files (test assets)
- * Rename ZF\d+ files to Laminas\d+
+ * Process all twig templates (replace content and move to Mezzio directory)
  */
 class ZendExpressiveSkeleton extends AbstractFixture
 {

@@ -10,6 +10,7 @@ use Laminas\Transfer\Repository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function chdir;
@@ -27,7 +28,14 @@ class LocalTestCommand extends Command
     {
         $this->setName('local-test')
              ->setDescription('Clone github repositories and rewrite latest version to run tests locally')
-             ->addArgument('token', InputArgument::REQUIRED, 'GitHub token');
+             ->addArgument('token', InputArgument::REQUIRED, 'GitHub token')
+             ->addOption(
+                 'path',
+                 'p',
+                 InputOption::VALUE_REQUIRED,
+                 'Path on which repositories should be checked out.',
+                 getcwd()
+             );
     }
 
     public function execute(InputInterface $input, OutputInterface $output) : int
@@ -37,10 +45,11 @@ class LocalTestCommand extends Command
         foreach ($this->repositories($token) as $repo) {
             $output->writeln('<info>' . $repo . '</info>');
 
+            $path = $input->getOption('path');
             $repository = new Repository($repo);
             [$org, $name] = explode('/', $repository->getNewName());
 
-            $dirname = getcwd() . DIRECTORY_SEPARATOR . $name;
+            $dirname = $path . DIRECTORY_SEPARATOR . $name;
 
             system('rm -Rf ' . $dirname);
             system('git clone https://github.com/' . $repo . ' ' . $dirname);

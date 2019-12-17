@@ -77,6 +77,7 @@ class Repository
         'ZendXmlTest\\\\' => 'LaminasTest\\\\Xml\\\\',
         'ZendXmlTest' => 'LaminasTest\\Xml',
         'ZendXml' => 'laminas-xml',
+        'zendframework/ZendXml' => 'laminas/laminas-xml',
         '/ZendXml' => '/LaminasXml',
         '/ZendXmlTest' => '/LaminasTest/Xml',
         'zendxml' => 'laminas-xml',

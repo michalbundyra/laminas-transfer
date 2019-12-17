@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ad499cf61e1d4a12f1bf609da97eab08",
+    "content-hash": "aa4cbc58cba3c256e9b15799e4b71c45",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -486,16 +486,16 @@
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
-            "version": "0.4.2",
+            "version": "0.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
-                "reference": "bfd38fbf767648441ddcca7f00b0a3961a1656d1"
+                "reference": "40eafa41bc3404f3ca8ad598b997e6de2880da14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/bfd38fbf767648441ddcca7f00b0a3961a1656d1",
-                "reference": "bfd38fbf767648441ddcca7f00b0a3961a1656d1",
+                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/40eafa41bc3404f3ca8ad598b997e6de2880da14",
+                "reference": "40eafa41bc3404f3ca8ad598b997e6de2880da14",
                 "shasum": ""
             },
             "require": {
@@ -533,7 +533,7 @@
                 "laminas",
                 "zf"
             ],
-            "time": "2019-12-16T20:56:25+00:00"
+            "time": "2019-12-17T23:10:47+00:00"
         },
         {
             "name": "localheinz/composer-json-normalizer",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "677cc52efe44d1a90474e5af14aa5cee",
+    "content-hash": "ad499cf61e1d4a12f1bf609da97eab08",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -486,16 +486,16 @@
         },
         {
             "name": "laminas/laminas-zendframework-bridge",
-            "version": "0.4.0",
+            "version": "0.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-zendframework-bridge.git",
-                "reference": "9c43a4d23a1082d8fb4a588b5dab36c61cd20fb6"
+                "reference": "bfd38fbf767648441ddcca7f00b0a3961a1656d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/9c43a4d23a1082d8fb4a588b5dab36c61cd20fb6",
-                "reference": "9c43a4d23a1082d8fb4a588b5dab36c61cd20fb6",
+                "url": "https://api.github.com/repos/laminas/laminas-zendframework-bridge/zipball/bfd38fbf767648441ddcca7f00b0a3961a1656d1",
+                "reference": "bfd38fbf767648441ddcca7f00b0a3961a1656d1",
                 "shasum": ""
             },
             "require": {
@@ -533,7 +533,7 @@
                 "laminas",
                 "zf"
             ],
-            "time": "2019-11-27T15:01:24+00:00"
+            "time": "2019-12-16T20:56:25+00:00"
         },
         {
             "name": "localheinz/composer-json-normalizer",
@@ -586,6 +586,7 @@
                 "json",
                 "normalizer"
             ],
+            "abandoned": "ergebnis/composer-json-normalizer",
             "time": "2019-01-09T14:43:16+00:00"
         },
         {
@@ -638,6 +639,7 @@
                 "json",
                 "normalizer"
             ],
+            "abandoned": "ergebnis/json-normalizer",
             "time": "2018-10-07T17:36:39+00:00"
         },
         {
@@ -1933,16 +1935,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.9.3",
+            "version": "1.9.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "007c053ae6f31bba39dfa19a7726f56e9763bbea"
+                "reference": "579bb7356d91f9456ccd505f24ca8b667966a0a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/007c053ae6f31bba39dfa19a7726f56e9763bbea",
-                "reference": "007c053ae6f31bba39dfa19a7726f56e9763bbea",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/579bb7356d91f9456ccd505f24ca8b667966a0a7",
+                "reference": "579bb7356d91f9456ccd505f24ca8b667966a0a7",
                 "shasum": ""
             },
             "require": {
@@ -1977,7 +1979,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2019-08-09T12:45:53+00:00"
+            "time": "2019-12-15T19:12:40+00:00"
         },
         {
             "name": "phar-io/manifest",

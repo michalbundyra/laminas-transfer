@@ -40,7 +40,7 @@ class ZfApigility extends AbstractFixture
     {
         foreach ($files as $file) {
             $ext = strtolower(substr($file, strrpos($file, '.') + 1));
-            if (in_array($ext, ['js', 'css', 'less', 'html', 'md'], true)) {
+            if (in_array($ext, ['js', 'css', 'less', 'html', 'md', 'xml', 'yml', 'dist', 'phtml'], true)) {
                 $content = file_get_contents($file);
                 $content = $repository->replace($content);
                 file_put_contents($file, $content);
@@ -51,6 +51,8 @@ class ZfApigility extends AbstractFixture
                 'zf-apigility' => 'api-tools',
                 'apigility' => 'api-tools',
                 'zf-' => 'api-tools-',
+                'ZF' => 'Laminas',
+                'Apigility' => 'ApiTools',
             ]);
 
             if ($file !== $newName) {

@@ -21,9 +21,11 @@ use function is_dir;
 use function mkdir;
 use function preg_match_all;
 use function preg_quote;
+use function preg_replace;
 use function rename;
 use function sprintf;
 use function str_replace;
+use function strpos;
 use function strtr;
 use function system;
 
@@ -137,7 +139,10 @@ class Repository
         'zfapigility' => 'apitools',
         'Apigility/' => 'ApiTools/',
         'Apigility' => 'Laminas Api Tools',
+        'Apigility\\' => 'ApiTools\\', // part of the namespace
+        'Apigility;' => 'ApiTools;', // namespace
         'apigility' => 'api-tools',
+        '$apigility' => '$apiTools',
         'zf-' => 'api-tools-',
         'ApigilityModuleInterface' => 'ApiToolsModuleInterface', // apigility
         'ApigilityProviderInterface' => 'ApiToolsProviderInterface',
@@ -298,19 +303,30 @@ class Repository
         preg_match_all(self::REGEX_URL, $content, $matches);
 
         if (empty($matches['url'])) {
-            return strtr($content, $this->replacements);
+            $content = strtr($content, $this->replacements);
+        } else {
+            $urlMap = [];
+            foreach ((array) $matches['url'] as $index => $url) {
+                $replacement = sprintf('%%TRANSFER_URL_%d%%', $index);
+                $urlMap[$replacement] = $url;
+            }
+
+            $content = strtr(
+                strtr($content, array_flip($urlMap)),
+                $this->replacements + $urlMap
+            );
         }
 
-        $urlMap = [];
-        foreach ((array) $matches['url'] as $index => $url) {
-            $replacement = sprintf('%%TRANSFER_URL_%d%%', $index);
-            $urlMap[$replacement] = $url;
+        if (strpos($content, 'Laminas Api Tools') !== false) {
+            $content = preg_replace('/([a-z])Laminas Api Tools/i', '$1ApiTools', $content);
+            $content = preg_replace('/Laminas Api Tools([a-z])/i', 'ApiTools$1', $content);
         }
 
-        return strtr(
-            strtr($content, array_flip($urlMap)),
-            $this->replacements + $urlMap
-        );
+        if (strpos($content, 'api-tools') !== false) {
+            $content = preg_replace('/api-tools([a-z])/i', 'apiTools$1', $content);
+        }
+
+        return $content;
     }
 
     public function addReplacedContentFiles(array $files) : void

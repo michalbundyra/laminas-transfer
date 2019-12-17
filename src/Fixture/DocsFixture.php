@@ -101,6 +101,11 @@ class DocsFixture extends AbstractFixture
             }
         }
 
+        $todo = current($repository->files('TODO.md'));
+        if ($todo) {
+            $this->replace($repository, $todo);
+        }
+
         $readme = current($repository->files('README.md'));
         if ($readme) {
             $this->replace($repository, $readme);

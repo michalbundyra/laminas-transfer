@@ -119,8 +119,8 @@ class ComposerFixture extends AbstractFixture
         ];
 
         if ($org === 'laminas-api-tools') {
-            $json['support']['docs'] = 'https://api-tools.laminas.dev/documentation';
-            $json['homepage'] = 'https://api-tools.laminas.dev';
+            $json['support']['docs'] = 'https://api-tools.getlaminas.org/documentation';
+            $json['homepage'] = 'https://api-tools.getlaminas.org';
         }
 
         // Normalize autoloader rules

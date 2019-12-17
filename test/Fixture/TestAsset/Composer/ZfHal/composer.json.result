@@ -10,9 +10,9 @@
         "rest",
         "hal"
     ],
-    "homepage": "https://api-tools.laminas.dev",
+    "homepage": "https://api-tools.getlaminas.org",
     "support": {
-        "docs": "https://api-tools.laminas.dev/documentation",
+        "docs": "https://api-tools.getlaminas.org/documentation",
         "issues": "https://github.com/laminas-api-tools/api-tools-hal/issues",
         "source": "https://github.com/laminas-api-tools/api-tools-hal",
         "rss": "https://github.com/laminas-api-tools/api-tools-hal/releases.atom",

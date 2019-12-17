@@ -138,7 +138,7 @@ class Repository
         'zf-apigility' => 'api-tools',
         'zfapigility' => 'apitools',
         'Apigility/' => 'ApiTools/',
-        'Apigility' => 'Laminas Api Tools',
+        'Apigility' => 'Laminas API Tools',
         'Apigility\\' => 'ApiTools\\', // part of the namespace
         'Apigility;' => 'ApiTools;', // namespace
         'apigility' => 'api-tools',
@@ -317,9 +317,9 @@ class Repository
             );
         }
 
-        if (strpos($content, 'Laminas Api Tools') !== false) {
-            $content = preg_replace('/([a-z])Laminas Api Tools/i', '$1ApiTools', $content);
-            $content = preg_replace('/Laminas Api Tools([a-z])/i', 'ApiTools$1', $content);
+        if (strpos($content, 'Laminas API Tools') !== false) {
+            $content = preg_replace('/([a-z])Laminas API Tools/i', '$1ApiTools', $content);
+            $content = preg_replace('/Laminas API Tools([a-z])/i', 'ApiTools$1', $content);
         }
 
         if (strpos($content, 'api-tools') !== false) {

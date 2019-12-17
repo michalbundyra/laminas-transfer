@@ -1,6 +1,6 @@
 {
     "name": "laminas-api-tools/api-tools-skeleton",
-    "description": "Skeleton Application for Laminas Api Tools",
+    "description": "Skeleton Application for Laminas API Tools",
     "type": "project",
     "license": "BSD-3-Clause",
     "keywords": [
@@ -9,9 +9,9 @@
         "api",
         "framework"
     ],
-    "homepage": "https://api-tools.laminas.dev",
+    "homepage": "https://api-tools.getlaminas.org",
     "support": {
-        "docs": "https://api-tools.laminas.dev/documentation",
+        "docs": "https://api-tools.getlaminas.org/documentation",
         "issues": "https://github.com/laminas-api-tools/api-tools-skeleton/issues",
         "source": "https://github.com/laminas-api-tools/api-tools-skeleton",
         "rss": "https://github.com/laminas-api-tools/api-tools-skeleton/releases.atom",

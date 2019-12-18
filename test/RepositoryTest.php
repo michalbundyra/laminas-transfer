@@ -74,4 +74,42 @@ END;
         $result = $repository->replace($content);
         self::assertSame($content, $result);
     }
+
+    public function zendServerClasses() : array
+    {
+        return [
+            'zend-cache Abstract Zend Server adapter' => [
+                'zendframework/zend-cache',
+                'Zend\Cache\Storage\Adapter\AbstractZendServer',
+                'Laminas\Cache\Storage\Adapter\AbstractZendServer',
+            ],
+            'zend-cache Zend Server Disk adapter' => [
+                'zendframework/zend-cache',
+                'Zend\Cache\Storage\Adapter\ZendServerDisk',
+                'Laminas\Cache\Storage\Adapter\ZendServerDisk',
+            ],
+            'zend-cache Zend Server Shm adapter' => [
+                'zendframework/zend-cache',
+                'Zend\Cache\Storage\Adapter\ZendServerShm',
+                'Laminas\Cache\Storage\Adapter\ZendServerShm',
+            ],
+            'zend-log Zend Monitor writer' => [
+                'zendframework/zend-log',
+                'Zend\Log\Writer\ZendMonitor',
+                'Laminas\Log\Writer\ZendMonitor',
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider zendServerClasses
+     */
+    public function testDoesNotReplaceClassesNamedForZendServerFeatures(
+        string $package,
+        string $class,
+        string $expected
+    ) : void {
+        $repository = new Repository($package, __DIR__);
+        self::assertSame($expected, $repository->replace($class));
+    }
 }

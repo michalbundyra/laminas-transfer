@@ -54,6 +54,10 @@ class Repository
         'api-skeletons/zf-' => 'api-skeletons/zf-',
         'phpro/zf-' => 'phpro/zf-',
         'doctrine-zend' => 'doctrine-zend',
+        'AbstractZendServer' => 'AbstractZendServer', // zend-cache adapter targeting Zend Server product
+        'ZendServerDisk' => 'ZendServerDisk', // zend-cache adapter targeting Zend Server product
+        'ZendServerShm' => 'ZendServerShm', // zend-cache adapter targeting Zend Server product
+        'ZendMonitor' => 'ZendMonitor', // zend-log writer targeting Zend Server product
         // phrases uses in expressive-skeleton
         'zend-phpdi' => 'zend-phpdi',
         'zend-sf-di' => 'zend-sf-di',

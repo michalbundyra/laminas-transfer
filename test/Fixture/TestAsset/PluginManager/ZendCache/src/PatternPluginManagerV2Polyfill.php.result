@@ -40,6 +40,13 @@ class PatternPluginManagerV2Polyfill extends AbstractPluginManager
         'zendcachepatternclasscache' => 'laminascachepatternclasscache',
         'zendcachepatternobjectcache' => 'laminascachepatternobjectcache',
         'zendcachepatternoutputcache' => 'laminascachepatternoutputcache',
+
+        // v2 normalized FQCNs
+        'laminascachepatterncallbackcache' => Pattern\CallbackCache::class,
+        'laminascachepatterncapturecache' => Pattern\CaptureCache::class,
+        'laminascachepatternclasscache' => Pattern\ClassCache::class,
+        'laminascachepatternobjectcache' => Pattern\ObjectCache::class,
+        'laminascachepatternoutputcache' => Pattern\OutputCache::class,
     ];
 
     protected $factories = [
@@ -48,13 +55,6 @@ class PatternPluginManagerV2Polyfill extends AbstractPluginManager
         Pattern\ClassCache::class       => InvokableFactory::class,
         Pattern\ObjectCache::class      => InvokableFactory::class,
         Pattern\OutputCache::class      => InvokableFactory::class,
-
-        // v2 normalized FQCNs
-        'laminascachepatterncallbackcache' => InvokableFactory::class,
-        'laminascachepatterncapturecache'  => InvokableFactory::class,
-        'laminascachepatternclasscache'    => InvokableFactory::class,
-        'laminascachepatternobjectcache'   => InvokableFactory::class,
-        'laminascachepatternoutputcache'   => InvokableFactory::class,
     ];
 
     /**

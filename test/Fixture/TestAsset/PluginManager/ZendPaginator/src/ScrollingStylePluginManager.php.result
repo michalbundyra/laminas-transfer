@@ -39,6 +39,12 @@ class ScrollingStylePluginManager extends AbstractPluginManager
         'zendpaginatorscrollingstyleelastic' => 'laminaspaginatorscrollingstyleelastic',
         'zendpaginatorscrollingstylejumping' => 'laminaspaginatorscrollingstylejumping',
         'zendpaginatorscrollingstylesliding' => 'laminaspaginatorscrollingstylesliding',
+
+        // v2 normalized FQCNs
+        'laminaspaginatorscrollingstyleall' => ScrollingStyle\All::class,
+        'laminaspaginatorscrollingstyleelastic' => ScrollingStyle\Elastic::class,
+        'laminaspaginatorscrollingstylejumping' => ScrollingStyle\Jumping::class,
+        'laminaspaginatorscrollingstylesliding' => ScrollingStyle\Sliding::class,
     ];
 
     /**
@@ -51,12 +57,6 @@ class ScrollingStylePluginManager extends AbstractPluginManager
         ScrollingStyle\Elastic::class => InvokableFactory::class,
         ScrollingStyle\Jumping::class => InvokableFactory::class,
         ScrollingStyle\Sliding::class => InvokableFactory::class,
-
-        // v2 normalized names
-        'laminaspaginatorscrollingstyleall'     => InvokableFactory::class,
-        'laminaspaginatorscrollingstyleelastic' => InvokableFactory::class,
-        'laminaspaginatorscrollingstylejumping' => InvokableFactory::class,
-        'laminaspaginatorscrollingstylesliding' => InvokableFactory::class,
     ];
 
     protected $instanceOf = ScrollingStyle\ScrollingStyleInterface::class;

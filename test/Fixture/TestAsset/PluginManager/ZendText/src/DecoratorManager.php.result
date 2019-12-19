@@ -35,6 +35,11 @@ class DecoratorManager extends AbstractPluginManager
         'zendtexttabledecoratorascii' => 'laminastexttabledecoratorascii',
         'zendtexttabledecoratorblank' => 'laminastexttabledecoratorblank',
         'zendtexttabledecoratorunicode' => 'laminastexttabledecoratorunicode',
+
+        // v2 normalized FQCNs
+        'laminastexttabledecoratorascii' => Decorator\Ascii::class,
+        'laminastexttabledecoratorblank' => Decorator\Blank::class,
+        'laminastexttabledecoratorunicode' => Decorator\Unicode::class,
     ];
 
 
@@ -42,9 +47,6 @@ class DecoratorManager extends AbstractPluginManager
         Decorator\Ascii::class          => InvokableFactory::class,
         Decorator\Unicode::class        => InvokableFactory::class,
         Decorator\Blank::class          => InvokableFactory::class,
-        'laminastexttabledecoratorascii'   => InvokableFactory::class,
-        'laminastexttabledecoratorblank'   => InvokableFactory::class,
-        'laminastexttabledecoratorunicode' => InvokableFactory::class,
     ];
 
     protected $instanceOf = Decorator\DecoratorInterface::class;

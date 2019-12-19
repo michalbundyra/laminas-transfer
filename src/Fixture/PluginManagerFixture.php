@@ -14,10 +14,13 @@ use function file_get_contents;
 use function file_put_contents;
 use function next;
 use function preg_match;
+use function preg_replace;
 use function str_repeat;
 use function str_replace;
 use function strpos;
 use function strstr;
+use function strtolower;
+use function strtr;
 use function substr;
 use function trim;
 
@@ -53,6 +56,8 @@ class PluginManagerFixture extends AbstractFixture
             )) {
                 $aliases = $this->aliases($matches['content']);
 
+                $adds = [];
+                $normalized = [];
                 $spaces = 8;
                 $newData = '';
                 foreach ($aliases as $alias => $value) {
@@ -64,6 +69,8 @@ class PluginManagerFixture extends AbstractFixture
                         if ($newAlias !== $alias) {
                             $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias . ' => ' . $newAlias . ',';
                         }
+
+                        $adds[] = $newAlias;
                     } elseif (strpos($alias, '::class') !== false) {
                         $newKey = NamespaceResolver::getLegacyName($alias, $namespace, $uses);
                         $newAlias = $repository->replace($newKey);
@@ -73,8 +80,31 @@ class PluginManagerFixture extends AbstractFixture
                                 . str_repeat(' ', $spaces)
                                 . '\\' . $newKey
                                 . ' => ' . $alias . ',';
+
+                            $normalized[$this->normalizeKey($newAlias)] = $alias;
                         }
                     }
+                }
+
+                if ($adds) {
+                    $search = $repository->replace($matches['content']);
+                    $replace = $search;
+
+                    $newData .= PHP_EOL . PHP_EOL . str_repeat(' ', $spaces) . '// v2 normalized FQCNs';
+                    foreach ($adds as $alias) {
+                        $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias
+                            . ' => ' . $normalized[substr($alias, 1, -1)] . ',';
+
+                        $replace = preg_replace(
+                            '/\n?^\s*' . $alias . '\s*=>.*?(,|$)/sm',
+                            '',
+                            $replace
+                        );
+                    }
+
+                    $replace = preg_replace('#(\n*^\s*// .*?$)+#m', '', $replace);
+
+                    $newContent = str_replace($search, $replace, $newContent);
                 }
 
                 if (preg_match(
@@ -99,6 +129,14 @@ class PluginManagerFixture extends AbstractFixture
         }
 
         $repository->addReplacedContentFiles($files);
+    }
+
+    private function normalizeKey(string $key) : string
+    {
+        return strtolower(strtr($key, [
+            '\\' => '',
+            '::class' => '',
+        ]));
     }
 
     private function aliases(string $content) : array

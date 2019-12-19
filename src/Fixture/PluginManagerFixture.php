@@ -92,8 +92,6 @@ class PluginManagerFixture extends AbstractFixture
                     $replace .= $newData;
 
                     $newContent = str_replace($search, $replace, $newContent);
-                } else {
-                    // @todo there is no $aliases property defined in Plugin Manager
                 }
             }
 

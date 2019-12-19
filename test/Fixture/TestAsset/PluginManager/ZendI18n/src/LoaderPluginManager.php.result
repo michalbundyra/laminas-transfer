@@ -65,18 +65,17 @@ class LoaderPluginManager extends AbstractPluginManager
         'zendi18ntranslatorloadergettext' => 'laminasi18ntranslatorloadergettext',
         'zendi18ntranslatorloaderini' => 'laminasi18ntranslatorloaderini',
         'zendi18ntranslatorloaderphparray' => 'laminasi18ntranslatorloaderphparray',
+
+        // v2 normalized FQCNs
+        'laminasi18ntranslatorloadergettext' => Loader\Gettext::class,
+        'laminasi18ntranslatorloaderini' => Loader\Ini::class,
+        'laminasi18ntranslatorloaderphparray' => Loader\PhpArray::class,
     ];
 
     protected $factories = [
         Loader\Gettext::class  => InvokableFactory::class,
         Loader\Ini::class      => InvokableFactory::class,
         Loader\PhpArray::class => InvokableFactory::class,
-        // Legacy (v2) due to alias resolution; canonical form of resolved
-        // alias is used to look up the factory, while the non-normalized
-        // resolved alias is used as the requested name passed to the factory.
-        'laminasi18ntranslatorloadergettext'  => InvokableFactory::class,
-        'laminasi18ntranslatorloaderini'      => InvokableFactory::class,
-        'laminasi18ntranslatorloaderphparray' => InvokableFactory::class
     ];
 
     /**

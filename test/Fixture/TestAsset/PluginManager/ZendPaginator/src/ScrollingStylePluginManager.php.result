@@ -29,6 +29,16 @@ class ScrollingStylePluginManager extends AbstractPluginManager
         'Jumping' => ScrollingStyle\Jumping::class,
         'sliding' => ScrollingStyle\Sliding::class,
         'Sliding' => ScrollingStyle\Sliding::class,
+
+        // Legacy Zend Framework aliases
+        \Zend\Paginator\ScrollingStyle\All::class => ScrollingStyle\All::class,
+        \Zend\Paginator\ScrollingStyle\Elastic::class => ScrollingStyle\Elastic::class,
+        \Zend\Paginator\ScrollingStyle\Jumping::class => ScrollingStyle\Jumping::class,
+        \Zend\Paginator\ScrollingStyle\Sliding::class => ScrollingStyle\Sliding::class,
+        'zendpaginatorscrollingstyleall' => 'laminaspaginatorscrollingstyleall',
+        'zendpaginatorscrollingstyleelastic' => 'laminaspaginatorscrollingstyleelastic',
+        'zendpaginatorscrollingstylejumping' => 'laminaspaginatorscrollingstylejumping',
+        'zendpaginatorscrollingstylesliding' => 'laminaspaginatorscrollingstylesliding',
     ];
 
     /**
@@ -47,16 +57,6 @@ class ScrollingStylePluginManager extends AbstractPluginManager
         'laminaspaginatorscrollingstyleelastic' => InvokableFactory::class,
         'laminaspaginatorscrollingstylejumping' => InvokableFactory::class,
         'laminaspaginatorscrollingstylesliding' => InvokableFactory::class,
-
-        // Legacy Zend Framework aliases
-        \Zend\Paginator\ScrollingStyle\All::class => InvokableFactory::class,
-        \Zend\Paginator\ScrollingStyle\Elastic::class => InvokableFactory::class,
-        \Zend\Paginator\ScrollingStyle\Jumping::class => InvokableFactory::class,
-        \Zend\Paginator\ScrollingStyle\Sliding::class => InvokableFactory::class,
-        'zendpaginatorscrollingstyleall' => InvokableFactory::class,
-        'zendpaginatorscrollingstyleelastic' => InvokableFactory::class,
-        'zendpaginatorscrollingstylejumping' => InvokableFactory::class,
-        'zendpaginatorscrollingstylesliding' => InvokableFactory::class,
     ];
 
     protected $instanceOf = ScrollingStyle\ScrollingStyleInterface::class;

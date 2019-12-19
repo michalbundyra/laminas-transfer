@@ -27,6 +27,14 @@ class DecoratorManager extends AbstractPluginManager
         'Blank'   => Decorator\Blank::class,
         'unicode' => Decorator\Unicode::class,
         'Unicode' => Decorator\Unicode::class,
+
+        // Legacy Zend Framework aliases
+        \Zend\Text\Table\Decorator\Ascii::class => Decorator\Ascii::class,
+        \Zend\Text\Table\Decorator\Unicode::class => Decorator\Unicode::class,
+        \Zend\Text\Table\Decorator\Blank::class => Decorator\Blank::class,
+        'zendtexttabledecoratorascii' => 'laminastexttabledecoratorascii',
+        'zendtexttabledecoratorblank' => 'laminastexttabledecoratorblank',
+        'zendtexttabledecoratorunicode' => 'laminastexttabledecoratorunicode',
     ];
 
 
@@ -37,14 +45,6 @@ class DecoratorManager extends AbstractPluginManager
         'laminastexttabledecoratorascii'   => InvokableFactory::class,
         'laminastexttabledecoratorblank'   => InvokableFactory::class,
         'laminastexttabledecoratorunicode' => InvokableFactory::class,
-
-        // Legacy Zend Framework aliases
-        \Zend\Text\Table\Decorator\Ascii::class => InvokableFactory::class,
-        \Zend\Text\Table\Decorator\Unicode::class => InvokableFactory::class,
-        \Zend\Text\Table\Decorator\Blank::class => InvokableFactory::class,
-        'zendtexttabledecoratorascii' => InvokableFactory::class,
-        'zendtexttabledecoratorblank' => InvokableFactory::class,
-        'zendtexttabledecoratorunicode' => InvokableFactory::class,
     ];
 
     protected $instanceOf = Decorator\DecoratorInterface::class;

@@ -86,6 +86,37 @@ class PluginManagerFixture extends AbstractFixture
                     }
                 }
 
+                preg_match(
+                    '/\$aliases\s*=\s*\[\s*(?<content>[^]]*?)\s*\];/ms',
+                    $content,
+                    $matchesAliases
+                );
+
+                // Check if we need to add any aliases for defined aliases.
+                $aliases = $this->aliases($matchesAliases['content']);
+                foreach ($aliases as $alias => $value) {
+                    if (strpos($alias, '\'') === 0
+                        || strpos($alias, '"') === 0
+                    ) {
+                        $newAlias = $repository->replace($alias);
+
+                        if ($newAlias !== $alias) {
+                            $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias . ' => ' . $newAlias . ',';
+                        }
+                    } elseif (strpos($alias, '::class') !== false) {
+                        $newKey = NamespaceResolver::getLegacyName($alias, $namespace, $uses);
+                        $newAlias = $repository->replace($newKey);
+
+                        if ($newAlias !== $newKey) {
+                            $newData .= PHP_EOL
+                                . str_repeat(' ', $spaces)
+                                . '\\' . $newKey
+                                . ' => ' . $alias . ',';
+                        }
+                    }
+                }
+
+                // Fix invalid v2 normalized FQCNs
                 if ($adds) {
                     $search = $repository->replace($matches['content']);
                     $replace = $search;
@@ -107,22 +138,17 @@ class PluginManagerFixture extends AbstractFixture
                     $newContent = str_replace($search, $replace, $newContent);
                 }
 
-                if (preg_match(
-                    '/\$aliases\s*=\s*\[\s*(?<content>[^]]*?)\s*\];/ms',
-                    $content,
-                    $matchesAliases
-                )) {
-                    $search = $repository->replace($matchesAliases['content']);
+                // Append additional aliases
+                $search = $repository->replace($matchesAliases['content']);
 
-                    $replace = $search;
-                    if (substr($replace, -1) !== ',') {
-                        $replace .= ',';
-                    }
-                    $replace .= PHP_EOL . PHP_EOL . str_repeat(' ', $spaces) . '// Legacy Zend Framework aliases';
-                    $replace .= $newData;
-
-                    $newContent = str_replace($search, $replace, $newContent);
+                $replace = $search;
+                if (substr($replace, -1) !== ',') {
+                    $replace .= ',';
                 }
+                $replace .= PHP_EOL . PHP_EOL . str_repeat(' ', $spaces) . '// Legacy Zend Framework aliases';
+                $replace .= $newData;
+
+                $newContent = str_replace($search, $replace, $newContent);
             }
 
             file_put_contents($file, $newContent);

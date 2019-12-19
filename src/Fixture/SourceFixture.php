@@ -68,6 +68,11 @@ class SourceFixture extends AbstractFixture
                 'zfconfig' => 'api-tools-config',
                 'Apigility/' => 'ApiTools/', // apigility skeleton
                 '/Apigility' => '/ApiTools', // apigility
+                // Do not rename these files:
+                'AbstractZendServer' => 'AbstractZendServer', // zend-cache adapter targeting Zend Server product
+                'ZendServerDisk' => 'ZendServerDisk', // zend-cache adapter targeting Zend Server product
+                'ZendServerShm' => 'ZendServerShm', // zend-cache adapter targeting Zend Server product
+                'ZendMonitor' => 'ZendMonitor', // zend-log writer targeting Zend Server product
             ]);
 
             if ($newName !== $php) {

@@ -76,6 +76,7 @@ class Repository
         'zendServerShm' => 'zendServerShm',
         'zendServerSHM' => 'zendServerSHM',
         'ZendMonitor' => 'ZendMonitor', // zend-log writer targeting Zend Server product
+        'zendmonitor' => 'zendmonitor',
         'Zend Monitor' => 'Zend Monitor',
         'isZendServer' => 'isZendServer',
         'Zend Platform' => 'Zend Platform',

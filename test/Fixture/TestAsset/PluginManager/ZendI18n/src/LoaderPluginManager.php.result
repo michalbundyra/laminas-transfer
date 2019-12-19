@@ -57,6 +57,14 @@ class LoaderPluginManager extends AbstractPluginManager
         'phparray' => Loader\PhpArray::class,
         'phpArray' => Loader\PhpArray::class,
         'PhpArray' => Loader\PhpArray::class,
+
+        // Legacy Zend Framework aliases
+        \Zend\I18n\Translator\Loader\Gettext::class => Loader\Gettext::class,
+        \Zend\I18n\Translator\Loader\Ini::class => Loader\Ini::class,
+        \Zend\I18n\Translator\Loader\PhpArray::class => Loader\PhpArray::class,
+        'zendi18ntranslatorloadergettext' => 'laminasi18ntranslatorloadergettext',
+        'zendi18ntranslatorloaderini' => 'laminasi18ntranslatorloaderini',
+        'zendi18ntranslatorloaderphparray' => 'laminasi18ntranslatorloaderphparray',
     ];
 
     protected $factories = [
@@ -68,15 +76,7 @@ class LoaderPluginManager extends AbstractPluginManager
         // resolved alias is used as the requested name passed to the factory.
         'laminasi18ntranslatorloadergettext'  => InvokableFactory::class,
         'laminasi18ntranslatorloaderini'      => InvokableFactory::class,
-        'laminasi18ntranslatorloaderphparray' => InvokableFactory::class,
-
-        // Legacy Zend Framework aliases
-        \Zend\I18n\Translator\Loader\Gettext::class => InvokableFactory::class,
-        \Zend\I18n\Translator\Loader\Ini::class => InvokableFactory::class,
-        \Zend\I18n\Translator\Loader\PhpArray::class => InvokableFactory::class,
-        'zendi18ntranslatorloadergettext' => InvokableFactory::class,
-        'zendi18ntranslatorloaderini' => InvokableFactory::class,
-        'zendi18ntranslatorloaderphparray' => InvokableFactory::class,
+        'laminasi18ntranslatorloaderphparray' => InvokableFactory::class
     ];
 
     /**

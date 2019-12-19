@@ -53,15 +53,8 @@ class PluginManagerFixture extends AbstractFixture
             )) {
                 $aliases = $this->aliases($matches['content']);
 
-                $search = $repository->replace($matches['content']);
-                $newData = $search;
                 $spaces = 8;
-
-                if (substr($newData, -1) !== ',') {
-                    $newData .= ',';
-                }
-
-                $newData .= PHP_EOL . PHP_EOL . str_repeat(' ', $spaces) . '// Legacy Zend Framework aliases';
+                $newData = '';
                 foreach ($aliases as $alias => $value) {
                     if (strpos($alias, '\'') === 0
                         || strpos($alias, '"') === 0
@@ -69,7 +62,7 @@ class PluginManagerFixture extends AbstractFixture
                         $newAlias = $repository->replace($alias);
 
                         if ($newAlias !== $alias) {
-                            $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias . ' => ' . $value . ',';
+                            $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias . ' => ' . $newAlias . ',';
                         }
                     } elseif (strpos($alias, '::class') !== false) {
                         $newKey = NamespaceResolver::getLegacyName($alias, $namespace, $uses);
@@ -79,12 +72,29 @@ class PluginManagerFixture extends AbstractFixture
                             $newData .= PHP_EOL
                                 . str_repeat(' ', $spaces)
                                 . '\\' . $newKey
-                                . ' => ' . $value . ',';
+                                . ' => ' . $alias . ',';
                         }
                     }
                 }
 
-                $newContent = str_replace($search, $newData, $newContent);
+                if (preg_match(
+                    '/\$aliases\s*=\s*\[\s*(?<content>[^]]*?)\s*\];/ms',
+                    $content,
+                    $matchesAliases
+                )) {
+                    $search = $repository->replace($matchesAliases['content']);
+
+                    $replace = $search;
+                    if (substr($replace, -1) !== ',') {
+                        $replace .= ',';
+                    }
+                    $replace .= PHP_EOL . PHP_EOL . str_repeat(' ', $spaces) . '// Legacy Zend Framework aliases';
+                    $replace .= $newData;
+
+                    $newContent = str_replace($search, $replace, $newContent);
+                } else {
+                    // @todo there is no $aliases property defined in Plugin Manager
+                }
             }
 
             file_put_contents($file, $newContent);

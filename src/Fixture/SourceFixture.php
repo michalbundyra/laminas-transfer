@@ -50,6 +50,7 @@ class SourceFixture extends AbstractFixture
             $newName = strtr($php, [
                 getcwd() => getcwd(),
                 'Zend' => 'Laminas',
+                'ZendOAuth/' => 'Laminas/OAuth/',
                 'ZendXml/' => 'Laminas/Xml/',
                 'ZendXmlTest/' => 'LaminasTest/Xml/',
                 'ZendService/' => 'Laminas/',

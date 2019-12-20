@@ -14,7 +14,6 @@ use function file_get_contents;
 use function file_put_contents;
 use function next;
 use function preg_match;
-use function preg_replace;
 use function str_repeat;
 use function str_replace;
 use function strpos;
@@ -67,10 +66,8 @@ class PluginManagerFixture extends AbstractFixture
                         $newAlias = $repository->replace($alias);
 
                         if ($newAlias !== $alias) {
-                            $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias . ' => ' . $newAlias . ',';
+                            $adds[] = $alias;
                         }
-
-                        $adds[] = $newAlias;
                     } elseif (strpos($alias, '::class') !== false) {
                         $newKey = NamespaceResolver::getLegacyName($alias, $namespace, $uses);
                         $newAlias = $repository->replace($newKey);
@@ -81,7 +78,7 @@ class PluginManagerFixture extends AbstractFixture
                                 . '\\' . $newKey
                                 . ' => ' . $alias . ',';
 
-                            $normalized[$this->normalizeKey($newAlias)] = $alias;
+                            $normalized[$this->normalizeKey($newKey)] = $alias;
                         }
                     }
                 }
@@ -116,26 +113,13 @@ class PluginManagerFixture extends AbstractFixture
                     }
                 }
 
-                // Fix invalid v2 normalized FQCNs
+                // v2 normalized FQCNs aliases
                 if ($adds) {
-                    $search = $repository->replace($matches['content']);
-                    $replace = $search;
-
                     $newData .= PHP_EOL . PHP_EOL . str_repeat(' ', $spaces) . '// v2 normalized FQCNs';
                     foreach ($adds as $alias) {
                         $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias
                             . ' => ' . $normalized[substr($alias, 1, -1)] . ',';
-
-                        $replace = preg_replace(
-                            '/\n?^\s*' . $alias . '\s*=>.*?(,|$)/sm',
-                            '',
-                            $replace
-                        );
                     }
-
-                    $replace = preg_replace('#(\n*^\s*// .*?$)+#m', '', $replace);
-
-                    $newContent = str_replace($search, $replace, $newContent);
                 }
 
                 // Append additional aliases

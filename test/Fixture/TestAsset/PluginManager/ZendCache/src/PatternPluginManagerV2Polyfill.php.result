@@ -35,18 +35,13 @@ class PatternPluginManagerV2Polyfill extends AbstractPluginManager
         \Zend\Cache\Pattern\ClassCache::class => Pattern\ClassCache::class,
         \Zend\Cache\Pattern\ObjectCache::class => Pattern\ObjectCache::class,
         \Zend\Cache\Pattern\OutputCache::class => Pattern\OutputCache::class,
-        'zendcachepatterncallbackcache' => 'laminascachepatterncallbackcache',
-        'zendcachepatterncapturecache' => 'laminascachepatterncapturecache',
-        'zendcachepatternclasscache' => 'laminascachepatternclasscache',
-        'zendcachepatternobjectcache' => 'laminascachepatternobjectcache',
-        'zendcachepatternoutputcache' => 'laminascachepatternoutputcache',
 
         // v2 normalized FQCNs
-        'laminascachepatterncallbackcache' => Pattern\CallbackCache::class,
-        'laminascachepatterncapturecache' => Pattern\CaptureCache::class,
-        'laminascachepatternclasscache' => Pattern\ClassCache::class,
-        'laminascachepatternobjectcache' => Pattern\ObjectCache::class,
-        'laminascachepatternoutputcache' => Pattern\OutputCache::class,
+        'zendcachepatterncallbackcache' => Pattern\CallbackCache::class,
+        'zendcachepatterncapturecache' => Pattern\CaptureCache::class,
+        'zendcachepatternclasscache' => Pattern\ClassCache::class,
+        'zendcachepatternobjectcache' => Pattern\ObjectCache::class,
+        'zendcachepatternoutputcache' => Pattern\OutputCache::class,
     ];
 
     protected $factories = [
@@ -55,6 +50,13 @@ class PatternPluginManagerV2Polyfill extends AbstractPluginManager
         Pattern\ClassCache::class       => InvokableFactory::class,
         Pattern\ObjectCache::class      => InvokableFactory::class,
         Pattern\OutputCache::class      => InvokableFactory::class,
+
+        // v2 normalized FQCNs
+        'laminascachepatterncallbackcache' => InvokableFactory::class,
+        'laminascachepatterncapturecache'  => InvokableFactory::class,
+        'laminascachepatternclasscache'    => InvokableFactory::class,
+        'laminascachepatternobjectcache'   => InvokableFactory::class,
+        'laminascachepatternoutputcache'   => InvokableFactory::class,
     ];
 
     /**

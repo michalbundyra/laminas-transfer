@@ -101,6 +101,7 @@ class Repository
         'zendframework/zend-debug' => 'zendframework/zend-debug',
         'zend-debug' => 'zend-debug',
         // Rewrite rules:
+        'use ZendOAuth as ' => 'use Laminas\OAuth as',
         'ZendXml;' => 'Laminas\\Xml;',
         'ZendXml\\\\' => 'Laminas\\\\Xml\\\\',
         'ZendXmlTest\\\\' => 'LaminasTest\\\\Xml\\\\',

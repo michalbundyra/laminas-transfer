@@ -35,16 +35,12 @@ class ScrollingStylePluginManager extends AbstractPluginManager
         \Zend\Paginator\ScrollingStyle\Elastic::class => ScrollingStyle\Elastic::class,
         \Zend\Paginator\ScrollingStyle\Jumping::class => ScrollingStyle\Jumping::class,
         \Zend\Paginator\ScrollingStyle\Sliding::class => ScrollingStyle\Sliding::class,
-        'zendpaginatorscrollingstyleall' => 'laminaspaginatorscrollingstyleall',
-        'zendpaginatorscrollingstyleelastic' => 'laminaspaginatorscrollingstyleelastic',
-        'zendpaginatorscrollingstylejumping' => 'laminaspaginatorscrollingstylejumping',
-        'zendpaginatorscrollingstylesliding' => 'laminaspaginatorscrollingstylesliding',
 
         // v2 normalized FQCNs
-        'laminaspaginatorscrollingstyleall' => ScrollingStyle\All::class,
-        'laminaspaginatorscrollingstyleelastic' => ScrollingStyle\Elastic::class,
-        'laminaspaginatorscrollingstylejumping' => ScrollingStyle\Jumping::class,
-        'laminaspaginatorscrollingstylesliding' => ScrollingStyle\Sliding::class,
+        'zendpaginatorscrollingstyleall' => ScrollingStyle\All::class,
+        'zendpaginatorscrollingstyleelastic' => ScrollingStyle\Elastic::class,
+        'zendpaginatorscrollingstylejumping' => ScrollingStyle\Jumping::class,
+        'zendpaginatorscrollingstylesliding' => ScrollingStyle\Sliding::class,
     ];
 
     /**
@@ -57,6 +53,12 @@ class ScrollingStylePluginManager extends AbstractPluginManager
         ScrollingStyle\Elastic::class => InvokableFactory::class,
         ScrollingStyle\Jumping::class => InvokableFactory::class,
         ScrollingStyle\Sliding::class => InvokableFactory::class,
+
+        // v2 normalized names
+        'laminaspaginatorscrollingstyleall'     => InvokableFactory::class,
+        'laminaspaginatorscrollingstyleelastic' => InvokableFactory::class,
+        'laminaspaginatorscrollingstylejumping' => InvokableFactory::class,
+        'laminaspaginatorscrollingstylesliding' => InvokableFactory::class,
     ];
 
     protected $instanceOf = ScrollingStyle\ScrollingStyleInterface::class;

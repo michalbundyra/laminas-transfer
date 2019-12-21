@@ -272,7 +272,7 @@ class Repository
         'ZfSnapEventDebugger' => 'ZfSnapEventDebugger',
         // fix typo
         'apigiltiy' => 'api-tools',
-        'instructions' => 'instruction',
+        'informations' => 'information',
         // security advisories link to old address
         'framework.zend.com/security/advisory/ZF' => 'framework.zend.com/security/advisory/ZF',
         'framework.zend.com/security/advisory' => 'framework.zend.com/security/advisory',
@@ -280,6 +280,8 @@ class Repository
         'ZF209' => 'Laminas209', // zend-http
         'YpZFb5CI' => 'YpZFb5CI', // zend-crypt
         '\'<\' . "?php\n/**' => '\'<\' . "?php\n\n/**',
+        'zf-7908' => 'laminas-7908', // zend-feed
+        'ZF22' => 'Laminas22',
     ];
 
     /** @var string */

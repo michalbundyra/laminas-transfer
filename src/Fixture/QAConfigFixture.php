@@ -136,7 +136,7 @@ class QAConfigFixture extends AbstractFixture
     {
         preg_match('/^\s*- php: .*?^\s*env:/sm', $section, $match);
 
-        return $match[0];
+        return $match[0] ?? '';
     }
 
     private function replace(Repository $repository, string $file) : void

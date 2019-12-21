@@ -98,7 +98,7 @@ class PluginManagerFixture extends AbstractFixture
                         $newAlias = $repository->replace($alias);
 
                         if ($newAlias !== $alias) {
-                            $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias . ' => ' . $newAlias . ',';
+                            $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias . ' => ' . $value . ',';
                         }
                     } elseif (strpos($alias, '::class') !== false) {
                         $newKey = NamespaceResolver::getLegacyName($alias, $namespace, $uses);
@@ -108,7 +108,7 @@ class PluginManagerFixture extends AbstractFixture
                             $newData .= PHP_EOL
                                 . str_repeat(' ', $spaces)
                                 . '\\' . $newKey
-                                . ' => ' . $alias . ',';
+                                . ' => ' . $value . ',';
                         }
                     }
                 }

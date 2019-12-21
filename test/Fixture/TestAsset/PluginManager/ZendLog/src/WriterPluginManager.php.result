@@ -46,8 +46,8 @@ class WriterPluginManager extends AbstractPluginManager
         \Zend\Log\Writer\Syslog::class => Writer\Syslog::class,
         \Zend\Log\Writer\FingersCrossed::class => Writer\FingersCrossed::class,
         \Zend\Log\Writer\ZendMonitor::class => Writer\ZendMonitor::class,
-        \Zend\Log\Writer\Null::class => Writer\Null::class,
-        'zendlogwriternull' => 'laminaslogwriternull',
+        \Zend\Log\Writer\Null::class => Writer\Noop::class,
+        'zendlogwriternull' => Writer\Noop::class,
 
         // v2 normalized FQCNs
         'zendlogwriterchromephp' => Writer\ChromePhp::class,

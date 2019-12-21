@@ -117,8 +117,11 @@ class PluginManagerFixture extends AbstractFixture
                 if ($adds) {
                     $newData .= PHP_EOL . PHP_EOL . str_repeat(' ', $spaces) . '// v2 normalized FQCNs';
                     foreach ($adds as $alias) {
-                        $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias
-                            . ' => ' . $normalized[substr($alias, 1, -1)] . ',';
+                        $key = substr($alias, 1, -1);
+                        if (isset($normalized[$key])) {
+                            $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias
+                                . ' => ' . $normalized[$key] . ',';
+                        }
                     }
                 }
 

@@ -39,6 +39,7 @@ class PluginManagerFixture extends AbstractFixture
             // $repository->files('*/ControllerManager.php') // zend-mvc // nothing to rewrite
         );
 
+        $spaces = 8;
         foreach ($files as $file) {
             $content = file_get_contents($file);
             if (! $namespace = NamespaceResolver::getNamespace($content)) {
@@ -49,7 +50,7 @@ class PluginManagerFixture extends AbstractFixture
 
             $newContent = $repository->replace($content);
             if (preg_match(
-                '/\$factories\s*=\s*\[\s*(?<content>[^]]*?)\s*\];/ms',
+                '/\$factories\s*=\s*(?:array\(|\[)\s*(?<content>.*?)\s*(?:\]|\));/ms',
                 $content,
                 $matches
             )) {
@@ -57,7 +58,6 @@ class PluginManagerFixture extends AbstractFixture
 
                 $adds = [];
                 $normalized = [];
-                $spaces = 8;
                 $newData = '';
                 foreach ($aliases as $alias => $value) {
                     if (strpos($alias, '\'') === 0
@@ -84,7 +84,7 @@ class PluginManagerFixture extends AbstractFixture
                 }
 
                 preg_match(
-                    '/\$aliases\s*=\s*\[\s*(?<content>[^]]*?)\s*\];/ms',
+                    '/\$aliases\s*=\s*(?:array\(|\[)\s*(?<content>.*?)\s*(?:\]|\));/ms',
                     $content,
                     $matchesAliases
                 );
@@ -136,6 +136,36 @@ class PluginManagerFixture extends AbstractFixture
                 $replace .= $newData;
 
                 $newContent = str_replace($search, $replace, $newContent);
+            } elseif (preg_match(
+                '/\$aliases\s*=\s*(?:array\(|\[)\s*(?<content>.*?)\s*(?:\]|\));/ms',
+                $content,
+                $matches
+            )) {
+                $aliases = $this->aliases($matches['content']);
+
+                $newData = '';
+                foreach ($aliases as $alias => $value) {
+                    $newAlias = $repository->replace($alias);
+
+                    if ($newAlias !== $alias) {
+                        $newData .= PHP_EOL . str_repeat(' ', $spaces) . $alias
+                            . ' => ' . $repository->replace($value) . ',';
+                    }
+                }
+
+                // Append additional aliases
+                if ($newData) {
+                    $search = $repository->replace($matches['content']);
+
+                    $replace = $search;
+                    if (substr($replace, -1) !== ',') {
+                        $replace .= ',';
+                    }
+                    $replace .= PHP_EOL . PHP_EOL . str_repeat(' ', $spaces) . '// Legacy Zend Framework aliases';
+                    $replace .= $newData;
+
+                    $newContent = str_replace($search, $replace, $newContent);
+                }
             }
 
             file_put_contents($file, $newContent);

@@ -23,6 +23,7 @@ use function strpos;
 use function strstr;
 use function strtr;
 use function trim;
+use function unlink;
 use function usort;
 
 class QAConfigFixture extends AbstractFixture
@@ -45,6 +46,10 @@ class QAConfigFixture extends AbstractFixture
     {
         foreach ($this->files as $fileName) {
             foreach ($repository->files($fileName) as $file) {
+                if ($fileName === 'Makefile') {
+                    unlink($file);
+                    continue;
+                }
                 $this->replace($repository, $file);
             }
         }

@@ -279,6 +279,7 @@ class Repository
         'ZF20' => 'ZF20',
         'ZF209' => 'Laminas209', // zend-http
         'YpZFb5CI' => 'YpZFb5CI', // zend-crypt
+        '\'<\' . "?php\n/**' => '\'<\' . "?php\n\n/**',
     ];
 
     /** @var string */

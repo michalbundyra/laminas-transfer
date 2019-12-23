@@ -136,7 +136,7 @@ class ComposerFixture extends AbstractFixture
             }
         }
 
-        $json['require']['laminas/laminas-zendframework-bridge'] = '^0.4.2 || ^1.0';
+        $json['require']['laminas/laminas-zendframework-bridge'] = '^0.4.5 || ^1.0';
 
         if ($repository->getNewName() === 'mezzio/mezzio-skeleton'
             || $repository->getNewName() === 'laminas-api-tools/api-tools-skeleton'

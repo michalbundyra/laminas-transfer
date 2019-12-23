@@ -45,7 +45,7 @@
         "laminas/laminas-config-aggregator": "^1.0",
         "laminas/laminas-diactoros": "^1.7.1 || ^2.0",
         "laminas/laminas-stdlib": "^3.2.1",
-        "laminas/laminas-zendframework-bridge": "^0.4.2 || ^1.0",
+        "laminas/laminas-zendframework-bridge": "^0.4.5 || ^1.0",
         "mezzio/mezzio": "^3.0.1",
         "mezzio/mezzio-helpers": "^5.0"
     },

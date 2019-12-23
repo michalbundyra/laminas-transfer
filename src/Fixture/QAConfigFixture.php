@@ -52,7 +52,7 @@ class QAConfigFixture extends AbstractFixture
 
     private function getDeps(string $section) : ?string
     {
-        if (! preg_match('/- DEPS=(?P<deps>lowest|locked|latest)/', $section, $match)) {
+        if (! preg_match('/^\s*- DEPS=(?P<deps>lowest|locked|latest)/m', $section, $match)) {
             return null;
         }
 
@@ -61,7 +61,7 @@ class QAConfigFixture extends AbstractFixture
 
     private function getPhpVersion(string $section) : ?string
     {
-        if (! preg_match('/- php: [\'"]?(?P<version>[\d.]+)[\'"]?/', $section, $php)) {
+        if (! preg_match('/^\s*- php: [\'"]?(?P<version>[\d.]+)[\'"]?/m', $section, $php)) {
             return null;
         }
 
@@ -80,6 +80,10 @@ class QAConfigFixture extends AbstractFixture
                 if (strpos($line, 'env:') === 0) {
                     $inEnvs = true;
                 }
+                continue;
+            }
+
+            if (strpos(trim($line), '#') === 0) {
                 continue;
             }
 
@@ -109,7 +113,13 @@ class QAConfigFixture extends AbstractFixture
         $offset = 0;
 
         $sections = [];
-        while (preg_match('/(^\s*- php: .*?)(?=^\s*- php|allow_failures|\n\n)/sm', $content, $matches, 0, $offset)) {
+        while (preg_match(
+            '/(^\s*- php: .*?)(?=^\s*(?:- php|allow_failures)|\n\n)/sm',
+            $content,
+            $matches,
+            0,
+            $offset
+        )) {
             $offset = strpos($content, $matches[0], $offset) + strlen($matches[1]);
             $sections[] = $matches[1];
         }
@@ -119,7 +129,7 @@ class QAConfigFixture extends AbstractFixture
 
     private function getServicesAndAddons(string $section) : string
     {
-        preg_match('/- php: .*?^\s*env:/sm', $section, $match);
+        preg_match('/^\s*- php: .*?^\s*env:/sm', $section, $match);
 
         return $match[0];
     }
@@ -195,7 +205,7 @@ class QAConfigFixture extends AbstractFixture
                     }
 
                     $addons = $this->getServicesAndAddons($section);
-                    $newSection = preg_replace('/- php.*?env:/s', $addons, $sections[$k + 1]);
+                    $newSection = preg_replace('/^\s*- php.*?env:/sm', $addons, $sections[$k + 1]);
                     if ($additionalEnvs) {
                         $newSection = str_replace(
                             '- DEPS=latest',

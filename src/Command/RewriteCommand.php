@@ -18,10 +18,16 @@ use Laminas\Transfer\Fixture\PluginManagerFixture;
 use Laminas\Transfer\Fixture\QAConfigFixture;
 use Laminas\Transfer\Fixture\SourceFixture;
 use Laminas\Transfer\Repository;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+
+use function current;
+use function file_get_contents;
+use function json_decode;
+use function sprintf;
 
 class RewriteCommand extends Command
 {
@@ -52,11 +58,25 @@ class RewriteCommand extends Command
              );
     }
 
+    /**
+     * @throws RuntimeException When given repository is already rewritten.
+     */
     public function execute(InputInterface $input, OutputInterface $output) : int
     {
         $repository = new Repository(
             $input->getArgument('repository')
         );
+
+        $composer = current($repository->files('composer.json'));
+        if ($composer) {
+            $json = json_decode(file_get_contents($composer), true);
+            if (isset($json['require']['laminas/laminas-zendframework-bridge'])) {
+                throw new RuntimeException(sprintf(
+                    'Repository %s seems to be already rewritten.',
+                    $repository->getName()
+                ));
+            }
+        }
 
         foreach ($this->fixtures as $fixtureName) {
             /** @var AbstractFixture $fixture */

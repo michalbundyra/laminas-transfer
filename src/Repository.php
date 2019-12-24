@@ -81,7 +81,6 @@ class Repository
         'isZendServer' => 'isZendServer',
         'Zend Platform' => 'Zend Platform',
         'zend_monitor_' => 'zend_monitor_',
-        'laminas-zendframework-bridge' => 'laminas-zendframework-bridge',
         // phrases uses in expressive-skeleton
         'zend-phpdi' => 'zend-phpdi',
         'zend-sf-di' => 'zend-sf-di',

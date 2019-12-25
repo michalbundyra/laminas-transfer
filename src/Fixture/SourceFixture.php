@@ -19,6 +19,7 @@ use function mkdir;
 use function preg_match_all;
 use function str_ireplace;
 use function strpos;
+use function strtolower;
 use function strtr;
 use function substr;
 use function system;
@@ -45,6 +46,11 @@ class SourceFixture extends AbstractFixture
         ));
 
         foreach ($phps as $k => $php) {
+            // Skip phar files
+            if (strtolower(substr($php, -5)) === '.phar') {
+                continue;
+            }
+
             $this->replace($repository, $php);
 
             $newName = strtr($php, [

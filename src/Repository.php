@@ -145,6 +145,7 @@ class Repository
         'ZendService_ReCaptcha' => 'laminas-recaptcha',
         'ZendService_Twitter' => 'laminas-twitter',
         'ZendService' => 'Laminas',
+        'AUTOREGISTER_ZF' => 'AUTOREGISTER_LAMINAS',
         'ZendTest\\\\ProblemDetails' => 'MezzioTest\\\\ProblemDetails',
         'ZendTest\\ProblemDetails' => 'MezzioTest\\ProblemDetails',
         'Zend\\\\ProblemDetails' => 'Mezzio\\\\ProblemDetails',

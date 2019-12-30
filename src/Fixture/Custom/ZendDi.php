@@ -9,6 +9,7 @@ use Laminas\Transfer\Repository;
 
 use function file_get_contents;
 use function file_put_contents;
+use function str_replace;
 
 class ZendDi extends AbstractFixture
 {
@@ -18,6 +19,7 @@ class ZendDi extends AbstractFixture
         foreach ($files as $template) {
             $content = file_get_contents($template);
             $content = $repository->replace($content);
+            $content = str_replace('<?php', '<?php' . "\n", $content);
             file_put_contents($template, $content);
         }
         $repository->addReplacedContentFiles($files);

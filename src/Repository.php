@@ -146,6 +146,7 @@ class Repository
         'ZendService_Twitter' => 'laminas-twitter',
         'ZendService' => 'Laminas',
         'AUTOREGISTER_ZF' => 'AUTOREGISTER_LAMINAS',
+        'MODE_ZEND' => 'MODE_LAMINAS', // zend-console
         'ZendTest\\\\ProblemDetails' => 'MezzioTest\\\\ProblemDetails',
         'ZendTest\\ProblemDetails' => 'MezzioTest\\ProblemDetails',
         'Zend\\\\ProblemDetails' => 'Mezzio\\\\ProblemDetails',

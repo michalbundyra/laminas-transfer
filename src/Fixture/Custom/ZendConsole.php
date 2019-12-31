@@ -23,7 +23,7 @@ class ZendConsole extends AbstractFixture
             $content = file_get_contents($file);
             $content = $repository->replace($content);
             $content = preg_replace(
-                '/^(\s*)const MODE_ZEND(\s*\=\s*)(\'[^\']+\')\s*;\s*$/m',
+                '/^(\s*)const MODE_LAMINAS(\s*\=\s*)(\'[^\']+\')\s*;\s*$/m',
                 '$1/** @deprecated Use MODE_LAMINAS instead */' . "\n"
                 . '$1const MODE_ZEND    = $3;' . "\n"
                 . '$1const MODE_LAMINAS = $3;' . "\n",

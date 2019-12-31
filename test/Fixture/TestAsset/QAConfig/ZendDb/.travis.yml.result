@@ -40,6 +40,7 @@ matrix:
         - mysql
       env:
         - DEPS=latest
+        - CS_CHECK=true
         - TEST_COVERAGE=true
         - TEST_INTEGRATION=true
         - TESTS_LAMINAS_DB_ADAPTER_DRIVER_MYSQL=true
@@ -81,7 +82,6 @@ install:
   - stty cols 120 && composer show
 
 script:
-  - find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v "No syntax errors detected")
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
   - if [[ $TEST_INTEGRATION == 'true' ]]; then composer test-integration ; fi
   - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi

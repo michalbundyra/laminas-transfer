@@ -85,6 +85,7 @@ matrix:
     - php: 7.1
       env:
         - DEPS=latest
+        - CS_CHECK=true
         - BENCHMARKS=true
         - TEST_COVERAGE=true
         - APCU_PECL_VERSION="apcu"
@@ -191,7 +192,6 @@ install:
   - php -m
 
 script:
-  - find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v "No syntax errors detected")
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer run-script test-coverage -- --verbose ; else composer run-script test -- --verbose ; fi
   - if [[ $BENCHMARKS == 'true' ]]; then vendor/bin/phpbench run --revs=2 --iterations=2 --report=aggregate ; fi
   - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi

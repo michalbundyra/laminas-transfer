@@ -162,9 +162,9 @@ class QAConfigFixture extends AbstractFixture
 
             // Add php linter to script section:
             // @phpcs:disable Generic.Files.LineLength.TooLong
-            $lint = "  - find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v \"No syntax errors detected\")";
+            // $lint = "  - find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v \"No syntax errors detected\")";
             // @phpcs:enable
-            $content = preg_replace('/^\s*script:\n/m', '$0' . $lint . "\n", $content);
+            // $content = preg_replace('/^\s*script:\n/m', '$0' . $lint . "\n", $content);
 
             $replacements = [];
             $sections = $this->getSections($content);
@@ -200,9 +200,10 @@ class QAConfigFixture extends AbstractFixture
                             continue;
                         }
 
-                        if (strpos($name, 'CS_CHECK') !== false) {
-                            continue;
-                        }
+                        // Remove CS_CHECK from travis configuration on rewriting
+                        // if (strpos($name, 'CS_CHECK') !== false) {
+                        //     continue;
+                        // }
 
                         if (! isset($newEnvs[$name])) {
                             $additionalEnvs[] = $spaces . $name . '=' . $value;

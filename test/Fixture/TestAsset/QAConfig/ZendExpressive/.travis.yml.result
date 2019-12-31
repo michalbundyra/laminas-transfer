@@ -18,6 +18,7 @@ matrix:
     - php: 7.1
       env:
         - DEPS=latest
+        - CS_CHECK=true
         - TEST_COVERAGE=true
     - php: 7.2
       env:
@@ -39,7 +40,6 @@ install:
   - cat phpunit.xml.dist
 
 script:
-  - find . -path ./vendor -prune -o -type f -name '*.php' -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v "No syntax errors detected")
   - if [[ $TEST_COVERAGE == 'true' ]]; then composer test-coverage ; else composer test ; fi
   - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
   - if [[ $CS_CHECK == 'true' ]]; then composer license-check ; fi

@@ -107,7 +107,7 @@ class DocsFixCommand extends Command
         $client = new Client();
         $client->authenticate($token, null, $client::AUTH_URL_TOKEN);
 
-        foreach (['laminas', 'mezzio', 'laminas-api-tools'] as $org) {
+        foreach (['laminas', 'mezzio'] as $org) {
             $page = 1;
             while (true) {
                 $repos = $client->organization()->repositories($org, 'all', $page);

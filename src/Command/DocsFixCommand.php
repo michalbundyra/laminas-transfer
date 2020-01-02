@@ -76,9 +76,12 @@ class DocsFixCommand extends Command
             exec('cd ' . $dirname . ' && git show HEAD~1:mkdocs.yml', $result);
             $content = trim(implode(PHP_EOL, $result)) . PHP_EOL;
 
+            preg_match('/^\s+/m', $content, $spaces);
+            $indent = $spaces[0] ?? '  ';
+
             if (! preg_match('/^extra:$/m', $content)) {
-                $content .= 'extra:' . PHP_EOL . '  '
-                    . implode(PHP_EOL . '  ', $matches[1])
+                $content .= 'extra:' . PHP_EOL . $indent
+                    . implode(PHP_EOL . $indent, $matches[1])
                     . PHP_EOL;
             } else {
                 $content = preg_replace(

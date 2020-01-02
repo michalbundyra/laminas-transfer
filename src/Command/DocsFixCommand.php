@@ -13,6 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function chdir;
+use function exec;
 use function explode;
 use function file_exists;
 use function file_get_contents;
@@ -24,6 +25,7 @@ use function preg_match_all;
 use function preg_replace;
 use function sprintf;
 use function system;
+use function trim;
 
 use const DIRECTORY_SEPARATOR;
 use const PHP_EOL;
@@ -71,9 +73,9 @@ class DocsFixCommand extends Command
 
             $currentDir = getcwd();
             chdir($dirname);
-            system('cd ' . $dirname . ' && git reset --hard HEAD~1');
+            exec('cd ' . $dirname . ' && git show HEAD~1:mkdocs.yml', $result);
+            $content = trim(implode(PHP_EOL, $result)) . PHP_EOL;
 
-            $content = file_get_contents($mkdocsFile);
             if (! preg_match('/^extra:$/m', $content)) {
                 $content .= 'extra:' . PHP_EOL . '  '
                     . implode(PHP_EOL . '  ', $matches[1])
@@ -91,8 +93,8 @@ class DocsFixCommand extends Command
             system(
                 'cd ' . $dirname . ' && \
                 git add mkdocs.yml && \
-                git commit -am "Adds project and project_url to mkdocs.yml" &&
-                git push origin --set-upstream master:master -f'
+                git commit -am "Fixes formatting in mkdocs.yml" && \
+                git push origin --set-upstream master:master'
             );
             chdir($currentDir);
         }

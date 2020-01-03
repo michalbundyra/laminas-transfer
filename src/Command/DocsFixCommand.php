@@ -20,6 +20,7 @@ use function file_get_contents;
 use function file_put_contents;
 use function getcwd;
 use function implode;
+use function in_array;
 use function preg_match;
 use function preg_match_all;
 use function preg_replace;
@@ -56,13 +57,35 @@ class DocsFixCommand extends Command
             $path = $input->getOption('path');
             [$org, $name] = explode('/', $repo);
 
+            if (in_array($name, [
+                'laminas-view',
+                'laminas-mvc',
+                'laminas-router',
+                'getlaminas.org',
+                'laminas-dependency-plugin',
+                'laminas-migration',
+                'laminas-zendframework-bridge',
+                '.github',
+                'laminas.github.io',
+                'documentation-theme',
+                'repo-template',
+                'laminas.dev',
+            ], true)) {
+                continue;
+            }
+
             $dirname = $path . DIRECTORY_SEPARATOR . $name;
 
             system('rm -Rf ' . $dirname);
-            system('git clone https://github.com/' . $repo . ' ' . $dirname);
+            system('hub clone ' . $repo . ' ' . $dirname);
 
             $mkdocsFile = sprintf('%s/mkdocs.yml', $dirname);
             if (! file_exists($mkdocsFile)) {
+                system(
+                    'cd ' . $dirname . ' && \
+                    git co develop && \
+                    git merge master -m "Resolves conflicts between master and develop after migrating to ' . $org . '"'
+                );
                 continue;
             }
 
@@ -71,6 +94,7 @@ class DocsFixCommand extends Command
                 continue;
             }
 
+            $result = [];
             $currentDir = getcwd();
             chdir($dirname);
             exec('cd ' . $dirname . ' && git show HEAD~1:mkdocs.yml', $result);
@@ -97,8 +121,11 @@ class DocsFixCommand extends Command
                 'cd ' . $dirname . ' && \
                 git add mkdocs.yml && \
                 git commit -am "Fixes formatting in mkdocs.yml" && \
-                git push origin --set-upstream master:master'
+                git push origin --set-upstream master:master && \
+                git co develop && \
+                git merge master -m "Resolves conflicts between master and develop after migrating to ' . $org . '"'
             );
+
             chdir($currentDir);
         }
 

@@ -7,6 +7,7 @@ $application = new \Symfony\Component\Console\Application();
 
 $application->addCommands([
     new Laminas\Transfer\Command\DependenciesCommand(),
+    new Laminas\Transfer\Command\DocsBuildWorkflowCommand(),
     new Laminas\Transfer\Command\DocsFixCommand(),
     new Laminas\Transfer\Command\LocalTestCommand(),
     new Laminas\Transfer\Command\MessageRewriteCommand(),

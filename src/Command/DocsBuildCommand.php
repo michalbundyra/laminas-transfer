@@ -12,6 +12,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use function exec;
+
 class DocsBuildCommand extends Command
 {
     public function configure() : void
@@ -57,7 +59,7 @@ class DocsBuildCommand extends Command
         return 0;
     }
 
-    private function triggerDocumentationBuild(string $token, string $repo): array
+    private function triggerDocumentationBuild(string $token, string $repo) : array
     {
         exec(
             'curl --request POST "https://api.github.com/repos/' . $repo . '/dispatches" \

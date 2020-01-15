@@ -9,51 +9,46 @@ use Github\Client;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use function exec;
+use function explode;
+use function strpos;
 
 class DocsBuildCommand extends Command
 {
     public function configure() : void
     {
         $this->setName('docs-build')
-             ->setDescription('Trigger documentation build for the given repository')
+             ->setDescription('Trigger documentation build for the given repository or organisation')
              ->addArgument('token', InputArgument::REQUIRED, 'GitHub token')
-             ->addOption(
-                 'repo',
-                 'r',
-                 InputOption::VALUE_REQUIRED,
-                 'Repository name to trigger documentation build'
-             )
-             ->addOption(
-                 'org',
-                 'o',
-                 InputOption::VALUE_REQUIRED,
-                 'Organisation name to trigger documentation build'
-             );
+             ->addArgument('name', InputArgument::REQUIRED, 'Repository or organisation name');
     }
 
     public function execute(InputInterface $input, OutputInterface $output) : int
     {
         $token = $input->getArgument('token');
+        $name = $input->getArgument('name');
 
-        if ($input->hasOption('repo')) {
-            $repo = $input->getOption('repo');
-            $output->writeln('Trigger documentation build for <info>' . $repo . '</info>');
-            $result = $this->triggerDocumentationBuild($token, $repo);
+        $org = null;
+        $repo = null;
+
+        if (strpos($name, '/') === false) {
+            $org = $name;
+        } else {
+            [$org, $repo] = explode('/', $input->getArgument('name'));
+        }
+
+        if ($repo) {
+            $output->writeln('Trigger documentation build for <info>' . $name . '</info>');
+            $result = $this->triggerDocumentationBuild($token, $name);
             $output->writeln($result);
-        } elseif ($input->hasOption('org')) {
-            $org = $input->getOption('org');
+        } else {
             $output->writeln('<comment>Trigger documentation build for org </comment><info>' . $org . '</info>');
-            foreach ($this->repositories($token, $org) as $repo) {
-                $result = $this->triggerDocumentationBuild($token, $repo);
+            foreach ($this->repositories($token, $org) as $fullRepoName) {
+                $result = $this->triggerDocumentationBuild($token, $fullRepoName);
                 $output->writeln($result);
             }
-        } else {
-            $output->writeln('<error>Provide repository or organisation name to trigger documentation build');
-            return 1;
         }
 
         return 0;

@@ -59,7 +59,7 @@ class DocsBuildCommand extends Command
         exec(
             'curl --request POST "https://api.github.com/repos/' . $repo . '/dispatches" \
             -H "Authorization: token ' . $token . '" -H "Accept: application/vnd.github.everest-preview+json" \
-            -H "Content-Type: application/json" -d \'{"event_type": "docs"}\'',
+            -H "Content-Type: application/json" -d \'{"event_type": "docs-build"}\'',
             $output
         );
 
